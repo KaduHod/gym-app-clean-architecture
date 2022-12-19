@@ -1,20 +1,24 @@
 import { PK } from "../../App/Repositories/Repository";
 
 export type Entity = {
-    id:PK
+    id?:PK
     [key:string] : any
 }
 
-export type User = Entity & {
-
+export type TUser = Entity & {
+    name:string,
+    nickname:string,
+    email:string,
+    password:string
 }
 
-export type Aluno = Entity & {
-
+export type TAluno = Entity & {
+    userId:PK
+    personalId?:PK
 }
 
-export type Personal = Entity & {
-
+export type TPersonal = Entity & {
+    userId:PK
 }
 
 export type Treino = Entity & {

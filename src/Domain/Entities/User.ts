@@ -1,0 +1,23 @@
+import { PK } from "../../App/Repositories/Repository";
+import { Entity, TUser } from "./Entities";
+import { randomUUID } from "crypto"
+import Password from "../../Helpers/Password";
+
+export default 
+    class User 
+    implements Entity
+{
+    public id?:PK
+    public name:string
+    public nickname:string
+    public email:string
+    public password:string
+
+    constructor(attributes:TUser){
+        this.id = attributes.id ?? randomUUID()
+        this.name = attributes.name
+        this.nickname = attributes.nickname
+        this.email = attributes.email
+        this.password = Password.encrypt(attributes.password)
+    }
+}

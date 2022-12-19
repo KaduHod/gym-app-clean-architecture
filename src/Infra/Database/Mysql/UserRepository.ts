@@ -1,9 +1,9 @@
 import { PK, Repository } from "../../../App/Repositories/Repository";
-import { User } from "../../../Domain/Entities/Entities";
-
+import User from "../../../Domain/Entities/User";
+import { TUser } from "../../../Domain/Entities/Entities";
 export default 
     class MysqlUserRepository 
-    implements Repository<User>
+    implements Repository<User, TUser>
 {
     constructor(
         public conn: any
@@ -14,7 +14,7 @@ export default
     async findAll(): Promise<User[]> {
         throw new Error("Method not implemented.");
     }
-    async findBy(attrs: Partial<User>): Promise<User[]> {
+    async findBy(attrs: Partial<TUser>): Promise<User[]> {
         throw new Error("Method not implemented.");
     }
     async findByPK(pk: PK): Promise<User | null> {

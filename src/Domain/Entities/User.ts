@@ -7,14 +7,14 @@ export default
     class User 
     implements Entity
 {
-    public id?:PK
+    public id?:PK | null
     public name:string
     public nickname:string
     public email:string
     public password:string
 
     constructor(attributes:TUser){
-        this.id = attributes.id ?? randomUUID()
+        this.id = attributes.id ?? null
         this.name = attributes.name
         this.nickname = attributes.nickname
         this.email = attributes.email

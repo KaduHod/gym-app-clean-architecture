@@ -1,7 +1,7 @@
 import { PK } from "../../App/Repositories/Repository";
 
 export type Entity = {
-    id?:PK
+    id?:PK | null
     [key:string] : any
 }
 
@@ -21,7 +21,12 @@ export type TPersonal = Entity & {
     userId:PK
 }
 
+
 export type Treino = Entity & {
+
+}
+
+export type TExercicio = Entity & {
 
 }
 

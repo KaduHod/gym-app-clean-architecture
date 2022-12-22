@@ -17,7 +17,7 @@ class MysqlDB
             connection:{
                 host: 'localhost',
                 user: 'root',
-                password : 'password',
+                password : '123456',
                 port:3306,
                 database : 'gymapp2'
             }
@@ -40,7 +40,8 @@ class MysqlDB
 }
 
 const mysql = new MysqlDB();
-export  const getConn = () => {
+
+export const getConn = () => {
     const connection = mysql
     if(connection.isConnected) return connection.getConn()
     return connection.createConn()

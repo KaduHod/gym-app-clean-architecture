@@ -1,14 +1,16 @@
 import { PK, Repository } from "../../../App/Repositories/Repository";
 import User from "../../../Domain/Entities/User";
 import { TUser } from "../../../Domain/Entities/Entities";
+import {getConn} from './conn'
+import { Knex } from "knex";
 export default 
     class MysqlUserRepository 
     implements Repository<User, TUser>
 {
-    constructor(
-        public conn: any
-    ){
-        this.conn = conn
+    public conn: Knex
+    constructor()
+    {
+        this.conn = getConn()
     }
 
     async findAll(): Promise<User[]> {
@@ -21,7 +23,7 @@ export default
         throw new Error("Method not implemented.");
     }
     async save(t: User): Promise<any> {
-        throw new Error("Method not implemented.");
+        return await this.conn('users').insert(t, 'id')
     }
     async delete(pk: PK): Promise<any> {
         throw new Error("Method not implemented.");

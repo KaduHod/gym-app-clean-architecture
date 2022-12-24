@@ -6,10 +6,10 @@ export default
     class Personal
     implements Entity 
 {
-    public userId:PK
-    public id: PK;
+    public user_id:PK
+    public id?: PK | null;
     constructor(attrs: TPersonal){
-        this.id = attrs.id ?? randomUUID()
-        this.userId = attrs.userId
+        this.id = attrs.id
+        this.user_id = attrs.user_id
     }
 }

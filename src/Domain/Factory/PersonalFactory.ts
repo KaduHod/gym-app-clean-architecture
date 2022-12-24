@@ -7,19 +7,19 @@ export const PersonalFactory = {
     create(attrs: TPersonal): Personal
     {
         return new Personal({
-            userId: attrs.userId
+            user_id: attrs.user_id
         })
     },
     createRandom(userId:PK): Personal
     {
         return new Personal({
-            userId: userId
+            user_id: userId
         })
     },
     createFromPartialAttributes(userId:PK): Personal
     {
         return new Personal({
-            userId: userId
+            user_id: userId
         })
     }
 }

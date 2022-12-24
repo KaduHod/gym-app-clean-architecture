@@ -14,7 +14,7 @@ export default
     public password:string
 
     constructor(attributes:TUser){
-        this.id = attributes.id ?? null
+        this.id = attributes.id
         this.name = attributes.name
         this.nickname = attributes.nickname
         this.email = attributes.email

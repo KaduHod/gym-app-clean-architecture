@@ -4,6 +4,7 @@ import { TUser } from "../../../Domain/Entities/Entities";
 import { UserFactory } from '../../../Domain/Factory/UserFactory'
 import { hasUncaughtExceptionCaptureCallback } from "node:process";
 import MysqlUserRepository from '../../../Infra/Database/Mysql/UserRepository';
+import RegisterUser from '../../UseCases/Registration/resgiterUser'
 
 describe('Use case register user', () => {
     it('Should create a instance of user', () => {
@@ -12,8 +13,11 @@ describe('Use case register user', () => {
     })
     it('Should save user', async () => {
         const newUser = UserFactory.createRandom()
-        const userRepository = new MysqlUserRepository();
-        const user = await userRepository.save(newUser)
-        expect(user).toBeTruthy()
+        const useCase = new RegisterUser(
+            new MysqlUserRepository(),
+            {...newUser}
+        )
+        const resgitrationResult = await useCase.main() 
+        expect(resgitrationResult.length).toBeTruthy()
     })
 })

@@ -13,14 +13,13 @@ export type TUser = Entity & {
 }
 
 export type TAluno = Entity & {
-    userId:PK
-    personalId?:PK
+    user_id:PK
+    personal_id?:PK
 }
 
 export type TPersonal = Entity & {
-    userId:PK
+    user_id:PK
 }
-
 
 export type Treino = Entity & {
 

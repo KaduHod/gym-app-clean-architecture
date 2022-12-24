@@ -1,29 +1,24 @@
 import { PK, Repository } from "../../../App/Repositories/Repository";
 import { TAluno } from "../../../Domain/Entities/Entities";
 import Aluno from "../../../Domain/Entities/Aluno";
+import MysqlRepository from "./MysqlRepository";
 
 export default 
     class MysqlAlunoRepository 
-    implements Repository<Aluno, TAluno>
+    extends MysqlRepository<Aluno, TAluno>
 {
-    constructor(public conn:any)
+    constructor()
     {
-        this.conn = conn
+        super('alunos')
     }
-    async findAll(): Promise<Aluno[]> {
-        throw new Error("Method not implemented.");
+
+    public async hirePersonal(alunoId:PK ,personalId:PK)
+    {
+        return await this
+                        .conn(this.tableName)
+                        .where({
+                            id:alunoId
+                        })
+                        .update('personal_id', personalId)
     }
-    async findBy(attrs: Partial<TAluno>): Promise<Aluno[]> {
-        throw new Error("Method not implemented.");
-    }
-    async findByPK(pk: PK): Promise<Aluno | null> {
-        throw new Error("Method not implemented.");
-    }
-    async save(t: Aluno): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    async delete(pk: PK): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    
 }

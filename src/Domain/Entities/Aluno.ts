@@ -6,14 +6,14 @@ export default
     class Aluno 
     implements Entity
 {
-    public userId:PK
-    public personalId?:PK
-    public id:PK
+    public user_id:PK
+    public personal_id?:PK
+    public id?:PK | null
     
     constructor(attrs: TAluno)
     {
-        this.id = attrs.id ?? randomUUID()
-        this.userId = attrs.userId 
-        this.personalId = attrs.personalId
+        this.id = attrs.id
+        this.user_id = attrs.user_id 
+        this.personal_id = attrs.personal_id
     }
 }

@@ -4,22 +4,22 @@ import Aluno from '../Entities/Aluno'
 import { TAluno } from '../Entities/Entities'
 
 export const AlunoFactory = {
-    create(userId:PK, personalId?:PK): Aluno 
+    create({user_id, personal_id}:TAluno): Aluno 
     {
         return new Aluno({
-            userId, personalId
+            user_id, personal_id
         })
     },
-    createFromPartialAttributes(userId:PK, personalId?:PK): Aluno
+    createFromPartialAttributes({user_id, personal_id}:TAluno): Aluno
     {
         return new Aluno({
-            userId, personalId
+            user_id, personal_id
         })
     },
-    createRandom(userId:PK, personalId?:PK): Aluno 
+    createRandom({user_id, personal_id}:TAluno): Aluno 
     {
         return new Aluno({
-            userId, personalId
+            user_id, personal_id
         })
     }
 }

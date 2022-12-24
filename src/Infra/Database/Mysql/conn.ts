@@ -1,5 +1,5 @@
 import knex, {Knex} from 'knex'
-class MysqlDB
+export class MysqlDB
 {
     public conn:Knex
     public isConnected:boolean

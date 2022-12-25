@@ -27,7 +27,8 @@ describe('Register Aluno', () => {
         if(!user || !user.id) throw new UserNotFound()
         
         const useCase = new RegisterAluno(
-            new MysqlAlunoRepository,
+            alunoRepo,
+            userRepo,
             {user_id:user.id}
         )
         const registrationResult = await useCase.main()
@@ -56,6 +57,7 @@ describe('Register Aluno', () => {
         
         const useCase = new RegisterAluno(
             alunoRepo,
+            userRepo,
             {user_id:user.id, personal_id: personal.id}
         )
         const registrationResult = await useCase.main()

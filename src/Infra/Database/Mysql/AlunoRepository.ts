@@ -21,4 +21,14 @@ export default
                         })
                         .update('personal_id', personalId)
     }
+
+    public async getAlunowithoutPersonal (): Promise<number>
+    {
+        return (await this
+                        .conn('alunos')
+                        .select('id')
+                        .whereNull('personal_id')
+                        .limit(1)
+                        .first()).id
+    }
 }

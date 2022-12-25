@@ -45,7 +45,11 @@ export type Movement = Entity & {
 
 }
 
-export type Muscle = Entity & {
+export type TMuscle = Entity & {
 
+}
+
+export type Muscle = Entity & {
+    
 }
 

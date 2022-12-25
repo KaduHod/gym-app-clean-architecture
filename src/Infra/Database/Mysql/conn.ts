@@ -1,4 +1,7 @@
 import knex, {Knex} from 'knex'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 export class MysqlDB
 {
     public conn:Knex
@@ -15,11 +18,11 @@ export class MysqlDB
         this.conn = this.isConnected ? this.conn : knex({
             client: 'mysql2',
             connection:{
-                host: 'localhost',
-                user: 'root',
-                password : '123456',
-                port:3306,
-                database : 'gymapp2'
+                host: process.env.MYSQL_HOST,
+                user: process.env.MYSQL_USER,
+                password : process.env.MYSQL_PASSWORD,
+                port: 3306 ?? process.env.MYSQL_PORT,
+                database : process.env.MYSQL_DATABASE
             }
         })
         this.isConnected = true

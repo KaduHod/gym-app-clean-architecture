@@ -21,7 +21,13 @@ export default abstract class
                         .conn(this.tableName)
     }
 
-    async findBy(attrs: Partial<TT>): Promise<T[]> {
+    async findBy(attrs: Partial<TT>, first?:boolean): Promise<T[]> {
+        if(first){
+            return await this
+                            .conn(this.tableName)
+                            .where(attrs) 
+                            .first()
+        }
         return await this
                         .conn(this.tableName)
                         .where(attrs)

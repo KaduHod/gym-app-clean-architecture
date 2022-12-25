@@ -26,11 +26,13 @@ export default class HirePersonal
         const alunoExists = await this.alunoExists()
         if(!alunoExists) throw new AlunoNotFound()
 
+        const personalExists = await this.personalExists()
+        if(!personalExists) throw new PersonalNotFoundError()
+
         const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal()
         if(alunoAlreadyHasPersonal) throw new AlunoAlreadyHasPersonal()
         
-        const personalExists = await this.personalExists()
-        if(!personalExists) throw new PersonalNotFoundError()
+        
 
         
         

@@ -176,7 +176,15 @@ describe('hello', () => {
 
         await writeFile('./data-filtered.json', JSON.stringify(data))
     })*/
-    /*it('Should save muscles from exercise', async () => {
+
+    const lineExists = async (insertObejct:any): Promise<boolean> => {
+        return !!(await muscleRepo
+                        .conn('exercise_muscle')
+                        .where(insertObejct)
+                        .first()
+                        .limit(1))
+    }
+    it('Should save muscles from exercise', async () => {
         let exercises = JSON.parse(await readFile('./data-filtered.json', 'utf8'))
         // let date = (new Date()).toString().split(' G')[0]
         let date = (new Date()).toISOString()
@@ -199,7 +207,12 @@ describe('hello', () => {
                         for await (const muscle_id of exercise[key]){
                             let insertObjetc:any = {exercise_id,role:key,muscle_id}
                             // console.log({insertObjetc})
-                            await muscleRepo.conn('exercise_muscle').insert(insertObjetc)
+                            const alreadyInserted = await lineExists(insertObjetc)
+                            
+                            if(!alreadyInserted){
+                                console.log({alreadyInserted})
+                                await muscleRepo.conn('exercise_muscle').insert(insertObjetc)
+                            }
                         }
                         
                     }
@@ -211,5 +224,5 @@ describe('hello', () => {
             index ++
         }
         
-    })*/
+    })
 })

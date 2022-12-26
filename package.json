@@ -2,9 +2,10 @@
   "name": "gym-app-clean",
   "version": "1.0.0",
   "description": "\"# gym-app-clean-architecture\"",
-  "main": "index.js",
+  "main": "./src/Infra/Web/Server.ts",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "web:serve" : "nodemon ./src/Infra/Web/Server.ts"
   },
   "repository": {
     "type": "git",

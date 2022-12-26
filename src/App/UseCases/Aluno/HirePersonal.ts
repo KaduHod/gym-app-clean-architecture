@@ -32,10 +32,6 @@ export default class HirePersonal
         const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal()
         if(alunoAlreadyHasPersonal) throw new AlunoAlreadyHasPersonal()
         
-        
-
-        
-        
         const hireResult = await this
                                     .alunoRepository
                                     .hirePersonal(this.alunoid, this.personalId)

@@ -26,7 +26,10 @@ export type Treino = Entity & {
 }
 
 export type TExercicio = Entity & {
-
+    name:string,
+    force:string,
+    link:string | null,
+    execution:string | null
 }
 
 export type Exercicio = Entity & {
@@ -46,10 +49,14 @@ export type Movement = Entity & {
 }
 
 export type TMuscle = Entity & {
-
+    name:string,
+    image:string | null
 }
 
-export type Muscle = Entity & {
-    
+export type TExerciseMuscleRole = 'agonist' |'antagonist' | 'synergist' | 'antagonist stabilizer' | 'stabilizer' | 'dynamic stabilizer'
+
+export type TExerciseMuscle = TMuscle & {
+    role:TExerciseMuscleRole
 }
+
 

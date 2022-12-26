@@ -5,7 +5,7 @@ import MysqlRepository from "./MysqlRepository";
 
 
 export default 
-    class PersonalFactory 
+    class MysqlPersonalRepository 
     extends MysqlRepository<Personal, TPersonal>
 {
     constructor()

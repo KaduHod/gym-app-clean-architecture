@@ -7,7 +7,7 @@ export type PK = number | string
 export interface Repository<T extends Entity, TT> {
     conn:any
     tableName:any
-    async findAll():Promise<T[]>
+    async findAll(fields?:string[]):Promise<T[]>
     async findBy(attrs:Partial<TT>):Promise<T[]>
     async findByPK(pk:PK):Promise<T>
     async save(t:T | T[]):Promise<any>

@@ -1,20 +1,42 @@
-import express, {Request, Response} from "express";
-import * as dotenv from 'dotenv'
-import routes from './Routes'
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
 
-dotenv.config()
+import resolvers from '../Resolvers/index'
 
-const app = express()
+const typeDefs = `
+    type User {
+        name: String
+        nickname: String
+        email : String
+        password : String
+        cellphone: String
+    }
 
-const middleware = (req:Request, res:Response, next:any) => {
-    console.log('Hi i am a middleware')
-    next()
-}
+    type Personal {
+        user : User
+    }
 
-app.use(express.json())
-app.use(middleware)
-app.use(routes)
+    type Aluno {
+        user : User
+    }
 
-app.listen(process.env.PORT, () => {
-    console.log('Server running at localhsot:' + process.env.PORT)
+    type Query {
+        users: [User]
+        
+    }
+`
+
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers
 })
+
+
+const init = (async () => {
+    const { url } = await startStandaloneServer(server, {
+        listen: { port: 4000 },
+    });
+    console.log(`🚀 Server ready at: ${url}`);
+})()
+

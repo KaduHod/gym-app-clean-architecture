@@ -5,7 +5,7 @@
   "main": "./src/Infra/Web/Server.ts",
   "scripts": {
     "test": "vitest",
-    "web:serve" : "nodemon ./src/Infra/Web/Server.ts"
+    "web:serve": "nodemon ./src/Infra/Web/Server.ts"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/KaduHod/gym-app-clean-architecture#readme",
   "dependencies": {
+    "@apollo/server": "^4.3.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "graphql": "^16.6.0",
     "knex": "^2.3.0",
     "mysql2": "^2.3.3"
   },

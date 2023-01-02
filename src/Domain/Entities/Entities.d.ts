@@ -12,6 +12,14 @@ export type TUser = Entity & {
     password:string
 }
 
+export type UserFields = {
+    id?:boolean
+    name?:boolean
+    nickname?:boolean
+    email?:boolean
+    password?:boolean
+}
+
 export type TAluno = Entity & {
     user_id:PK
     personal_id?:PK

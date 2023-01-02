@@ -16,9 +16,16 @@ export default abstract class
         this.tableName = tableName
     }
 
-    async findAll(): Promise<T[]> {
+    async findAll(fields?:string[]): Promise<T[]> {
+        if(fields){
+            return await this
+                            .conn(this.tableName)
+                            .select(...fields)
+        }
         return await this
                         .conn(this.tableName)
+                           
+        
     }
 
     async findBy(attrs: Partial<TT>, first?:boolean): Promise<T[]> {

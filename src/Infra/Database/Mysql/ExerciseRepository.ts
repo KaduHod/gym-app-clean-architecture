@@ -34,23 +34,23 @@ export default
         }
         
         return await this
-                .conn('muscles')
-                .select(...fields)
-                .innerJoin(
-                    'exercise_muscle',
-                    'exercise_muscle.muscle_id',
-                    '=',
-                    'muscles.id',
-                )
-                .innerJoin(
-                    "exercicios",
-                    "exercicios.id",
-                    "=",
-                    "exercise_muscle.exercise_id"
-                )
-                .where({
-                    "exercicios.id": exercise_id,
-                    'exercise_muscle.role': roles
-                })
+                        .conn('muscles')
+                        .select(...fields)
+                        .innerJoin(
+                            'exercise_muscle',
+                            'exercise_muscle.muscle_id',
+                            '=',
+                            'muscles.id',
+                        )
+                        .innerJoin(
+                            "exercicios",
+                            "exercicios.id",
+                            "=",
+                            "exercise_muscle.exercise_id"
+                        )
+                        .where({
+                            "exercicios.id": exercise_id,
+                            'exercise_muscle.role': roles
+                        })
     }
 }

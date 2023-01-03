@@ -28,7 +28,7 @@ export default abstract class
         
     }
 
-    async findBy(attrs: Partial<TT>, first?:boolean): Promise<T[]> {
+    async findBy(attrs: Partial<TT>, first?:boolean, fields?:string[]): Promise<T[]> {
         if(first){
             return await this
                             .conn(this.tableName)
@@ -40,7 +40,7 @@ export default abstract class
                         .where(attrs)
     }
 
-    async findByPK(pk: PK): Promise<T> {
+    async findByPK(pk: PK, fields?:string[]): Promise<T> {
         const result = await this
                                 .conn(this.tableName)
                                 .where({id:pk})

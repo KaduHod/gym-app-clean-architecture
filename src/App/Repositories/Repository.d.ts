@@ -20,10 +20,27 @@ export interface AlunoRepository extends Repository<Aluno, TAluno> {
     async hirePersonal(personalId:PK, alunoId:PK): Promise<any>
 }
 
+type optionsFindAllPersonalWithUsers = {
+    fields?: string[] | null,
+    userFields?: string[] | null
+}
+
+type optionsFindByPersonalWithUsers = {
+    attrs: Partial<TPersonal>,
+    fields?: string[] | null,
+    userFields?: string[] | null,
+    first?: boolean | null
+}
+
+type optionsFindByPkPersonalWithUsers = {
+    pk:PK,
+    fields?: string[] | null,
+    userFields?: string[] | null
+}
 export interface PersonalRepository extends Repository<Personal, TPersonal>{
-    async findAllWithUser(fields?:string[]):Promise<Personal[]>
-    async findByWithUser(attrs:Partial<TPersonal>, first:boolean = false,fields?:string[]):Promise<Personal[]>
-    async findByPKWithUser(pk:PK, fields?:string[]):Promise<Personal>
+    async findAllWithUser(options:optionsFindAllPersonalWithUsers):Promise<Personal[]>
+    async findByWithUser(options:optionsFindByPersonalWithUsers):Promise<Personal[]>
+    async findByPKWithUser(options:optionsFindByPkPersonalWithUsers):Promise<Personal>
 }
 
 export interface ExerciseRepository extends Repository<Exercise, TExercicio> {

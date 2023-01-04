@@ -14,35 +14,16 @@ export default
     {
         super('personais')
     }
-    async findAllWithUser({fields, userFields}:optionsFindAllPersonalWithUsers): Promise<Personal[]> 
+    async findAllWithUser({
+        fields, 
+        userFields
+    }:optionsFindAllPersonalWithUsers): Promise<Personal[]> 
     {
-        if (userFields && fields) 
-        {            
-            return await this
-                            .conn(this.tableName)
-                            .select(
-                                ...this.setPersonalFields(fields),
-                                ...this.setUserFields(userFields)
-                                )
-                            .innerJoin('users','users.id','=','personais.user_id')
-        }
-        if(fields){            
-            return await this
-                            .conn(this.tableName)
-                            .select(...this.setPersonalFields(fields))
-                            .innerJoin('users','users.id','=','personais.user_id')
-        }
-
-        if(userFields)
-        {            
-            return await this
-                            .conn(this.tableName)
-                            .select(...this.setUserFields(userFields))
-                            .innerJoin('users','users.id','=','personais.user_id')
-        }
-        return await this
-                        .conn(this.tableName)
-                        .innerJoin('users','users.id','=','personais.user_id')
+        let queryBuilder = this.conn(this.tableName);
+        if(fields) queryBuilder.select(...this.setPersonalFields(fields));
+        if(userFields) queryBuilder.select(...this.setUserFields(userFields));
+        queryBuilder.innerJoin('users','users.id','=','personais.user_id')
+        return await queryBuilder;
     }
 
 
@@ -54,42 +35,12 @@ export default
     }:optionsFindByPersonalWithUsers): Promise<Personal[]> 
     {
         let queryBuilder = this.conn(this.tableName);
-
         if(fields) queryBuilder.select(...this.setPersonalFields(fields));
-
         if(userFields) queryBuilder.select(...this.setUserFields(userFields));
-
         if(first) queryBuilder.first();
-
         queryBuilder.where(attrs)
-        
         queryBuilder.innerJoin('users','users.id','=','personais.user_id')
-
         return await queryBuilder;
-        // if(fields && userFields)
-        // {
-            // return await this
-                            // .conn(this.tableName)
-                            // .select(
-                                // ...this.setPersonalFields(fields), 
-                                // ...this.setUserFields(userFields)
-                                // )
-                            // .innerJoin('users','users.id','=','personais.user_id')
-        // }
-        // if(fields)
-        // {
-            // return await this
-                            // .conn(this.tableName)
-                            // .select(...this.setPersonalFields(fields))
-        // }
-        // if(userFields)
-        // {
-            // return await this
-                            // .conn(this.tableName)
-                            // .select(...this.setUserFields(userFields))
-        // }
-        // return await this
-                        // .conn(this.tableName)
     }
 
 
@@ -99,7 +50,12 @@ export default
         userFields
     }:optionsFindByPkPersonalWithUsers): Promise<Personal> 
     {
-        return this.conn(this.tableName).findByPK(pk)
+        let queryBuilder = this.conn(this.tableName);
+        if(fields) queryBuilder.select(...this.setPersonalFields(fields));
+        if(userFields) queryBuilder.select(...this.setUserFields(userFields));
+        queryBuilder.findByPK(pk)
+        queryBuilder.innerJoin('users','users.id','=','personais.user_id')
+        return await queryBuilder;
     }  
 
     public setPersonalFields(fields:string[])

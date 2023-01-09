@@ -17,29 +17,69 @@ const users = [
     }
 ]
 
+import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
+import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
 import UserPrismaRepository from "../Database/Prisma/UserPrismaRepository"
 
-const setParams = (query:any) => {
-    return users
+const setUserParams = (params:string):string[] => {
+    
+    return params
+            .split('users')[1]
+            .split('{')[1]
+            .split('}')[0]
+            .split('\n')
+            .map(string => string.trim())
+            .filter(string => !!string)
+        
+}
+const setAlunoParams = (params:string):string[] => {
+    
+    return params
+            .split('{')[2]
+            .split('}')[0]
+            .split('\n')
+            .map(string => string.trim())
+            .filter(string => !!string)
 }
 
 export default {
     Query:{
         async user(){
             const userRepository = new UserPrismaRepository()
-            return await (new GetUsersUseCase(userRepository)).main()
+            return await (
+                new GetUsersUseCase(userRepository)
+            ).main()
         },
+
         async users(
-            oi:any, 
+            _:any, 
             _args:any, 
             context:any
         ){
-            // const teste = setParams(context.params.query)
-            const keys = Object.keys(context.request)
-            console.log(context.request.formData())
             const userRepository = new UserPrismaRepository()
-            return await (new GetUsersUseCase(userRepository)).main()
+            // console.log(context.params.query)
+            return await (
+                new GetUsersUseCase(
+                    userRepository, 
+                    setUserParams(context.params.query)
+                )
+            ).main()
+        },
+
+        async alunos(
+            _:any, 
+            _args:any, 
+            context:any)
+        {
+            // console.log(context.params.query)
+            return await (
+                new getAlunosUseCase(
+                    new PrismaAlunoRepository(),
+                    setUserParams(context.params.query)),
+                    setAlunoParams(context.params.query)
+                )
+            ).execute();
         }
     },
     Mutation:{

@@ -7,9 +7,15 @@ type User {
     cellphone: String
 }
 
+type Aluno {
+    id: ID!
+    user: User
+}
+
 type Query {
     users : [User]
     user(id: ID!):User 
+    alunos : [Aluno]
 }
 
 type Mutation {

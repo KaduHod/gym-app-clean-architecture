@@ -1,42 +1,23 @@
-import { ApolloServer } from '@apollo/server'
-import { startStandaloneServer } from '@apollo/server/standalone'
+import { createSchema, createYoga } from 'graphql-yoga'
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import express from 'express';
+import resolvers from './resolvers';
 
-import resolvers from '../Resolvers/index'
-
-const typeDefs = `
-    type User {
-        name: String
-        nickname: String
-        email : String
-        password : String
-        cellphone: String
-    }
-
-    type Personal {
-        user : User
-    }
-
-    type Aluno {
-        user : User
-    }
-
-    type Query {
-        users: [User]
-        
-    }
-`
-
-
-const server = new ApolloServer({
-    typeDefs,
-    resolvers
+const yoga = createYoga({
+    graphqlEndpoint: '/',
+    schema:createSchema({
+        typeDefs: readFileSync(
+            join(__dirname, 'schema.graphql'),
+            'utf8'
+        ),
+        resolvers
+    })
 })
 
+const app = express()
 
-const init = (async () => {
-    const { url } = await startStandaloneServer(server, {
-        listen: { port: 4000 },
-    });
-    console.log(`🚀 Server ready at: ${url}`);
-})()
+app.use('/', yoga)
+
+ app.listen(4000, () => console.log('Server running at port 3000'))
 

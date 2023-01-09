@@ -1,0 +1,198 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model adonis_schema {
+  id             Int       @id @default(autoincrement()) @db.UnsignedInt
+  name           String    @db.VarChar(255)
+  batch          Int
+  migration_time DateTime? @default(now()) @db.Timestamp(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model adonis_schema_versions {
+  version Int
+
+  @@ignore
+}
+
+model alunos {
+  id          Int        @id @default(autoincrement()) @db.UnsignedInt
+  user_id     Int        @db.UnsignedInt
+  personal_id Int?       @db.UnsignedInt
+  created_at  DateTime?  @db.Timestamp(0)
+  updated_at  DateTime?  @db.Timestamp(0)
+  personais   personais? @relation(fields: [personal_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "alunos_personal_id_foreign")
+  users       users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "alunos_user_id_foreign")
+
+  @@index([personal_id], map: "alunos_personal_id_foreign")
+  @@index([user_id], map: "alunos_user_id_foreign")
+}
+
+model articulation_movement {
+  id              Int           @id @default(autoincrement()) @db.UnsignedInt
+  articulation_id Int           @db.UnsignedInt
+  movement_id     Int           @db.UnsignedInt
+  created_at      DateTime?     @db.Timestamp(0)
+  updated_at      DateTime?     @db.Timestamp(0)
+  articulations   articulations @relation(fields: [articulation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "movement_articulations_articulation_id_foreign")
+  movements       movements     @relation(fields: [movement_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "movement_articulations_movement_id_foreign")
+
+  @@index([articulation_id], map: "movement_articulations_articulation_id_foreign")
+  @@index([movement_id], map: "movement_articulations_movement_id_foreign")
+}
+
+model articulation_movement_muscle {
+  id              Int                                @id @default(autoincrement()) @db.UnsignedInt
+  created_at      DateTime?                          @db.Timestamp(0)
+  updated_at      DateTime?                          @db.Timestamp(0)
+  muscle_id       Int                                @db.UnsignedInt
+  movement_id     Int                                @db.UnsignedInt
+  articulation_id Int                                @db.UnsignedInt
+  role            articulation_movement_muscle_role?
+  articulations   articulations                      @relation(fields: [articulation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_articulation_id")
+  movements       movements                          @relation(fields: [movement_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_movement_id")
+  muscles         muscles                            @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_muscle_id")
+
+  @@index([articulation_id], map: "articulation_movement_muscle_articulation_id_foreign")
+  @@index([movement_id], map: "articulation_movement_muscle_movement_id_foreign")
+  @@index([muscle_id], map: "articulation_movement_muscle_muscle_id_foreign")
+}
+
+model articulation_muscle {
+  id              Int           @id @default(autoincrement()) @db.UnsignedInt
+  muscle_id       Int           @db.UnsignedInt
+  articulation_id Int           @db.UnsignedInt
+  created_at      DateTime?     @db.Timestamp(0)
+  updated_at      DateTime?     @db.Timestamp(0)
+  articulations   articulations @relation(fields: [articulation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_articulation_id_foreign")
+  muscles         muscles       @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_muscle_id_foreign")
+
+  @@index([articulation_id], map: "muscle_articulation_articulation_id_foreign")
+  @@index([muscle_id], map: "muscle_articulation_muscle_id_foreign")
+}
+
+model articulations {
+  id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
+  name                         String                         @db.VarChar(255)
+  created_at                   DateTime?                      @db.Timestamp(0)
+  updated_at                   DateTime?                      @db.Timestamp(0)
+  articulation_movement        articulation_movement[]
+  articulation_movement_muscle articulation_movement_muscle[]
+  articulation_muscle          articulation_muscle[]
+}
+
+model exercicios {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  name       String    @db.VarChar(255)
+  force      String?   @db.VarChar(255)
+  link       String?   @db.VarChar(255)
+  execution  String?   @db.Text
+  mechanic   String?   @db.Text
+}
+
+model exercise_muscle {
+  id          Int                   @id @default(autoincrement()) @db.UnsignedInt
+  muscle_id   Int                   @db.UnsignedInt
+  exercise_id Int                   @db.UnsignedInt
+  created_at  DateTime?             @db.Timestamp(0)
+  updated_at  DateTime?             @db.Timestamp(0)
+  role        exercise_muscle_role?
+  muscles     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
+
+  @@index([muscle_id], map: "exercise_muscle_muscle_id_foreign")
+}
+
+model movement_muscle {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  muscle_id   Int       @db.UnsignedInt
+  created_at  DateTime? @db.Timestamp(0)
+  updated_at  DateTime? @db.Timestamp(0)
+  movement_id Int       @db.UnsignedInt
+  movements   movements @relation(fields: [movement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_movements_id")
+  muscles     muscles   @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_movements_muscle_id_foreign")
+
+  @@index([movement_id], map: "FK_movements_id")
+  @@index([muscle_id], map: "muscle_articulation_movements_muscle_id_foreign")
+}
+
+model movements {
+  id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
+  name                         String                         @db.VarChar(255)
+  created_at                   DateTime?                      @db.Timestamp(0)
+  updated_at                   DateTime?                      @db.Timestamp(0)
+  articulation_movement        articulation_movement[]
+  articulation_movement_muscle articulation_movement_muscle[]
+  movement_muscle              movement_muscle[]
+}
+
+model muscles {
+  id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
+  name                         String                         @db.VarChar(255)
+  image                        String?                        @db.VarChar(255)
+  created_at                   DateTime?                      @db.Timestamp(0)
+  updated_at                   DateTime?                      @db.Timestamp(0)
+  articulation_movement_muscle articulation_movement_muscle[]
+  articulation_muscle          articulation_muscle[]
+  exercise_muscle              exercise_muscle[]
+  movement_muscle              movement_muscle[]
+}
+
+model periodizacoes {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+}
+
+model personais {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id    Int       @db.UnsignedInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  alunos     alunos[]
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "personais_user_id_foreign")
+
+  @@index([user_id], map: "personais_user_id_foreign")
+}
+
+model treinos {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+}
+
+model users {
+  id         Int         @id @default(autoincrement()) @db.UnsignedInt
+  name       String?     @db.VarChar(55)
+  nickname   String?     @unique(map: "users_nickname_unique") @db.VarChar(30)
+  email      String?     @unique(map: "users_email_unique") @db.VarChar(100)
+  password   String?     @db.VarChar(255)
+  cellphone  String?     @db.VarChar(20)
+  created_at DateTime?   @db.Timestamp(0)
+  updated_at DateTime?   @db.Timestamp(0)
+  alunos     alunos[]
+  personais  personais[]
+}
+
+enum exercise_muscle_role {
+  agonist
+  synergist
+  stabilizer
+  antagonist_stabilizer @map("antagonist stabilizer")
+  dynamic_stabilizer    @map("dynamic stabilizer")
+}
+
+enum articulation_movement_muscle_role {
+  agonist
+  synergist
+  stabilizer
+  antagonist_stabilizer @map("antagonist stabilizer")
+  dynamic_stabilizer    @map("dynamic stabilizer")
+}

@@ -18,6 +18,8 @@
 --
 -- Table structure for table `movements`
 --
+CREATE DATABASE IF NOT EXISTS gymapp2;
+USE gymapp2;
 
 DROP TABLE IF EXISTS `movements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

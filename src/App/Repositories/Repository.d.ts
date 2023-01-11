@@ -14,6 +14,7 @@ export interface Repository<T extends Entity, TT> {
     async save(t:T | T[]):Promise<any>
     async delete(pk:PK):Promise<any>
     async exists(pk:PK):Promise<boolean>
+    async builder(options:any):Promise<any>
 }
 
 export interface AlunoRepository extends Repository<Aluno, TAluno> {

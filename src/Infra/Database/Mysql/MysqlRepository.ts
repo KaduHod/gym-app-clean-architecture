@@ -15,6 +15,9 @@ export default abstract class
         this.conn = getConn()
         this.tableName = tableName
     }
+    builder(options: any): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
 
     async findAll(fields?:string[]): Promise<T[]> {
         if(fields){

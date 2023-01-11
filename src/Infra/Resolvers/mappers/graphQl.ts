@@ -1,4 +1,6 @@
-export const graphQlToJson = (string:string):string => 
+export type GraphQlJson = string ;
+
+export const toJson = (string:string): GraphQlJson => 
 {
     const splitByLine = (string:string) => string.split('\n');
     const isObject    = (string:string) => string.indexOf(' {') > -1;
@@ -50,10 +52,15 @@ export const graphQlToJson = (string:string):string =>
                       .map(item => item + '\n');
         const resultWithComas = setComas(result);
         const resultWithQuotationMark = setQuotationMarks(resultWithComas)
-        const parsedToJson = JSON.parse(resultWithQuotationMark.join(""))
-        return parsedToJson;
+        return resultWithQuotationMark.join("")
+        
     }
 
     return main();
 }
-  
+
+const grapQlMapper = {
+  toJson
+}
+
+export default grapQlMapper;

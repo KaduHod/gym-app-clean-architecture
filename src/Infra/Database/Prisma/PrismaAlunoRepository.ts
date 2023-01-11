@@ -37,6 +37,11 @@ export default
                         .alunos
                         .findMany();
     }
+
+    async builder(options:any): Promise<any>
+    {
+
+    }
     findBy(attrs: Partial<TAluno>, first?: boolean, fields?: string[] | undefined): Promise<Aluno[]> {
         throw new Error("Method not implemented.");
     }

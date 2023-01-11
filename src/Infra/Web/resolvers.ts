@@ -21,7 +21,8 @@ import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
 import UserPrismaRepository from "../Database/Prisma/UserPrismaRepository"
-import { graphQlToJson } from "../Resolvers/graphQlToJson"
+import graphQlMapper from "../Resolvers/mappers/graphQl"
+import PrismaMapper from "../Resolvers/mappers/prisma"
 
 const setUserParams = (params:string):string[] => {
     
@@ -59,10 +60,13 @@ export default {
             context:any
         ){
             const userRepository = new UserPrismaRepository()
+            const graphQuery = graphQlMapper.toJson(context.params.query)
+            const fields = PrismaMapper.user.getFields(graphQuery)
+            // console.log({fields})
             return await (
                 new GetUsersUseCase(
                     userRepository, 
-                    setUserParams(context.params.query)
+                    fields
                 )
             ).main()
         },
@@ -72,10 +76,11 @@ export default {
             _args:any, 
             context:any)
         {
-            // const formData = context.request.formData()
-            // console.log(formData)
-            // console.log({context})
-            console.log(graphQlToJson(context.params.query))
+            const graphQuery = graphQlMapper.toJson(context.params.query)
+            const userFields = PrismaMapper.aluno.getUserFields(graphQuery)
+            const alunoFields = PrismaMapper.aluno.getAlunoFields(graphQuery)
+
+            console.log({alunoFields, userFields})
             return await (
                 new getAlunosUseCase(
                     new PrismaAlunoRepository(),
@@ -84,12 +89,6 @@ export default {
                     }
                 )
             ).execute();
-        }
-    },
-    Mutation:{
-        createUser(param:any){
-            console.log(param)
-            return users[0]
         }
     }
 }

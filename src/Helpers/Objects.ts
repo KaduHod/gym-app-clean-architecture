@@ -1,0 +1,1 @@
+export const isObject = (v:any) => typeof v === 'object' &&!Array.isArray(v) && v !== null;

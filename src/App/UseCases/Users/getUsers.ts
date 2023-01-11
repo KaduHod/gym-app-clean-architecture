@@ -11,6 +11,7 @@ export default class GetUsersUseCase
 
     public async main(): Promise< User[] | TUser[]>
     {
-        return await this.userRepository.findAll(this.fields);
+        if(this.fields) return await this.userRepository.findAll(this.fields);
+        return await this.userRepository.findAll();
     }
 }

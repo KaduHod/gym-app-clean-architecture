@@ -20,4 +20,19 @@ describe('Get users use case', () => {
         const users = await useCase.main()
         expect(users).toBeTruthy()
     })
+    it('Should query all users with prisma ORM without fields', async () => {
+        const useCase = new GetUsersUseCase(
+            new UserPrismaRepository
+        )
+        const users = await useCase.main()
+        expect(users).toBeTruthy()
+    })
+    it('Should query all users with prisma ORM without empty fields', async () => {
+        const useCase = new GetUsersUseCase(
+            new UserPrismaRepository,
+            []
+        )
+        const users = await useCase.main()
+        expect(users).toBeTruthy()
+    })
 })

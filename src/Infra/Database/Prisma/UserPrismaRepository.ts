@@ -18,9 +18,12 @@ export default
         this.conn = client
         this.tableName = 'users'
     }
+    builder(options: any): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
     
     findAll(fields?: string[] | undefined): Promise<User[]> {
-        if(fields){
+        if(fields?.length){
             return this.conn.users.findMany({
                 select: this.setFields(fields)
             })

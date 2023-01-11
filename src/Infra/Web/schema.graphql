@@ -17,7 +17,3 @@ type Query {
     user(id: ID!):User 
     alunos : [Aluno]
 }
-
-type Mutation {
-    createUser(name:String!, nickname:String!, email:String!, password:String!,cellphone:String!): User
-}

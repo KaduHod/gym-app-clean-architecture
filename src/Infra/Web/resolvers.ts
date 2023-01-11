@@ -21,6 +21,7 @@ import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
 import UserPrismaRepository from "../Database/Prisma/UserPrismaRepository"
+import { graphQlToJson } from "../Resolvers/graphQlToJson"
 
 const setUserParams = (params:string):string[] => {
     
@@ -58,7 +59,6 @@ export default {
             context:any
         ){
             const userRepository = new UserPrismaRepository()
-            // console.log(context.params.query)
             return await (
                 new GetUsersUseCase(
                     userRepository, 
@@ -72,12 +72,16 @@ export default {
             _args:any, 
             context:any)
         {
-            // console.log(context.params.query)
+            // const formData = context.request.formData()
+            // console.log(formData)
+            // console.log({context})
+            console.log(graphQlToJson(context.params.query))
             return await (
                 new getAlunosUseCase(
                     new PrismaAlunoRepository(),
-                    setUserParams(context.params.query)),
-                    setAlunoParams(context.params.query)
+                    {
+
+                    }
                 )
             ).execute();
         }

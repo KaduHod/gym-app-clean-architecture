@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import express from 'express';
 import resolvers from './resolvers';
 
+const PORT = 4000;
 const yoga = createYoga({
     graphqlEndpoint: '/',
     schema:createSchema({
@@ -19,5 +20,5 @@ const app = express()
 
 app.use('/', yoga)
 
- app.listen(4000, () => console.log('Server running at port 3000'))
+ app.listen(PORT, () => console.log(`Server running at port ${PORT}`))
 

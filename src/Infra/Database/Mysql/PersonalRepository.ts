@@ -1,4 +1,9 @@
-import { optionsFindAllPersonalWithUsers, optionsFindByPersonalWithUsers, optionsFindByPkPersonalWithUsers, PersonalRepository, PK, Repository } from "../../../App/Repositories/Repository";
+import { 
+    optionsFindAllPersonalWithUsers, 
+    optionsFindByPersonalWithUsers, 
+    optionsFindByPkPersonalWithUsers, 
+    PersonalRepository
+} from "../../../App/Repositories/Repository";
 import { TPersonal } from "../../../Domain/Entities/Entities";
 import Personal from "../../../Domain/Entities/Personal";
 import MysqlRepository from "./MysqlRepository";

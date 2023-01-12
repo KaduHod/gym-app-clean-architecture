@@ -40,12 +40,13 @@ export default {
             context:any
         ){
             const graphQuery = graphQlMapper.toJson(context.params.query)
-            const fields = PrismaMapper.user.getFields(graphQuery)
-            
+            const userFields = PrismaMapper.user.getFields(graphQuery)
+            const usersQueryOption = PrismaMapper.user.queryOption({userFields})
+                        
             return await (
                 new GetUsersUseCase(
                     new UserPrismaRepository(), 
-                    fields
+                    usersQueryOption
                 )
             ).main()
         },
@@ -56,16 +57,17 @@ export default {
             context:any)
         {
             const graphQuery = graphQlMapper.toJson(context.params.query)
+            
             const userFields = PrismaMapper.aluno.getUserFields(graphQuery)
             const alunoFields = PrismaMapper.aluno.getAlunoFields(graphQuery)
+            const alunosOptionsQuery = PrismaMapper.aluno.queryOption({
+                userFields, alunoFields
+            })
 
-            console.log({alunoFields, userFields})
             return await (
                 new getAlunosUseCase(
                     new PrismaAlunoRepository(),
-                    {
-
-                    }
+                    alunosOptionsQuery
                 )
             ).execute();
         }

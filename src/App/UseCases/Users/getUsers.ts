@@ -6,7 +6,7 @@ export default class GetUsersUseCase
 {
     constructor(
         public userRepository: Repository<TUser, User>,
-        public options?:string[]
+        public options?:any
     ){}
 
     public async main(): Promise< User[] | TUser[]>

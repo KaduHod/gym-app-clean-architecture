@@ -3,7 +3,7 @@ import { TUser } from "../../../Domain/Entities/Entities";
 import User from "../../../Domain/Entities/User";
 import {client} from './client'
 import PrismaRepository from "./PrismaRepository";
-import { PrismafindManyOptions } from "./querys";
+import { Prisma } from "@prisma/client";
 
 export default 
     class UserPrismaRepository
@@ -20,7 +20,7 @@ export default
         this.tableName = 'users'
     }
     
-    findAll(options?: PrismafindManyOptions): Promise<User[]> {
+    findAll(options?: Prisma.usersFindManyArgs |  any): Promise<User[]> {        
         return this.conn.users.findMany(options)
     }
 

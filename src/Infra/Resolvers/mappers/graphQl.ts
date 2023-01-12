@@ -1,3 +1,6 @@
+/**
+ * Tipo que define uma string em sintaxe graphQl que foi convertida para json
+ */
 export type GraphQlJson = string ;
 
 export const toJson = (string:string): GraphQlJson => 

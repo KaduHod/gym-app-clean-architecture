@@ -3,6 +3,7 @@ import Aluno from "../../../Domain/Entities/Aluno";
 import { TAluno } from "../../../Domain/Entities/Entities";
 import PrismaRepository from "./PrismaRepository";
 import {client} from './client'
+import { Prisma } from "@prisma/client";
 
 export default 
     class PrismaAlunoRepository
@@ -22,16 +23,16 @@ export default
         throw new Error("Method not implemented.");
     }
     
-    async findAll(fields?: string[] | undefined): Promise<Aluno[]> {
-        if(fields)
-        {
+    async findAll(options?: Prisma.alunosFindManyArgs): Promise<Aluno[]> {
+        
+        if(options)
+        {          
             return await this
                             .conn
                             .alunos
-                            .findMany({
-                                select:this.setFields(fields)
-                            }); 
+                            .findMany(options); 
         }
+    
         return await this
                         .conn
                         .alunos

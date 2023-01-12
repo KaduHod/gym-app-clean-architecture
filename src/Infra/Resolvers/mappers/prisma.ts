@@ -32,7 +32,7 @@ const PrismaMapper = {
             const alunoFields = Object.keys(aluno)
             return alunoFields.filter((field:string) => !isObject(aluno[field]));
         },
-        prismaQueryOption(options:PrismaAlunoQueryOptions)
+        queryOption(options:PrismaAlunoQueryOptions)
         {
             const queryOptions = {};
             if(options.userFields)

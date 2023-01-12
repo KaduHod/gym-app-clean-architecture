@@ -6,12 +6,12 @@ export default class GetUsersUseCase
 {
     constructor(
         public userRepository: Repository<TUser, User>,
-        public fields?:string[]
+        public options?:string[]
     ){}
 
     public async main(): Promise< User[] | TUser[]>
     {
-        if(this.fields) return await this.userRepository.findAll(this.fields);
+        if(this.options) return await this.userRepository.findAll(this.options);
         return await this.userRepository.findAll();
     }
 }

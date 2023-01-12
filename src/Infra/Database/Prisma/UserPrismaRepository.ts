@@ -3,6 +3,7 @@ import { TUser } from "../../../Domain/Entities/Entities";
 import User from "../../../Domain/Entities/User";
 import {client} from './client'
 import PrismaRepository from "./PrismaRepository";
+import { PrismafindManyOptions } from "./querys";
 
 export default 
     class UserPrismaRepository
@@ -18,19 +19,9 @@ export default
         this.conn = client
         this.tableName = 'users'
     }
-    builder(options: any): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
     
-    findAll(fields?: string[] | undefined): Promise<User[]> {
-        if(fields?.length){
-            return this.conn.users.findMany({
-                select: this.setFields(fields)
-            })
-        }else {
-            return this.conn.users.findMany()
-        }
-        
+    findAll(options?: PrismafindManyOptions): Promise<User[]> {
+        return this.conn.users.findMany(options)
     }
 
     findBy(attrs: Partial<TUser>, first?: boolean, fields?: string[] | undefined): Promise<User[]> {

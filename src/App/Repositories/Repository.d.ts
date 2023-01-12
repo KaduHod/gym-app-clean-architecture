@@ -8,13 +8,28 @@ export type PK = number | string
 export interface Repository<T extends Entity, TT> {
     conn:any
     tableName:any
-    async findAll(fields?:string[]):Promise<T[]>
-    async findBy(attrs:Partial<TT>, first:boolean = false,fields?:string[]):Promise<T[]>
-    async findByPK(pk:PK, fields?:string[]):Promise<T>
-    async save(t:T | T[]):Promise<any>
+    async findAll(
+        options?:string[] | any
+    ):Promise<T[]>
+
+    async findBy(
+        attrs:Partial<TT>, 
+        first:boolean = false,
+        fields?:string[]
+    ):Promise<T[]>
+
+    async findByPK(
+        pk:PK, 
+        fields?:string[]
+    ):Promise<T>
+
+    async save(
+        t:T | T[]
+    ):Promise<any>
+
     async delete(pk:PK):Promise<any>
+    
     async exists(pk:PK):Promise<boolean>
-    async builder(options:any):Promise<any>
 }
 
 export interface AlunoRepository extends Repository<Aluno, TAluno> {

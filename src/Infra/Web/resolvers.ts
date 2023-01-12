@@ -22,35 +22,15 @@ import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
 import UserPrismaRepository from "../Database/Prisma/UserPrismaRepository"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
-import PrismaMapper from "../Resolvers/mappers/prisma"
-
-const setUserParams = (params:string):string[] => {
-    
-    return params
-            .split('users')[1]
-            .split('{')[1]
-            .split('}')[0]
-            .split('\n')
-            .map(string => string.trim())
-            .filter(string => !!string)
-        
-}
-const setAlunoParams = (params:string):string[] => {
-    
-    return params
-            .split('{')[2]
-            .split('}')[0]
-            .split('\n')
-            .map(string => string.trim())
-            .filter(string => !!string)
-}
+import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 
 export default {
     Query:{
         async user(){
-            const userRepository = new UserPrismaRepository()
             return await (
-                new GetUsersUseCase(userRepository)
+                new GetUsersUseCase(
+                    new UserPrismaRepository()
+                )
             ).main()
         },
 
@@ -59,13 +39,12 @@ export default {
             _args:any, 
             context:any
         ){
-            const userRepository = new UserPrismaRepository()
             const graphQuery = graphQlMapper.toJson(context.params.query)
             const fields = PrismaMapper.user.getFields(graphQuery)
-            // console.log({fields})
+            
             return await (
                 new GetUsersUseCase(
-                    userRepository, 
+                    new UserPrismaRepository(), 
                     fields
                 )
             ).main()

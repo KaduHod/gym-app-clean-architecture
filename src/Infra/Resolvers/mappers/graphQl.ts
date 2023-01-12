@@ -2,25 +2,28 @@ export type GraphQlJson = string ;
 
 export const toJson = (string:string): GraphQlJson => 
 {
-    const splitByLine = (string:string) => string.split('\n');
-    const isObject    = (string:string) => string.indexOf(' {') > -1;
-    const isProperty  = (string:string) => !isObject(string);
-    const initObject  = (string:string) => string.replace(' {', ': {');
-    
-    const tranformToProperty = (string:string) => {
-        let item:string[] = string.split('');
-        item.push(': true');
-        return item.join('');
-    }
-    
-    const jsonfy = (item:string, index?:number) => {
+  const splitByLine = (string:string) => string.split('\n');
+  
+  const isObject    = (string:string) => string.indexOf(' {') > -1;
+
+  const isProperty  = (string:string) => !isObject(string);
+
+  const initObject  = (string:string) => string.replace(' {', ': {');
+  
+  const tranformToProperty = (string:string) => {
+      let item:string[] = string.split('');
+      item.push(': true');
+      return item.join('');
+  }
+  
+  const jsonfy = (item:string, index?:number) => {
       if(item === '{' || item.trim() === '}') return item;
       if(isObject(item)) return initObject(item)
       if(isProperty(item)) return tranformToProperty(item)
       return item
-    }
-    
-    const setComas = (array:string[]) => {
+  }
+  
+  const setComas = (array:string[]) => {
       const couldHaveComa = (string:string) => string.includes('true\n') || string.includes('}\n');
       const shouldPutComa = (next?:string) => next && next.trim() !== '}';
       const result = [];
@@ -33,9 +36,9 @@ export const toJson = (string:string): GraphQlJson =>
         result.push(item)
       }
       return result
-    }
-    
-    const setQuotationMarks = (array:string[]) => {
+  }
+  
+  const setQuotationMarks = (array:string[]) => {
       return array.map( item => {
         let splited = item.trim().split(':');
         if(splited.length > 1){
@@ -44,19 +47,18 @@ export const toJson = (string:string): GraphQlJson =>
         }
         return item
       })
-    }  
+  }  
 
-    const main = ():string => {
+  const main = () => {
         const result = splitByLine(string)
                       .map(jsonfy)
                       .map(item => item + '\n');
         const resultWithComas = setComas(result);
         const resultWithQuotationMark = setQuotationMarks(resultWithComas)
         return resultWithQuotationMark.join("")
-        
-    }
+  }
 
-    return main();
+  return main();
 }
 
 const grapQlMapper = {

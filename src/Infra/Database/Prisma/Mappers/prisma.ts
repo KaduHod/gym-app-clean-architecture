@@ -1,9 +1,7 @@
-import { GraphQlJson } from './graphQl'
-import { isObject } from '../../../Helpers/Objects'
+import { GraphQlJson } from '../../../Resolvers/mappers/graphQl'
+import { isObject } from '../../../../Helpers/Objects'
+import { PrismaAlunoQueryOptions } from '../querys'
 
-export type PrismaAlunoQueryOptions = {
-    userFields?:string[], alunoFields?:string[]
-}
 
 const PrismaMapper = {
     jsonToQuery(jsonString:GraphQlJson): any

@@ -9,8 +9,8 @@ describe('Teste user prisma repository', () => {
     })
 
     it('Should get users with select fields', async () => {
-        const fields = ['name', 'nickname', 'id', 'email'];
-        const users = await userRepository.findAll(fields)
+        const options = {select:{id:true, name:true}};
+        const users = await userRepository.findAll(options)
         expect(users).toBeTruthy()
     })
 

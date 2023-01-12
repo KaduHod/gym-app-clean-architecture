@@ -3,7 +3,7 @@ import Personal from "../../../Domain/Entities/Personal";
 import { PersonalFactory } from '../../../Domain/Factory/PersonalFactory'
 import MysqlUserRepository from '../../../Infra/Database/Mysql/UserRepository';
 import MysqlPersonalRepository from '../../../Infra/Database/Mysql/PersonalRepository'
-import RegisterPersonal from '../../UseCases/Registration/registerPersonal'
+import RegisterPersonal from './registerPersonal'
 import UserNotFound from '../Errors/UserNotFound'
 
 describe('Register personal', () => {

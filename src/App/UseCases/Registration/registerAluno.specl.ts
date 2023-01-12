@@ -6,7 +6,7 @@ import MysqlPersonalRepository from '../../../Infra/Database/Mysql/PersonalRepos
 import MysqlAlunoRepository from "../../../Infra/Database/Mysql/AlunoRepository";
 import UserNotFound from '../Errors/UserNotFound'
 import PersonalNotFoundError from "../Errors/PersonalNotFound";
-import RegisterAluno from '../../UseCases/Registration/registerAluno'
+import RegisterAluno from './registerAluno'
 
 
 describe('Register Aluno', () => {

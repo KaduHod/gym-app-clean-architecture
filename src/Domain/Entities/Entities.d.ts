@@ -61,7 +61,7 @@ export type TMuscle = Entity & {
     image:string | null
 }
 
-export type TExerciseMuscleRole = 'agonist' |'antagonist' | 'synergist' | 'antagonist stabilizer' | 'stabilizer' | 'dynamic stabilizer'
+export type TExerciseMuscleRole = 'agonist' | 'antagonist' | 'synergist' | 'antagonist stabilizer' | 'stabilizer' | 'dynamic stabilizer'
 
 export type TExerciseMuscle = TMuscle & {
     role:TExerciseMuscleRole

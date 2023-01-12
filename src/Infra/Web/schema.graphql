@@ -7,6 +7,22 @@ type User {
     cellphone: String
 }
 
+type Exercise {
+    id: ID!
+    name: String!
+    force: String
+    link: String
+    execution: String!
+    muscles: [Muscle]
+}
+
+type Muscle {
+    id: ID!
+    name: String!
+    image: String!
+    exercises: [Exercise]
+}
+
 type Aluno {
     id: ID!
     user: User
@@ -16,4 +32,5 @@ type Query {
     users : [User]
     user(id: ID!):User 
     alunos : [Aluno]
+    exercises: [Exercise]
 }

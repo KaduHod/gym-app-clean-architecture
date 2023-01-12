@@ -70,6 +70,21 @@ export default {
                     alunosOptionsQuery
                 )
             ).execute();
+        },
+
+        async exercises(
+            _:any, 
+            params:any, 
+            context:any
+        )
+        {
+            return [{
+                id:1,
+                name:'Supino',
+                force: 'pull',
+                link: 'http://google.com',
+                execution: ' nice and easy'
+            }]
         }
     }
 }

@@ -107,7 +107,7 @@ model exercise_muscle {
   updated_at  DateTime?             @db.Timestamp(0)
   role        exercise_muscle_role?
   exercicios  exercicios            @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_exercise_id_foreign")
-  muscles     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
+  muscle       muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
 
   @@index([muscle_id], map: "exercise_muscle_muscle_id_foreign")
   @@index([exercise_id], map:"exercise_muscle_exercise_id_foreign")
@@ -119,8 +119,8 @@ model movement_muscle {
   created_at  DateTime? @db.Timestamp(0)
   updated_at  DateTime? @db.Timestamp(0)
   movement_id Int       @db.UnsignedInt
-  movements   movements @relation(fields: [movement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_movements_id")
-  muscles     muscles   @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_movements_muscle_id_foreign")
+  movement   movements @relation(fields: [movement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_movements_id")
+  muscle     muscles   @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_movements_muscle_id_foreign")
 
   @@index([movement_id], map: "FK_movements_id")
   @@index([muscle_id], map: "muscle_articulation_movements_muscle_id_foreign")

@@ -96,6 +96,7 @@ model exercicios {
   link       String?   @db.VarChar(255)
   execution  String?   @db.Text
   mechanic   String?   @db.Text
+  muscles    exercise_muscle[]  
 }
 
 model exercise_muscle {
@@ -105,9 +106,11 @@ model exercise_muscle {
   created_at  DateTime?             @db.Timestamp(0)
   updated_at  DateTime?             @db.Timestamp(0)
   role        exercise_muscle_role?
+  exercicios  exercicios            @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_exercise_id_foreign")
   muscles     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
 
   @@index([muscle_id], map: "exercise_muscle_muscle_id_foreign")
+  @@index([exercise_id], map:"exercise_muscle_exercise_id_foreign")
 }
 
 model movement_muscle {

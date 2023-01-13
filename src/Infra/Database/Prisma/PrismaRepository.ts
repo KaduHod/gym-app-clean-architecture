@@ -11,6 +11,7 @@ export default abstract class PrismaRepository
     {
         this.conn = client
     }
+
     public setFields(fields:String[])
     {
         return fields.reduce((acc:prismaSelectField, curr:any) => {

@@ -1,7 +1,14 @@
-import { Prisma } from "@prisma/client";
-import { optionsFindAllPersonalWithUsers, optionsFindByPersonalWithUsers, optionsFindByPkPersonalWithUsers, PersonalRepository, PK, Repository } from "../../../App/Repositories/Repository";
+import { 
+    optionsFindAllPersonalWithUsers, 
+    optionsFindByPersonalWithUsers, 
+    optionsFindByPkPersonalWithUsers, 
+    PersonalRepository, 
+    PK, 
+    Repository 
+} from "../../../App/Repositories/Repository";
 import Personal from "../../../Domain/Entities/Personal";
 import PrismaRepository from "./PrismaRepository";
+import { Prisma } from "@prisma/client";
 
 export default 
     class PrismaPersonalRepository
@@ -35,8 +42,11 @@ export default
                 .personais 
                 .findUnique({where:{id:pk}})
     }
-    save(t: any): Promise<any> {
-        throw new Error("Method not implemented.");
+    async save(options: Prisma.personaisUncheckedCreateInput): Promise<Personal> {
+        return await this
+                        .conn 
+                        .personais 
+                        .create({data:options})
     }
     delete(pk: number): Promise<any> {
         throw new Error("Method not implemented.");

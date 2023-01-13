@@ -25,7 +25,7 @@ export default
     }
 
     async findBy(
-        options:Prisma.exerciciosFindManyArgs | Prisma.exerciciosFindUniqueArgs,
+        options: Prisma.exerciciosFindManyArgs | Prisma.exerciciosFindUniqueArgs,
         first:boolean,
     ): Promise<Exercicio[] | Exercicio | null> 
     {
@@ -36,6 +36,7 @@ export default
                             .exercicios
                             .findUnique(options as Prisma.exerciciosFindUniqueArgs)
         }
+        
         return await this
                         .conn
                         .exercicios
@@ -44,7 +45,10 @@ export default
 
     async findByPK(options:Prisma.exerciciosFindUniqueArgs): Promise<Exercicio | null> 
     {
-        return await this.conn.exercicios.findUnique(options)
+        return await this
+                        .conn
+                        .exercicios
+                        .findUnique(options)
     }
 
     save(t: Entity | Entity[]): Promise<any> {

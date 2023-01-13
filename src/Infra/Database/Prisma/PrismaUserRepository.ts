@@ -19,7 +19,7 @@ export default
         this.tableName = 'users'
     }
     
-    findAll(options?: Prisma.usersFindManyArgs |  any): Promise<User[] | User | null > {        
+    findAll(options?: Prisma.usersFindManyArgs): Promise<User[] | User | null > {        
         return this
                 .conn
                 .users
@@ -60,8 +60,15 @@ export default
         throw new Error("Method not implemented.");
     }
 
-    exists(pk: PK): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async exists(pk: PK): Promise<boolean> {
+        return !!(await this
+							.conn 
+							.users 
+							.findUnique({
+								where: {id:pk},
+								select: {id:true}
+							})
+		)
     }
         
 }

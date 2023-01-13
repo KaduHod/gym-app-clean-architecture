@@ -13,6 +13,7 @@ export interface Repository {
     ):Promise<any[] | any | null>
 
     async findBy( 
+
         options?: any,
         first:boolean,
     ):Promise<any[] | any | null>

@@ -26,12 +26,16 @@ export default
                 .findMany(options) as Promise<User[] | User | null> ;
     }
 
-    findBy(first: boolean, options?: Prisma.usersFindManyArgs | Prisma.usersFindUniqueArgs): Promise<User[]> {
+    async findBy(options: Prisma.usersFindManyArgs | Prisma.usersFindUniqueArgs, first: boolean): Promise<User[]> {
         throw new Error("Method not implemented.");
     }
 
-    findByPK(pk: PK, fields?: string[] | undefined): Promise<User> {
-        throw new Error("Method not implemented.");
+    async findByPK(pk: PK): Promise<User | null> 
+    {
+        return await this 
+                        .conn
+                        .users
+                        .findUnique({where:{id:pk}}) as User;
     }
 
     save(user: Prisma.usersCreateInput): Promise<any> {

@@ -33,7 +33,7 @@ export default
     {
 
     }
-    findBy(first:boolean, options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs): Promise<Aluno[] | null> 
+    findBy(options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs, first:boolean): Promise<Aluno[] | null> 
     {
         throw new Error("Method not implemented.");
     }

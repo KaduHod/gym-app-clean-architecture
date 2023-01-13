@@ -25,8 +25,8 @@ export default
     }
 
     async findBy(
-        first:boolean, 
-        options:Prisma.exerciciosFindManyArgs | Prisma.exerciciosFindUniqueArgs
+        options:Prisma.exerciciosFindManyArgs | Prisma.exerciciosFindUniqueArgs,
+        first:boolean,
     ): Promise<Exercicio[] | Exercicio | null> 
     {
         if(first)

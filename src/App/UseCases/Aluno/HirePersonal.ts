@@ -49,11 +49,11 @@ export default class HirePersonalUseCase
 
     public async getAluno(): Promise<Aluno | null>
     {
-        const result = await this
-                                .alunoRepository
-                                .findByPK(this.alunoid);
-
-        return AlunoFactory.create(result)
+        return AlunoFactory.create(
+            await this
+                    .alunoRepository
+                    .findByPK(this.alunoid)
+        )
     }
 
 

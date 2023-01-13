@@ -26,7 +26,7 @@ export default
     findAll(options?: any): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    findBy(first?: boolean, options?: any): Promise<any> {
+    findBy(options: any, first?: boolean): Promise<any> {
         throw new Error("Method not implemented.");
     }
     findByPK(pk: PK): Promise<Personal | null> {

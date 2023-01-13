@@ -13,8 +13,8 @@ export interface Repository {
     ):Promise<any[] | any | null>
 
     async findBy( 
-        first:boolean = false,
-        options?: any
+        options?: any,
+        first:boolean,
     ):Promise<any[] | any | null>
 
     async findByPK(

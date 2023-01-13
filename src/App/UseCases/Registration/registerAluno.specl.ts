@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import Aluno from "../../../Domain/Entities/Aluno";
 import {AlunoFactory} from '../../../Domain/Factory/AlunoFactory'
-import MysqlUserRepository from '../../../Infra/Database/Mysql/UserRepository'
-import MysqlPersonalRepository from '../../../Infra/Database/Mysql/PersonalRepository'
-import MysqlAlunoRepository from "../../../Infra/Database/Mysql/AlunoRepository";
+import MysqlUserRepository from '../../../Infra/Database/Knex/KnexUserRepository'
+import MysqlPersonalRepository from '../../../Infra/Database/Knex/KnexPersonalRepository'
+import MysqlAlunoRepository from "../../../Infra/Database/Knex/KnexAlunoRepository";
 import UserNotFound from '../Errors/UserNotFound'
 import PersonalNotFoundError from "../Errors/PersonalNotFound";
 import RegisterAluno from './registerAluno'

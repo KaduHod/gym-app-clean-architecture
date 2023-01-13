@@ -1,27 +1,25 @@
 import Aluno from "../../Domain/Entities/Aluno"
-import { Entity, TAluno, TExercicio, TPersonal } from "../../Domain/Entities/Entities"
+import { TAluno, TExercicio, TPersonal } from "../../Domain/Entities/Entities"
 import Exercise from "../../Domain/Entities/Exercise"
 import Personal from "../../Domain/Entities/Personal"
 
-export type PK = number | string
+export type PK = number
 
-export interface Repository<T extends Entity, TT> {
+export interface Repository {
     conn:any
     tableName:any
     async findAll(
         options?:string[] | any
-    ):Promise<T[]>
+    ):Promise<any[]>
 
-    async findBy(
-        attrs:Partial<TT>, 
+    async findBy( 
         first:boolean = false,
-        fields?:string[]
-    ):Promise<T[]>
+        options?: any
+    ):Promise<any[] | any | null>
 
     async findByPK(
-        pk:PK, 
-        fields?:string[]
-    ):Promise<T>
+        options?:string[] | any
+    ):Promise<any | null>
 
     async save(
         t:T | T[]
@@ -32,7 +30,7 @@ export interface Repository<T extends Entity, TT> {
     async exists(pk:PK):Promise<boolean>
 }
 
-export interface AlunoRepository extends Repository<Aluno, TAluno> {
+export interface AlunoRepository extends Repository {
     async hirePersonal(personalId:PK, alunoId:PK): Promise<any>
 }
 
@@ -53,13 +51,15 @@ type optionsFindByPkPersonalWithUsers = {
     fields?: string[] | null,
     userFields?: string[] | null
 }
-export interface PersonalRepository extends Repository<Personal, TPersonal>{
+export interface PersonalRepository extends Repository{
     async findAllWithUser(options:optionsFindAllPersonalWithUsers):Promise<Personal[]>
     async findByWithUser(options:optionsFindByPersonalWithUsers):Promise<Personal[]>
     async findByPKWithUser(options:optionsFindByPkPersonalWithUsers):Promise<Personal>
 }
 
-export interface ExerciseRepository extends Repository<Exercise, TExercicio> {
+export type MusclesFromExerciseOptions = string[]
+
+export interface ExerciseRepository extends Repository {
     async musclesFromExercise(
         exercise_id:PK, 
         fields: MusclesFromExerciseOptions | null,

@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest'
 import User from '../../../Domain/Entities/User';
 import { TUser } from "../../../Domain/Entities/Entities";
 import { UserFactory } from '../../../Domain/Factory/UserFactory'
-import MysqlUserRepository from '../../../Infra/Database/Mysql/UserRepository';
+import MysqlUserRepository from '../../../Infra/Database/Knex/KnexUserRepository';
 import RegisterUser from './resgiterUser'
 import UserPrismaRepository from '../../../Infra/Database/Prisma/UserPrismaRepository';
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import MysqlPersonalRepository from '../../../Infra/Database/Mysql/PersonalRepository'
-import MysqlAlunoRepository from "../../../Infra/Database/Mysql/AlunoRepository";
+import MysqlPersonalRepository from '../../../Infra/Database/Knex/KnexPersonalRepository'
+import MysqlAlunoRepository from "../../../Infra/Database/Knex/KnexAlunoRepository";
 import HirePersonal from '../Aluno/HirePersonal'
 import AttachAluno from './attachAluno'
 

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import Personal from "../../../Domain/Entities/Personal";
 import { PersonalFactory } from '../../../Domain/Factory/PersonalFactory'
-import MysqlUserRepository from '../../../Infra/Database/Mysql/UserRepository';
-import MysqlPersonalRepository from '../../../Infra/Database/Mysql/PersonalRepository'
+import MysqlUserRepository from '../../../Infra/Database/Knex/KnexUserRepository';
+import MysqlPersonalRepository from '../../../Infra/Database/Knex/KnexPersonalRepository'
 import RegisterPersonal from './registerPersonal'
 import UserNotFound from '../Errors/UserNotFound'
 

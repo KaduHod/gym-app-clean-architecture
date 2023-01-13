@@ -4,7 +4,7 @@
   "description": "\"# gym-app-clean-architecture\"",
   "main": "./src/Infra/Web/Server.ts",
   "scripts": {
-    "test": "vitest watch",
+    "test": "vitest --watch",
     "web:serve": "nodemon ./src/Infra/Web/Server.ts"
   },
   "repository": {

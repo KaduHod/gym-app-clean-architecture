@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import MysqlPersonalRepository from "../../../Infra/Database/Mysql/PersonalRepository";
+import MysqlPersonalRepository from "../../../Infra/Database/Knex/KnexPersonalRepository";
 import GetPersonalUseCase from "./GetPersonal";
 
 describe('Get personal', () => {

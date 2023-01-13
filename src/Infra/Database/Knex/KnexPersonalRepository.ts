@@ -6,7 +6,7 @@ import {
 } from "../../../App/Repositories/Repository";
 import { TPersonal } from "../../../Domain/Entities/Entities";
 import Personal from "../../../Domain/Entities/Personal";
-import MysqlRepository from "./MysqlRepository";
+import MysqlRepository from "./KnexRepository";
 
 
 

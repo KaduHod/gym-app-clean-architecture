@@ -1,5 +1,5 @@
 import { TMuscle } from "../../../Domain/Entities/Entities";
-import MysqlRepository from "./MysqlRepository";
+import MysqlRepository from "./KnexRepository";
 import Muscle from "../../../Domain/Entities/Muscle";
 
 export default 

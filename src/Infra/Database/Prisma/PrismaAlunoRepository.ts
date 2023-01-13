@@ -3,19 +3,17 @@ import Aluno from "../../../Domain/Entities/Aluno";
 import { TAluno } from "../../../Domain/Entities/Entities";
 import PrismaRepository from "./PrismaRepository";
 import {client} from './client'
-import { Prisma } from "@prisma/client";
+import { alunos, Prisma } from "@prisma/client";
 
 export default 
     class PrismaAlunoRepository
     extends PrismaRepository
     implements AlunoRepository
 {
-    public conn: any;
     public tableName: any;
     constructor()
     {
         super()
-        this.conn = client
         this.tableName = 'alunos'
         
     }
@@ -23,27 +21,16 @@ export default
         throw new Error("Method not implemented.");
     }
     
-    async findAll(options?: Prisma.alunosFindManyArgs): Promise<Aluno[]> {
-        
-        if(options)
-        {          
-            return await this
-                            .conn
-                            .alunos
-                            .findMany(options); 
-        }
-    
-        return await this
-                        .conn
-                        .alunos
-                        .findMany();
+    findAll(options?: Prisma.alunosFindManyArgs): Promise<alunos[]> {
+        return options ? this.conn.alunos.findMany(options) : this.conn.alunos.findMany();
     }
 
     async builder(options:any): Promise<any>
     {
 
     }
-    findBy(attrs: Partial<TAluno>, first?: boolean, fields?: string[] | undefined): Promise<Aluno[]> {
+    findBy(first:boolean, options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs): Promise<Aluno[]> 
+    {
         throw new Error("Method not implemented.");
     }
     findByPK(pk: PK, fields?: string[] | undefined): Promise<Aluno> {

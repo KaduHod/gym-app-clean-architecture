@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import Exercise from "../../../Domain/Entities/Exercise";
-import MysqlExerciseRepository from "../../../Infra/Database/Mysql/ExerciseRepository";
+import MysqlExerciseRepository from "../../../Infra/Database/Knex/KnexExerciseRepository";
+import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExercicioRepository";
 import GetExerciseUseCase from "./GetExercise";
 
 describe('Get Exercise use case', () => {
-    const exercicioRepo = new MysqlExerciseRepository;
+    const exercicioRepo = new PrismaExercicioRepository;
 
     it('Should get exercise', async () => {
         const useCase = new GetExerciseUseCase(
-            exercicioRepo, 882
+            exercicioRepo, {where:{id:882}}
         )
-
         const queryResult = await useCase.main()
         
         expect(queryResult).toBeTruthy()
@@ -18,7 +18,7 @@ describe('Get Exercise use case', () => {
 
     it('Should  throw error Exercise not found', async () => {
         const useCase = new GetExerciseUseCase(
-            exercicioRepo, 82
+            exercicioRepo, {where:{id:38743894}}
         )
 
         const queryResult = useCase.main()

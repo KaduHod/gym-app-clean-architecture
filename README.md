@@ -1,4 +1,4 @@
- # Docker
+# Docker
 # Montar imagem do banco MYSQL
 docker build -t mysql-image -f src/Infra/Database/Dockerfile .
 

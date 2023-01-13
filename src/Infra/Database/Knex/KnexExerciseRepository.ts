@@ -1,9 +1,7 @@
 import { TExercicio, TExerciseMuscle, TExerciseMuscleRole, TMuscle } from "../../../Domain/Entities/Entities";
-import MysqlRepository from "./MysqlRepository";
+import MysqlRepository from "./KnexRepository";
 import Exercise from "../../../Domain/Entities/Exercise";
-import { ExerciseRepository, PK, Repository } from "../../../App/Repositories/Repository";
-
-export type MusclesFromExerciseOptions = string[]
+import { ExerciseRepository, MusclesFromExerciseOptions, PK, Repository } from "../../../App/Repositories/Repository";
 export default 
     class MysqlExerciseRepository
     extends MysqlRepository<Exercise, TExercicio>

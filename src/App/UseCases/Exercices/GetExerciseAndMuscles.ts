@@ -1,59 +1,28 @@
-import Exercise from "../../../Domain/Entities/Exercise";
-import MysqlExerciseRepository, { MusclesFromExerciseOptions } from "../../../Infra/Database/Mysql/ExerciseRepository";
-import { PK } from "../../Repositories/Repository";
-import ExerciseNotFound from "../Errors/ExerciseNotFound";
+import Exercise from "../../../Domain/Entities/Exercise";;
+import { ExerciseRepository, MusclesFromExerciseOptions, PK } from "../../Repositories/Repository";
 import { ExerciseFactory } from "../../../Domain/Factory/ExerciseFactory";
-import { TExercicio, TExerciseMuscle, TExerciseMuscleRole, TMuscle } from "../../../Domain/Entities/Entities";
+import ExerciseNotFound from "../Errors/ExerciseNotFound";
+import { TExercicio, TExerciseMuscle, TExerciseMuscleRole } from "../../../Domain/Entities/Entities";
 
 export default class GetExerciseAndHisMuscles
 {
-   
     constructor(
-        public exerciseRepository:MysqlExerciseRepository,
-        public exerciseId:PK, 
-        public fields: MusclesFromExerciseOptions | null,
-        public roles: TExerciseMuscleRole[]| null
-    )
-    {}
+        public exerciseRepository: ExerciseRepository,
+        public options: any | {fillds :MusclesFromExerciseOptions, roles:TExerciseMuscleRole[] | null, exerciseId:PK}
+    ){}
 
     public async main(): Promise<Exercise>
     {
-        const exerciseExists = await this.exerciseExists()
-        if(!exerciseExists) throw new ExerciseNotFound()
-
-        const [exercise, muscles] = await Promise.all([
-            this.getExercise(),
-            this.getMuscles()
-        ])
-
-        return this.mountExercicio(exercise, muscles)
+        const exercise:any = await this.exerciseRepository.findByPK(this.options)
+        if(!exercise) throw new ExerciseNotFound()
+        return this.mountExercise(exercise)
     }
 
-    public async exerciseExists(): Promise<boolean>
+    public mountExercise(exercise:any): Exercise
     {
-        return await this.exerciseRepository.exists(this.exerciseId)
-    }
-
-    public async getMuscles(): Promise<TExerciseMuscle[]>
-    {
-        return await this.exerciseRepository.musclesFromExercise(
-            this.exerciseId, 
-            this.fields ?? null, 
-            this.roles
+        return ExerciseFactory.create(
+            exercise as TExercicio, 
+            exercise.muscles as TExerciseMuscle[]
         )
     }
-
-    public async getExercise(): Promise<TExercicio>
-    {
-        return await this.exerciseRepository.findByPK(this.exerciseId)
-    }
-
-    public mountExercicio(
-        exercise: TExercicio, 
-        muscles: TExerciseMuscle[]
-    ): Exercise
-    {
-        return ExerciseFactory.create(exercise, muscles)
-    }
-
 }

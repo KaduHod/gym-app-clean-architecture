@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import GetExerciseUseCase from "../../App/UseCases/Exercices/GetExercise";
-import MysqlExerciseRepository from "../Database/Mysql/ExerciseRepository";
+import MysqlExerciseRepository from "../Database/Knex/KnexExerciseRepository";
 import { ExerciseRepository, Repository } from "../../App/Repositories/Repository";
 
 class ExerciseController

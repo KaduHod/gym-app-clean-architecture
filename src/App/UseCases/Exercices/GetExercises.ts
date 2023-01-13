@@ -4,7 +4,7 @@ import { Repository } from "../../Repositories/Repository";
 export default class GetExercisesUseCase 
 {
     constructor(
-        public exerciseRepository: Repository<Exercicio, TExercicio>,
+        public exerciseRepository: Repository,
         public options?: any
     ){}
 

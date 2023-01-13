@@ -1,7 +1,7 @@
 import { PK, Repository } from "../../../App/Repositories/Repository";
 import { TAluno } from "../../../Domain/Entities/Entities";
 import Aluno from "../../../Domain/Entities/Aluno";
-import MysqlRepository from "./MysqlRepository";
+import MysqlRepository from "./KnexRepository";
 
 export default 
     class MysqlAlunoRepository 

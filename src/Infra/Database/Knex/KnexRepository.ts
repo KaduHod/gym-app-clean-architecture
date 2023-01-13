@@ -4,8 +4,8 @@ import { Entity } from "../../../Domain/Entities/Entities";
 import { MysqlDB, getConn } from "./conn";
 
 export default abstract class 
-    MysqlRepository<T extends Entity, TT>
-    implements Repository<T, TT>
+    KnexRepository<T extends Entity, TT>
+    implements Repository
 {
     public conn: Knex | any
     constructor(

@@ -10,7 +10,6 @@ describe('Test use case get exercises', () => {
     })
     it('Should get exercise by his id', async () => {
         const result = await prismaRepo.findAll({where:{id:1000}})
-        console.log(result)
         expect(result.length).toEqual(1)
         expect(result).toBeTruthy()
     })

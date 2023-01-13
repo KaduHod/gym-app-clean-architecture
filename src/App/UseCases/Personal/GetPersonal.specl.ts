@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import MysqlPersonalRepository from "../../../Infra/Database/Knex/KnexPersonalRepository";
+import KnexPersonalRepository from "../../../Infra/Database/Knex/KnexPersonalRepository";
 import GetPersonalUseCase from "./GetPersonal";
 
 describe('Get personal', () => {
     it('Should bring persnal with user', async () => {
         const useCase = new GetPersonalUseCase(
-            new MysqlPersonalRepository,
+            new KnexPersonalRepository,
             {
                 attrs: {'personais.id':10},
                 fields: ['id', 'created_at'],

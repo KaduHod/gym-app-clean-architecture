@@ -31,16 +31,11 @@ export default abstract class
         
     }
 
-    async findBy(attrs: Partial<TT>, first?:boolean, fields?:string[]): Promise<T[]> {
-        if(first){
-            return await this
-                            .conn(this.tableName)
-                            .where(attrs) 
-                            .first()
-        }
-        return await this
-                        .conn(this.tableName)
-                        .where(attrs)
+    async findBy(first:boolean,options?:{attrs: Partial<TT>, first?:boolean, fields?:string[]}): Promise<T[]> {
+        const builder = this.conn(this.tableName);
+        if(options?.attrs) builder.where(options.attrs) 
+        if(first) builder.first();
+        return await builder;
     }
 
     async findByPK(pk: PK, fields?:string[]): Promise<T> {

@@ -51,7 +51,7 @@ type optionsFindByPkPersonalWithUsers = {
     fields?: string[] | null,
     userFields?: string[] | null
 }
-export interface PersonalRepository extends Repository{
+export interface PersonalRepository extends Repository {
     async findAllWithUser(options:optionsFindAllPersonalWithUsers):Promise<Personal[]>
     async findByWithUser(options:optionsFindByPersonalWithUsers):Promise<Personal[]>
     async findByPKWithUser(options:optionsFindByPkPersonalWithUsers):Promise<Personal>

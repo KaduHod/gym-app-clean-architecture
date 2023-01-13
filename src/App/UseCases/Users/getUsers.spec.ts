@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
 import GetUsersUseCase from './getUsers'
-import MysqlUserRepository from '../../../Infra/Database/Knex/KnexUserRepository'
-import User from "../../../Domain/Entities/User";
 import UserPrismaRepository from "../../../Infra/Database/Prisma/UserPrismaRepository";
+
 describe('Get users use case', () => {
     it('Should query all users with prisma ORM', async () => {
         const useCase = new GetUsersUseCase(

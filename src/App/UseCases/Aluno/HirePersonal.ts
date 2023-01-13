@@ -13,8 +13,8 @@ export default class HirePersonalUseCase
     constructor(
         public personalRepository: PersonalRepository,
         public alunoRepository: AlunoRepository,
-        public alunoid:PK,
-        public personalId:PK
+        public alunoid: PK,
+        public personalId: PK
     ){}
 
     public async main(): Promise<any>
@@ -30,13 +30,16 @@ export default class HirePersonalUseCase
         
         const hireResult = await this
                                     .alunoRepository
-                                    .hirePersonal(this.alunoid, this.personalId)
+                                    .hirePersonal(this.personalId,this.alunoid)
         return hireResult
     }
 
     public async personalExists(): Promise<boolean>
     {
-        return !!(await this.personalRepository.exists(this.personalId))
+        return !!(await this
+                            .personalRepository
+                            .exists(this.personalId)
+                )
     }
 
     public async alunoAlreadyHasPersonal(aluno:Aluno) :Promise<boolean>
@@ -46,9 +49,10 @@ export default class HirePersonalUseCase
 
     public async getAluno(): Promise<Aluno | null>
     {
-        console.log(this.alunoid)
-        const result = await this.alunoRepository.findByPK(this.alunoid)
-        console.log({result})
+        const result = await this
+                                .alunoRepository
+                                .findByPK(this.alunoid);
+
         return AlunoFactory.create(result)
     }
 

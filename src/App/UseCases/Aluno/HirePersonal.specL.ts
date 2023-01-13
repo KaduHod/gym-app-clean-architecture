@@ -25,7 +25,7 @@ describe('Teste hire personal use case', async () => {
         )).main()
     })   
 
-    it('Should hite personal without erros', async () => {
+    it('Should hire personal without erros', async () => {
         if(!aluno.id) throw new Error('User not created for test hite personal');
 
         const useCase = new HirePersonalUseCase(

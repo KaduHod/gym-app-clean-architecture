@@ -6,36 +6,39 @@ import PrismaRepository from "./PrismaRepository";
 import { Prisma } from "@prisma/client";
 
 export default 
-    class UserPrismaRepository
+    class PrismaUserRepository
     extends PrismaRepository
-    implements Repository<User, TUser>
+    implements Repository
 {
-    public conn: any;
+    
     public tableName: any;
 
     constructor()
     {
         super()
-        this.conn = client
         this.tableName = 'users'
     }
     
-    findAll(options?: Prisma.usersFindManyArgs |  any): Promise<User[]> {        
-        return this.conn.users.findMany(options)
+    findAll(options?: Prisma.usersFindManyArgs |  any): Promise<User[] | User | null > {        
+        return this.conn.users.findMany(options) as Promise<User[] | User | null> ;
     }
 
-    findBy(attrs: Partial<TUser>, first?: boolean, fields?: string[] | undefined): Promise<User[]> {
+    findBy(first: boolean, options?: Prisma.usersFindManyArgs | Prisma.usersFindUniqueArgs): Promise<User[]> {
         throw new Error("Method not implemented.");
     }
+
     findByPK(pk: PK, fields?: string[] | undefined): Promise<User> {
         throw new Error("Method not implemented.");
     }
-    save(t: User | User[]): Promise<any> {
-        return this.conn.users.create({data:t})
+
+    save(options: Prisma.usersCreateArgs): Promise<any> {
+        return this.conn.users.create(options)
     }
+
     delete(pk: PK): Promise<any> {
         throw new Error("Method not implemented.");
     }
+    
     exists(pk: PK): Promise<boolean> {
         throw new Error("Method not implemented.");
     }

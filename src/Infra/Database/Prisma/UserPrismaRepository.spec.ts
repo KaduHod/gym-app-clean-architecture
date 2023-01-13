@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import UserPrismaRepository from "./UserPrismaRepository";
+import PrismaUserRepository from "./UserPrismaRepository";
 
 describe('Teste user prisma repository', () => {
-    const userRepository = new UserPrismaRepository()
+    const userRepository = new PrismaUserRepository()
     it('Should get all users', async () => {
         const users = await userRepository.findAll()
         expect(users).toBeTruthy()

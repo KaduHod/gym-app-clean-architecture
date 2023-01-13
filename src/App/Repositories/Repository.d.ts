@@ -10,7 +10,7 @@ export interface Repository {
     tableName:any
     async findAll(
         options?:string[] | any
-    ):Promise<any[]>
+    ):Promise<any[] | any | null>
 
     async findBy( 
         first:boolean = false,

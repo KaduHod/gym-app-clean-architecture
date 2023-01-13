@@ -8,7 +8,7 @@ import { AlunoRepository } from "../../Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
 import { AlunoFactory } from "../../../Domain/Factory/AlunoFactory";
 
-export default class HirePersonal
+export default class HirePersonalUseCase
 {
     constructor(
         public personalRepository: PersonalRepository,
@@ -46,7 +46,10 @@ export default class HirePersonal
 
     public async getAluno(): Promise<Aluno | null>
     {
-        return AlunoFactory.create(await this.alunoRepository.findByPK(this.alunoid))
+        console.log(this.alunoid)
+        const result = await this.alunoRepository.findByPK(this.alunoid)
+        console.log({result})
+        return AlunoFactory.create(result)
     }
 
 

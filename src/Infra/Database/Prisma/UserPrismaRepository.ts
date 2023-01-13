@@ -20,7 +20,10 @@ export default
     }
     
     findAll(options?: Prisma.usersFindManyArgs |  any): Promise<User[] | User | null > {        
-        return this.conn.users.findMany(options) as Promise<User[] | User | null> ;
+        return this
+                .conn
+                .users
+                .findMany(options) as Promise<User[] | User | null> ;
     }
 
     findBy(first: boolean, options?: Prisma.usersFindManyArgs | Prisma.usersFindUniqueArgs): Promise<User[]> {
@@ -31,14 +34,17 @@ export default
         throw new Error("Method not implemented.");
     }
 
-    save(options: Prisma.usersCreateArgs): Promise<any> {
-        return this.conn.users.create(options)
+    save(user: Prisma.usersCreateInput): Promise<any> {
+        return this
+                .conn
+                .users
+                .create({data:user})
     }
 
     delete(pk: PK): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    
+
     exists(pk: PK): Promise<boolean> {
         throw new Error("Method not implemented.");
     }

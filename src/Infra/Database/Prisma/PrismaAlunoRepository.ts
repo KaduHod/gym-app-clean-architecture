@@ -33,21 +33,36 @@ export default
     {
 
     }
-    findBy(first:boolean, options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs): Promise<Aluno[]> 
+    findBy(first:boolean, options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs): Promise<Aluno[] | null> 
     {
         throw new Error("Method not implemented.");
     }
-    findByPK(pk: PK, fields?: string[] | undefined): Promise<Aluno> {
-        throw new Error("Method not implemented.");
+    async findByPK(pk:PK): Promise<Aluno | null> 
+    {
+        return await this
+                        .conn
+                        .alunos
+                        .findUnique({where:{id:pk}}) as Aluno;
     }
-    save(t: Aluno | Aluno[]): Promise<any> {
-        throw new Error("Method not implemented.");
+    async save(options: Prisma.alunosUncheckedCreateInput): Promise<Aluno | null> {
+        return await this 
+                        .conn 
+                        .alunos
+                        .create({
+                            data: options
+                        }) as Aluno;
     }
     delete(pk: PK): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    exists(pk: PK): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async exists(pk: PK): Promise<boolean> {
+        return !!(await this
+                            .conn
+                            .personais
+                            .findUnique({
+                                where:{id:pk},
+                                select:{id:true}
+                            }));
     }
 
 }

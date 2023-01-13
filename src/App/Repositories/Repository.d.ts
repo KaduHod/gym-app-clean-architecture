@@ -51,10 +51,11 @@ type optionsFindByPkPersonalWithUsers = {
     fields?: string[] | null,
     userFields?: string[] | null
 }
-export interface PersonalRepository extends Repository {
-    async findAllWithUser(options:optionsFindAllPersonalWithUsers):Promise<Personal[]>
-    async findByWithUser(options:optionsFindByPersonalWithUsers):Promise<Personal[]>
-    async findByPKWithUser(options:optionsFindByPkPersonalWithUsers):Promise<Personal>
+export interface PersonalRepository extends Repository 
+{
+    async findAllWithUser(options:optionsFindAllPersonalWithUsers | any): Promise<Personal[]>
+    async findByWithUser(options:optionsFindByPersonalWithUsers | any): Promise<Personal[]>
+    async findByPKWithUser(options:optionsFindByPkPersonalWithUsers | any): Promise<Personal>
 }
 
 export type MusclesFromExerciseOptions = string[]

@@ -124,7 +124,7 @@ CREATE TABLE `exercise_muscle` (
   PRIMARY KEY (`id`),
   KEY `exercise_muscle_muscle_id_foreign` (`muscle_id`),
   KEY `exercise_muscle_exercise_id_foreign` (`exercise_id`),
-  CONSTRAINT `exercise_muscle_muscle_id_foreign` FOREIGN KEY (`muscle_id`) REFERENCES `muscles` (`id`) ON DELETE CASCADE
+  CONSTRAINT `exercise_muscle_muscle_id_foreign` FOREIGN KEY (`muscle_id`) REFERENCES `muscles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `exercise_muscle_exercise_id_foreign` FOREIGN KEY (`exercise_id`) REFERENCES `exercicios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13915 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

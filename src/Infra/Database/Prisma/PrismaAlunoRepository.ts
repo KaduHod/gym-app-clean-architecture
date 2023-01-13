@@ -1,8 +1,6 @@
 import { AlunoRepository, PK } from "../../../App/Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
-import { TAluno } from "../../../Domain/Entities/Entities";
 import PrismaRepository from "./PrismaRepository";
-import {client} from './client'
 import { alunos, Prisma } from "@prisma/client";
 
 export default 
@@ -17,8 +15,14 @@ export default
         this.tableName = 'alunos'
         
     }
-    hirePersonal(personalId: PK, alunoId: PK): Promise<any> {
-        throw new Error("Method not implemented.");
+    async hirePersonal(personalId: PK, alunoId: PK): Promise<any> {
+        return await this
+                        .conn 
+                        .alunos
+                        .update({
+                            where :{id:alunoId},
+                            data: {personal_id: personalId}
+                        })
     }
     
     findAll(options?: Prisma.alunosFindManyArgs): Promise<alunos[]> {

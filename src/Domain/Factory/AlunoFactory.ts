@@ -4,11 +4,9 @@ import Aluno from '../Entities/Aluno'
 import { TAluno } from '../Entities/Entities'
 
 export const AlunoFactory = {
-    create({user_id, personal_id}:TAluno): Aluno 
+    create(attrs:TAluno): Aluno 
     {
-        return new Aluno({
-            user_id, personal_id
-        })
+        return new Aluno(attrs)
     },
     createFromPartialAttributes({user_id, personal_id}:TAluno): Aluno
     {

@@ -1,35 +1,31 @@
 import { TAluno, TPersonal } from "../../../Domain/Entities/Entities";
-import { PK, Repository } from "../../Repositories/Repository";
+import { PersonalRepository, PK, Repository } from "../../Repositories/Repository";
 import Personal from "../../../Domain/Entities/Personal";
 import AlunoNotFound from "../Errors/AlunoNotFound";
 import PersonalNotFoundError from "../Errors/PersonalNotFound";
 import AlunoAlreadyHasPersonal from "../Errors/AlunoAlreadyHasPersonal";
 import { AlunoRepository } from "../../Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
+import { AlunoFactory } from "../../../Domain/Factory/AlunoFactory";
 
 export default class HirePersonal
 {
-    private aluno:Aluno | null;
     constructor(
-        public personalRepository:Repository<Personal, TPersonal>,
-        public alunoRepository:AlunoRepository,
+        public personalRepository: PersonalRepository,
+        public alunoRepository: AlunoRepository,
         public alunoid:PK,
         public personalId:PK
-    ){
-        this.aluno = null
-    }
+    ){}
 
     public async main(): Promise<any>
-    {
-        await this.getAluno()
-        
-        const alunoExists = await this.alunoExists()
-        if(!alunoExists) throw new AlunoNotFound()
+    {        
+        const aluno = await this.getAluno()
+        if(!aluno) throw new AlunoNotFound()
 
         const personalExists = await this.personalExists()
         if(!personalExists) throw new PersonalNotFoundError()
 
-        const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal()
+        const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal(aluno)
         if(alunoAlreadyHasPersonal) throw new AlunoAlreadyHasPersonal()
         
         const hireResult = await this
@@ -38,27 +34,19 @@ export default class HirePersonal
         return hireResult
     }
 
-    public async alunoExists(): Promise<boolean>
-    {
-        if(!this.aluno) await this.getAluno()
-        return !!this.aluno
-        
-    }
-
     public async personalExists(): Promise<boolean>
     {
         return !!(await this.personalRepository.exists(this.personalId))
     }
 
-    public async alunoAlreadyHasPersonal() :Promise<boolean>
+    public async alunoAlreadyHasPersonal(aluno:Aluno) :Promise<boolean>
     {
-        if(!this.aluno) await this.getAluno()
-        return !!this.aluno?.personal_id
+        return !!aluno?.personal_id
     }
 
-    public async getAluno(): Promise<void>
+    public async getAluno(): Promise<Aluno | null>
     {
-        this.aluno = await this.alunoRepository.findByPK(this.alunoid)
+        return AlunoFactory.create(await this.alunoRepository.findByPK(this.alunoid))
     }
 
 

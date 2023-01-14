@@ -5,7 +5,7 @@ import { Repository } from "../../Repositories/Repository";
 export default class GetUsersUseCase 
 {
     constructor(
-        public userRepository: Repository<TUser, User>,
+        public userRepository: Repository,
         public options?:any
     ){}
 

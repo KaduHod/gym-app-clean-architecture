@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import MysqlPersonalRepository from '../../../Infra/Database/Knex/KnexPersonalRepository'
-import MysqlAlunoRepository from "../../../Infra/Database/Knex/KnexAlunoRepository";
+import KnexPersonalRepository from '../../../Infra/Database/Knex/KnexPersonalRepository'
+import KenxAlunoRepository from "../../../Infra/Database/Knex/KnexAlunoRepository";
 import HirePersonal from '../Aluno/HirePersonal'
 import AttachAluno from './attachAluno'
 
 describe('Attach personal', async () => {
-    const personalRepo = new MysqlPersonalRepository;
-    const alunoRepo = new MysqlAlunoRepository;
+    const personalRepo = new KnexPersonalRepository;
+    const alunoRepo = new KenxAlunoRepository;
     const alunoWithoutPersonal = await alunoRepo.getAlunowithoutPersonal()
     const alunoWithoutPersonal2 = alunoWithoutPersonal + 1
     const alunoWithoutPersonal3 = alunoWithoutPersonal + 2

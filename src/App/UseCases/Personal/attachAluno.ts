@@ -1,5 +1,5 @@
 import { TAluno, TPersonal } from "../../../Domain/Entities/Entities";
-import { AlunoRepository, PK, Repository } from "../../Repositories/Repository";
+import { AlunoRepository, PK, PersonalRepository, Repository } from "../../Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
 import Personal from "../../../Domain/Entities/Personal";
 import PersonalNotFoundError from "../Errors/PersonalNotFound";
@@ -11,7 +11,7 @@ export default class AttachAluno
     public aluno: Aluno | null
     constructor(
         public alunoRepository:AlunoRepository,
-        public personalRepository:Repository<Personal, TPersonal>,
+        public personalRepository:PersonalRepository,
         public personalId: PK,
         public alunoId: PK
     ){

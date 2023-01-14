@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import PrismaUserRepository from "./UserPrismaRepository";
+import PrismaUserRepository from "./PrismaUserRepository";
 
 describe('Teste user prisma repository', () => {
     const userRepository = new PrismaUserRepository()

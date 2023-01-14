@@ -1,16 +1,24 @@
-import { PK, Repository } from "../../../App/Repositories/Repository";
+import { AlunoRepository, PK, Repository } from "../../../App/Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
 import { TAluno } from "../../../Domain/Entities/Entities";
 import { readFile, writeFile } from "fs/promises";
 
 export default
     class InMemoryAlunoRepository
-    implements Repository<Aluno, TAluno>
+    implements AlunoRepository
 {
     private path:string
     constructor()
     {
         this.path = 'src/Infra/Database/InMemory/Data/Alunos.json'
+    }
+    hirePersonal(personalId: number, alunoId: number): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
+    conn: any;
+    tableName: any;
+    exists(pk: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
     }
     public async findAll(): Promise<Aluno[]> {
         return JSON.parse(await readFile(this.path, 'utf8'))

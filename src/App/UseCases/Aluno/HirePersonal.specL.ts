@@ -3,7 +3,7 @@ import Aluno from "../../../Domain/Entities/Aluno";
 import { UserFactory } from "../../../Domain/Factory/UserFactory";
 import PrismaAlunoRepository from "../../../Infra/Database/Prisma/PrismaAlunoRepository";
 import PrismaPersonalRepository from "../../../Infra/Database/Prisma/PrismaPersonalRepository";
-import PrismaUserRepository from "../../../Infra/Database/Prisma/UserPrismaRepository";
+import PrismaUserRepository from "../../../Infra/Database/Prisma/PrismaUserRepository";
 import RegisterAlunoUseCase from "../Registration/registerAluno";
 import RegisterUserUseCase from "../Registration/resgiterUser";
 import HirePersonalUseCase from "./HirePersonal";

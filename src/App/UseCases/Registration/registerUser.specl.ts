@@ -4,7 +4,7 @@ import { TUser } from "../../../Domain/Entities/Entities";
 import { UserFactory } from '../../../Domain/Factory/UserFactory'
 import MysqlUserRepository from '../../../Infra/Database/Knex/KnexUserRepository';
 import RegisterUserUseCase from './resgiterUser'
-import UserPrismaRepository from '../../../Infra/Database/Prisma/UserPrismaRepository';
+import UserPrismaRepository from '../../../Infra/Database/Prisma/PrismaUserRepository';
 
 describe('Use case register user', () => {
     const prismaUserRepo = new UserPrismaRepository()

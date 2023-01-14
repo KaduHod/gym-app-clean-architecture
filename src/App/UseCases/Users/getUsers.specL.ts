@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import GetUsersUseCase from './getUsers'
-import UserPrismaRepository from "../../../Infra/Database/Prisma/UserPrismaRepository";
+import UserPrismaRepository from "../../../Infra/Database/Prisma/PrismaUserRepository";
 
 describe('Get users use case', () => {
     it('Should query all users with prisma ORM', async () => {

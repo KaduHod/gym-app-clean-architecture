@@ -31,7 +31,7 @@ export default abstract class
         
     }
 
-    async findBy(first:boolean,options?:{attrs: Partial<TT>, first?:boolean, fields?:string[]}): Promise<T[]> {
+    async findBy(options?:{attrs: Partial<TT>, first?:boolean, fields?:string[]},first?:boolean): Promise<T[]> {
         const builder = this.conn(this.tableName);
         if(options?.attrs) builder.where(options.attrs) 
         if(first) builder.first();

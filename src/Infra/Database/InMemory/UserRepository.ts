@@ -6,17 +6,21 @@ import User from "../../../Domain/Entities/User";
 
 export default 
     class InMemoryUserRepository 
-    implements Repository<User, TUser>
+    implements Repository
 {
     public path:string
     constructor(){
         this.path = 'src/Infra/Database/InMemory/Data/Users.json'
     }
+    conn: any;
+    tableName: any;
+    exists(pk: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
     public async findWhere(conditions: Function): Promise<User[] | null> {
         return (await this.findAll()).filter(user => conditions(user));
     }
     public async findAll(): Promise<User[]> {
-        console.log('Auqi')
         const file = await readFile(this.path, 'utf8')        
         return JSON.parse(file)
     }   

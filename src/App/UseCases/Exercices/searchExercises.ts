@@ -4,6 +4,6 @@ import { Repository } from "../../Repositories/Repository";
 export default class SearchExercises
 {
     constructor(
-        public exercisesRepository:Repository<Exercicio, TExercicio>
+        public exercisesRepository:Repository
     ){}
 } 

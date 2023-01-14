@@ -20,7 +20,7 @@ const users = [
 import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
-import UserPrismaRepository from "../Database/Prisma/UserPrismaRepository"
+import UserPrismaRepository from "../Database/Prisma/PrismaUserRepository"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 
@@ -57,7 +57,6 @@ export default {
             context:any)
         {
             const graphQuery = graphQlMapper.toJson(context.params.query)
-            
             const userFields = PrismaMapper.aluno.getUserFields(graphQuery)
             const alunoFields = PrismaMapper.aluno.getAlunoFields(graphQuery)
             const alunosOptionsQuery = PrismaMapper.aluno.queryOption({

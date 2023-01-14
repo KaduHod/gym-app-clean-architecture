@@ -40,25 +40,25 @@ export const toJson = (string:string): GraphQlJson =>
       }
       return result
   }
-  
-  const setQuotationMarks = (array:string[]) => {
-      return array.map( item => {
-        let splited = item.trim().split(':');
+
+  const setQuotationMarks = (item:string, index?:number) => {
+    let splited = item.trim().split(':');
         if(splited.length > 1){
           splited[0] = '"' + splited[0].trim() + '":';
           return splited.join('');
         }
-        return item
-      })
-  }  
+    return item
+  }
 
   const main = () => {
         const result = splitByLine(string)
                       .map(jsonfy)
+					  .map(setQuotationMarks)
                       .map(item => item + '\n');
+
         const resultWithComas = setComas(result);
-        const resultWithQuotationMark = setQuotationMarks(resultWithComas)
-        return resultWithQuotationMark.join("")
+		
+        return resultWithComas.join("")
   }
 
   return main();

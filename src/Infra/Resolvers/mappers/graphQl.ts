@@ -53,7 +53,7 @@ export const toJson = (string:string): GraphQlJson =>
   const main = () => {
         const result = splitByLine(string)
                       .map(jsonfy)
-					  .map(setQuotationMarks)
+					            .map(setQuotationMarks)
                       .map(item => item + '\n');
 
         const resultWithComas = setComas(result);

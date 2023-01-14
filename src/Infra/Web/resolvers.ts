@@ -1,22 +1,3 @@
-const users = [
-    {
-        id:1,
-        name:'Carlos',
-        nickname:'KaduHod',
-        email: 'carlos.ribas@gmail.com',
-        password:'123456',
-        cellphone:'2134234932048'
-    },
-    {
-        id:2,
-        name:'Carlos2',
-        nickname:'KaduHod2',
-        email: 'carlos.ribas2@gmail.com',
-        password:'1234562',
-        cellphone:'21342349320482'
-    }
-]
-
 import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
@@ -24,66 +5,70 @@ import UserPrismaRepository from "../Database/Prisma/PrismaUserRepository"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 
+export type GraphQlObject = any
+
+const GrapQlRequest = (fn:Function) => {
+    return (...args:any) => {
+        const body = graphQlMapper.toJson(args[2].params.query);
+        console.log({body})
+        return fn(body);
+    }
+}
+
+let userResolver = async (body:GraphQlObject) => {
+    return await (
+        new GetUsersUseCase(
+            new UserPrismaRepository()
+        )
+    ).main()
+}
+
+let usersResolver  = async (body:GraphQlObject) => {
+    const userFields = PrismaMapper.user.getFields(body)
+    const usersQueryOption = PrismaMapper.user.queryOption({userFields})
+    
+    return await (
+        new GetUsersUseCase(
+            new UserPrismaRepository(), 
+            usersQueryOption
+        )
+    ).main()
+}
+
+let alunosResolver = async (body:GraphQlObject) => {
+    const userFields = PrismaMapper.aluno.getUserFields(body)
+    const alunoFields = PrismaMapper.aluno.getAlunoFields(body)
+    const alunosOptionsQuery = PrismaMapper.aluno.queryOption({
+        userFields, alunoFields
+    })
+    return await (
+        new getAlunosUseCase(
+            new PrismaAlunoRepository(),
+            alunosOptionsQuery
+        )
+    ).execute();
+}
+
+let exercisesResolver = async (body:GraphQlObject) => {
+    return [{
+        id:1,
+        name:'Supino',
+        force: 'pull',
+        link: 'http://google.com',
+        execution: ' nice and easy'
+    }]
+}
+
+usersResolver = GrapQlRequest(usersResolver);
+alunosResolver = GrapQlRequest(alunosResolver);
+exercisesResolver = GrapQlRequest(exercisesResolver);
+userResolver = GrapQlRequest(userResolver);
+
 export default {
     Query:{
-        async user(){
-            return await (
-                new GetUsersUseCase(
-                    new UserPrismaRepository()
-                )
-            ).main()
-        },
-
-        async users(
-            _:any, 
-            _args:any, 
-            context:any
-        ){
-            const graphQuery = graphQlMapper.toJson(context.params.query)
-            const userFields = PrismaMapper.user.getFields(graphQuery)
-            const usersQueryOption = PrismaMapper.user.queryOption({userFields})
-                        
-            return await (
-                new GetUsersUseCase(
-                    new UserPrismaRepository(), 
-                    usersQueryOption
-                )
-            ).main()
-        },
-
-        async alunos(
-            _:any, 
-            _args:any, 
-            context:any)
-        {
-            const graphQuery = graphQlMapper.toJson(context.params.query)
-            const userFields = PrismaMapper.aluno.getUserFields(graphQuery)
-            const alunoFields = PrismaMapper.aluno.getAlunoFields(graphQuery)
-            const alunosOptionsQuery = PrismaMapper.aluno.queryOption({
-                userFields, alunoFields
-            })
-
-            return await (
-                new getAlunosUseCase(
-                    new PrismaAlunoRepository(),
-                    alunosOptionsQuery
-                )
-            ).execute();
-        },
-
-        async exercises(
-            _:any, 
-            params:any, 
-            context:any
-        )
-        {
-            return [{
-                id:1,
-                name:'Supino',
-                force: 'pull',
-                link: 'http://google.com',
-                execution: ' nice and easy'
-            }]
-        }
+        user: userResolver,
+        users: usersResolver,
+        alunos: alunosResolver,
+        exercises: exercisesResolver
     }
 }

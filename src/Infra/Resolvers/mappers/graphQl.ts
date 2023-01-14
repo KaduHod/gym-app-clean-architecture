@@ -58,7 +58,7 @@ export const toJson = (string:string): GraphQlJson =>
 
         const resultWithComas = setComas(result);
 		
-        return resultWithComas.join("")
+        return JSON.parse(resultWithComas.join(""))
   }
 
   return main();

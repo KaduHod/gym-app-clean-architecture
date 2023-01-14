@@ -2,18 +2,14 @@ import { GraphQlJson } from '../../../Resolvers/mappers/graphQl'
 import { isObject } from '../../../../Helpers/Objects'
 import { PrismaAlunoQueryOptions, PrismaUserQueryOptions } from '../querys'
 import { Prisma } from '@prisma/client'
+import { GraphQlObject } from '../../../Web/resolvers'
 
 
 const PrismaMapper = {
-    jsonToQuery(jsonString:GraphQlJson): any
-    {
-        const json = JSON.parse(jsonString)
-        console.log(json)
-    },
     user: {
-        getFields(jsonString:GraphQlJson): string[]
+        getFields(body:GraphQlObject): string[]
         {
-            const users = JSON.parse(jsonString).users
+            const users = body.users
             const userFields = Object.keys(users)
             return userFields.filter( (field:string) => !isObject(users[field]));
         },
@@ -26,16 +22,16 @@ const PrismaMapper = {
         }
     },
     aluno: {
-        getUserFields(jsonString:GraphQlJson): string[]
+        getUserFields(body:GraphQlObject): string[]
         {
-            const user = JSON.parse(jsonString).alunos?.user
+            const user = body.alunos?.user
             if(!user) return [];
             const userFields = Object.keys(user)
             return userFields.filter( (field:string) => !isObject(user[field]));
         },
-        getAlunoFields(jsonString:GraphQlJson): string[]
+        getAlunoFields(body:GraphQlObject): string[]
         {
-            const aluno = JSON.parse(jsonString).alunos
+            const aluno = body.alunos
             const alunoFields = Object.keys(aluno)
             return alunoFields.filter((field:string) => !isObject(aluno[field]));
         },

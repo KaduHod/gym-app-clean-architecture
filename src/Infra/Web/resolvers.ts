@@ -5,7 +5,9 @@ import UserPrismaRepository from "../Database/Prisma/PrismaUserRepository"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 
-export type GraphQlObject = any
+export type GraphQlObject = {
+    [key:string]:any
+}
 
 const GrapQlRequest = (fn:Function) => {
     return (...args:any) => {

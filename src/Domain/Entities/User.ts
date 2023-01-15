@@ -2,6 +2,8 @@ import { PK } from "../../App/Repositories/Repository";
 import { Entity, TUser } from "./Entities";
 import { randomUUID } from "crypto"
 import Password from "../../Helpers/Password";
+import { Print } from "./Decorators";
+
 
 export default 
     class User 
@@ -13,6 +15,7 @@ export default
     public email:string
     public password:string
 
+    
     constructor(attributes:TUser){
         this.id = attributes.id
         this.name = attributes.name

@@ -41,35 +41,4 @@ describe('Teste Prisma Exercise Repository prisma', () => {
 
         expect(result).toBeTruthy();
     })
-
-    it('test', async () => {
-        let query = {
-            "select":{
-                "id":true,
-                "name":true,
-                "muscles":{
-                    "select":{
-                        "muscle":{
-                            "select":{
-                                "id":true,
-                                "name" : true
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        const repo = new PrismaExercicioRepository()
-        const case_ = new GetExercisesUseCase(
-            repo, query
-        )
-
-        
-        const result = await case_.main()
-        result.forEach((item:any) => {
-            console.log(item.muscles)
-        })
-        // console.log(result)
-       
-    })
 })

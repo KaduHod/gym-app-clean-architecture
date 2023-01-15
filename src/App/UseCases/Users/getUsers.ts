@@ -2,7 +2,7 @@ import { TUser } from "../../../Domain/Entities/Entities";
 import User from "../../../Domain/Entities/User";
 import { Repository } from "../../Repositories/Repository";
 
-export default class GetUsersUseCase 
+export default class GetUsersUseCase<RepositoryQueryOptions>
 {
     constructor(
         public userRepository: Repository,

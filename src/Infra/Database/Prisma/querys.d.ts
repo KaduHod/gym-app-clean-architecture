@@ -6,3 +6,8 @@ export type PrismaAlunoQueryOptions = {
 export type PrismaUserQueryOptions = {
     userFields: string[]
 }
+
+export type PrismaExerciseQueryOptions = {
+    exercicioFields?: string[],
+    muscleFields?: string[]
+}

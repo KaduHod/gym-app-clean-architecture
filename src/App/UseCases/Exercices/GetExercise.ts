@@ -5,7 +5,7 @@ import { ExerciseRepository, PK } from "../../Repositories/Repository";
 import ExerciseNotFound from "../Errors/ExerciseNotFound";
 
 export default 
-    class GetExerciseUseCase
+    class GetExerciseUseCase<RepositoryQueryOptions>
 {
     constructor(
         public exerciseRepository: ExerciseRepository,

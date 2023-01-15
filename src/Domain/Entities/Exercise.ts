@@ -13,7 +13,7 @@ export default
 
     constructor(
         attrs:TExercicio,
-        public muscles:TExerciseMuscle[] | null
+        public muscles?:TExerciseMuscle[] | null
     ){
         this.id = attrs.id ?? null
         this.name = attrs.name

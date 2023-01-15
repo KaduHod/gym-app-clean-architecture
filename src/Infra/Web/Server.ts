@@ -20,5 +20,5 @@ const app = express()
 
 app.use('/', yoga)
 
- app.listen(PORT, () => console.log(`Server running at port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
 

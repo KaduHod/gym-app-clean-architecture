@@ -1,4 +1,4 @@
-export default  class LoginUseCase
+export default  class LoginUseCase<RepositoryQueryOptions>
 {
     
 }

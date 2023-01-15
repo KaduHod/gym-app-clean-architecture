@@ -2,7 +2,7 @@ import { TAluno } from "../../../Domain/Entities/Entities";
 import { AlunoRepository, Repository } from "../../Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
 
-export default class SearchWorkouts
+export default class SearchWorkouts<RepositoryQueryOptions>
 {
     constructor(
         public periodizacoesRepository:Repository,

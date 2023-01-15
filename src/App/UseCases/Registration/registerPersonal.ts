@@ -6,7 +6,7 @@ import UserNotFoundError from "../Errors/UserNotFound";
 import User from "../../../Domain/Entities/User";
 
 
-export default class RegisterPersonalUseCase
+export default class RegisterPersonalUseCase<RepositoryQueryOptions>
 {
     constructor(
         public personalRepository: PersonalRepository,

@@ -3,6 +3,7 @@ import Exercise from "../../../Domain/Entities/Exercise";
 import MysqlExerciseRepository from "../../../Infra/Database/Knex/KnexExerciseRepository";
 import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExercicioRepository";
 import GetExerciseUseCase from "./GetExercise";
+import { TMuscle } from "../../../Domain/Entities/Entities";
 
 describe('Get Exercise use case', () => {
     const exercicioRepo = new PrismaExercicioRepository;
@@ -18,7 +19,9 @@ describe('Get Exercise use case', () => {
 
     it('Should  throw error Exercise not found', async () => {
         const useCase = new GetExerciseUseCase(
-            exercicioRepo, {where:{id:38743894}}
+            exercicioRepo, {
+                where:{id:38743894}
+            }
         )
 
         const queryResult = useCase.main()

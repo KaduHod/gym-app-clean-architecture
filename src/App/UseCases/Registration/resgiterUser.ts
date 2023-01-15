@@ -3,7 +3,7 @@ import { Repository } from "../../Repositories/Repository";
 import User from "../../../Domain/Entities/User";
 import { UserFactory } from "../../../Domain/Factory/UserFactory";
 
-export default class RegisterUserUseCase
+export default class RegisterUserUseCase<RepositoryQueryOptions>
 {
     constructor(
         public userRepository: Repository,

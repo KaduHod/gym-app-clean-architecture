@@ -43,7 +43,7 @@ export default
                         .findMany(options as Prisma.exerciciosFindManyArgs)
     }
 
-    async findByPK(options:Prisma.exerciciosFindUniqueArgs): Promise<Exercicio | null> 
+    async findByPK(options: Prisma.exerciciosFindUniqueArgs): Promise<Exercicio | null> 
     {
         return await this
                         .conn

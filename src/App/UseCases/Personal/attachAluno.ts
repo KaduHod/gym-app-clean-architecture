@@ -6,7 +6,7 @@ import PersonalNotFoundError from "../Errors/PersonalNotFound";
 import AlunoNotFound from "../Errors/AlunoNotFound";
 import AlunoAlreadyHasPersonal from "../Errors/AlunoAlreadyHasPersonal";
 
-export default class AttachAluno
+export default class AttachAluno<RepositoryQueryOptions>
 {
     public aluno: Aluno | null
     constructor(

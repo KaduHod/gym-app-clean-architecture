@@ -4,7 +4,7 @@ import Aluno from "../../../Domain/Entities/Aluno";
 import { AlunoFactory } from "../../../Domain/Factory/AlunoFactory";
 import User from "../../../Domain/Entities/User";
 
-export default class RegisterAlunoUseCase
+export default class RegisterAlunoUseCase<RepositoryQueryOptions>
 {
     constructor(
         public alunoRepository: AlunoRepository,

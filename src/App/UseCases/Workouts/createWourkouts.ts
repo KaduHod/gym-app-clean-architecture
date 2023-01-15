@@ -1,6 +1,6 @@
 import { AlunoRepository, PersonalRepository, Repository } from "../../Repositories/Repository";
 
-export default class CreateWorkout 
+export default class CreateWorkout<RepositoryQueryOptions>
 {
     constructor(
         public exerciseRepository:Repository,

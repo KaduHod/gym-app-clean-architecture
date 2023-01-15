@@ -1,4 +1,4 @@
-import { beforeAll, describe, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import Aluno from "../../../Domain/Entities/Aluno";
 import { UserFactory } from "../../../Domain/Factory/UserFactory";
 import PrismaAlunoRepository from "../../../Infra/Database/Prisma/PrismaAlunoRepository";
@@ -7,6 +7,7 @@ import PrismaUserRepository from "../../../Infra/Database/Prisma/PrismaUserRepos
 import RegisterAlunoUseCase from "../Registration/registerAluno";
 import RegisterUserUseCase from "../Registration/resgiterUser";
 import HirePersonalUseCase from "./HirePersonal";
+import { Prisma } from "@prisma/client";
 
 describe('Teste hire personal use case', async () => {
     let user:any;
@@ -26,7 +27,7 @@ describe('Teste hire personal use case', async () => {
     })   
 
     it('Should hire personal without erros', async () => {
-        if(!aluno.id) throw new Error('User not created for test hite personal');
+        if(!aluno.id) throw new Error('User not created for test hire personal');
 
         const useCase = new HirePersonalUseCase(
             personalRepo,
@@ -37,6 +38,6 @@ describe('Teste hire personal use case', async () => {
 
         const result = await useCase.main()
 
-        console.log({result})
+        expect(result.personal_id).toBeTruthy()
     })
 })

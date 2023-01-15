@@ -4,22 +4,24 @@ import { ExerciseFactory } from "../../../Domain/Factory/ExerciseFactory";
 import ExerciseNotFound from "../Errors/ExerciseNotFound";
 import { TExercicio, TExerciseMuscle, TExerciseMuscleRole } from "../../../Domain/Entities/Entities";
 
-export default class GetExerciseAndHisMuscles
+export default class GetExerciseAndHisMuscles<RepositoryQueryOptions>
 {
     constructor(
         public exerciseRepository: ExerciseRepository,
-        public options: any | {fillds :MusclesFromExerciseOptions, roles:TExerciseMuscleRole[] | null, exerciseId:PK}
+        public options: RepositoryQueryOptions 
     ){}
 
     public async main(): Promise<Exercise>
     {
-        const exercise:any = await this.exerciseRepository.findByPK(this.options)
-        if(!exercise) throw new ExerciseNotFound()
-        return this.mountExercise(exercise)
+        let exerciseDB:any = await this.exerciseRepository.findByPK(this.options)
+        if(!exerciseDB) throw new ExerciseNotFound()
+        return this.mountExercise(exerciseDB);
     }
 
     public mountExercise(exercise:any): Exercise
     {
+        if(!exercise.muscles) return ExerciseFactory.create(exercise);
+
         return ExerciseFactory.create(
             exercise as TExercicio, 
             exercise.muscles as TExerciseMuscle[]

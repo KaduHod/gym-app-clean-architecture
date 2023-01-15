@@ -1,9 +1,12 @@
-import getAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
+import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
+import GetExercisesUseCase from "../../App/UseCases/Exercices/GetExercises"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
-import UserPrismaRepository from "../Database/Prisma/PrismaUserRepository"
+import PrismaUserRepository from "../Database/Prisma/PrismaUserRepository"
+import PrismaExercicioRepository from "../Database/Prisma/PrismaExercicioRepository"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
+import { writeFile } from "fs/promises"
 
 export type GraphQlObject = {
     [key:string]:any
@@ -13,6 +16,7 @@ const GrapQlRequest = (fn:Function) => {
     return (...args:any) => {
         const body = graphQlMapper.toJson(args[2].params.query);
         console.log({body})
+        console.log(JSON.stringify(body))
         return fn(body);
     }
 }
@@ -20,7 +24,7 @@ const GrapQlRequest = (fn:Function) => {
 let userResolver = async (body:GraphQlObject) => {
     return await (
         new GetUsersUseCase(
-            new UserPrismaRepository()
+            new PrismaUserRepository()
         )
     ).main()
 }
@@ -31,7 +35,7 @@ let usersResolver  = async (body:GraphQlObject) => {
     
     return await (
         new GetUsersUseCase(
-            new UserPrismaRepository(), 
+            new PrismaUserRepository(), 
             usersQueryOption
         )
     ).main()
@@ -44,7 +48,7 @@ let alunosResolver = async (body:GraphQlObject) => {
         userFields, alunoFields
     })
     return await (
-        new getAlunosUseCase(
+        new GetAlunosUseCase(
             new PrismaAlunoRepository(),
             alunosOptionsQuery
         )
@@ -52,13 +56,18 @@ let alunosResolver = async (body:GraphQlObject) => {
 }
 
 let exercisesResolver = async (body:GraphQlObject) => {
-    return [{
-        id:1,
-        name:'Supino',
-        force: 'pull',
-        link: 'http://google.com',
-        execution: ' nice and easy'
-    }]
+    const exercicioFields = PrismaMapper.exercicio.getFields(body)
+    const muscleFields = PrismaMapper.exercicio.getMuscleFields(body)
+    const queryOptions = PrismaMapper.exercicio.queryOption({
+        exercicioFields, muscleFields
+    })
+    
+    return await (
+        new GetExercisesUseCase(
+            new PrismaExercicioRepository(),
+            queryOptions
+        )
+    ).main()
 }
 
 usersResolver = GrapQlRequest(usersResolver);

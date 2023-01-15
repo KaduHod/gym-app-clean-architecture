@@ -1,7 +1,7 @@
 import Personal from "../../../Domain/Entities/Personal";
 import { optionsFindByPersonalWithUsers, PersonalRepository } from "../../Repositories/Repository";
 
-export default class GetPersonalUseCase
+export default class GetPersonalUseCase<RepositoryQueryOptions>
 {
     constructor(
         public personalRepository: PersonalRepository,

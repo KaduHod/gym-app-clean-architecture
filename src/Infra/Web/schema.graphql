@@ -19,8 +19,9 @@ type Exercise {
 type Muscle {
     id: ID!
     name: String!
-    image: String!
+    image: String
     exercises: [Exercise]
+    role: String
 }
 
 type Aluno {

@@ -41,7 +41,7 @@ export type TExercicio = Entity & {
 }
 
 export type Exercicio = Entity & {
-
+    
 }
 
 export type Periodizacao = Entity & {

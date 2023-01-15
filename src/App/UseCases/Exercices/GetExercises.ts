@@ -6,20 +6,15 @@ export default class GetExercisesUseCase<RepositoryQueryOptions>
 {
     constructor(
         public exerciseRepository: Repository,
-        public options?: any
+        public options?: any,
+        public mapper?: Function
     ){}
 
     async main(): Promise<Exercicio[]>
     {
         let queryResult = this.options ? this.exerciseRepository.findAll(this.options) : this.exerciseRepository.findAll();
+        if(this.mapper) return this.mapper(await queryResult)
         
-        return this.mount(await queryResult)
-    }
-
-    mount(queryResult:any)
-    {
-        return queryResult.map((item:any) => {
-            return {...item, muscles: item.muscles.map((item:any) => item.muscle)}
-        })
+        return await queryResult
     }
 }

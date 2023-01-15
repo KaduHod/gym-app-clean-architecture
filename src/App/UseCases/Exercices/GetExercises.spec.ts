@@ -1,6 +1,9 @@
 
 import { describe, expect, it } from "vitest";
 import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExercicioRepository";
+import GetExercisesUseCase from "./GetExercises";
+import PrismaMapper from "../../../Infra/Database/Prisma/Mappers/prisma";
+import { Exercicio } from "../../../Domain/Entities/Entities";
 
 describe('Test use case get exercises', () => {
     const prismaRepo = new PrismaExercicioRepository()
@@ -12,5 +15,36 @@ describe('Test use case get exercises', () => {
         const result = await prismaRepo.findAll({where:{id:1000}})
         expect(result.length).toEqual(1)
         expect(result).toBeTruthy()
+    })
+
+    it('Should get Exercises mapped in useCAse', async () => {
+        const useCase = new GetExercisesUseCase(
+            prismaRepo,
+            {
+                select : {
+                    id:true,
+                    name:true,
+                    force:true,
+                    link:true,
+                    muscles : {
+                        select : {
+                            muscle : {
+                                select : {
+                                    id: true,
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            PrismaMapper.exercicio.toArrExercicios
+        );
+
+        const result = await useCase.main()
+        let check = result.filter((exercicio) => exercicio.constructor.name !== 'Exercise')
+
+        expect(check.length).toBeFalsy()
+
     })
 })

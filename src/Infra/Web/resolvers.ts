@@ -15,7 +15,6 @@ export type GraphQlObject = {
 const GrapQlRequest = (fn:Function) => {
     return (...args:any) => {
         const body = graphQlMapper.toJson(args[2].params.query);
-        console.log({body})
         console.log(JSON.stringify(body))
         return fn(body);
     }
@@ -47,6 +46,7 @@ let alunosResolver = async (body:GraphQlObject) => {
     const alunosOptionsQuery = PrismaMapper.aluno.queryOption({
         userFields, alunoFields
     })
+
     return await (
         new GetAlunosUseCase(
             new PrismaAlunoRepository(),
@@ -60,12 +60,13 @@ let exercisesResolver = async (body:GraphQlObject) => {
     const muscleFields = PrismaMapper.exercicio.getMuscleFields(body)
     const queryOptions = PrismaMapper.exercicio.queryOption({
         exercicioFields, muscleFields
-    })
+    })  
     
     return await (
         new GetExercisesUseCase(
             new PrismaExercicioRepository(),
-            queryOptions
+            queryOptions,
+            PrismaMapper.exercicio.toArrExercicios
         )
     ).main()
 }

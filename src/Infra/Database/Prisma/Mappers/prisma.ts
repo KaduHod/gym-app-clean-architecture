@@ -1,12 +1,14 @@
 import { GraphQlJson } from '../../../Resolvers/mappers/graphQl'
 import { isObject } from '../../../../Helpers/Objects'
-import { Prisma } from '@prisma/client'
+import { Prisma, exercicios } from '@prisma/client'
 import { GraphQlObject } from '../../../Web/resolvers'
 import { 
     PrismaAlunoQueryOptions, 
     PrismaExerciseQueryOptions, 
     PrismaUserQueryOptions 
 } from '../querys'
+import { Exercicio, TMuscle } from '../../../../Domain/Entities/Entities'
+import { ExerciseFactory } from '../../../../Domain/Factory/ExerciseFactory'
 
 
 
@@ -101,7 +103,6 @@ const PrismaMapper = {
                 if(!queryOptions.select.muscles) queryOptions.select.muscles = {} as Prisma.exercicios$musclesArgs
 
                 queryOptions.select.muscles = muscleFields.reduce((acc: Prisma.exercicios$musclesArgs, curr: string) => {
-                    // console.log({curr})
                     if(curr === 'role'){
                         if(!acc.select) acc.select = {} as Prisma.exercise_muscleSelect
                         acc.select.role = true
@@ -119,6 +120,13 @@ const PrismaMapper = {
             }
 
             return queryOptions
+        },
+        toArrExercicios(exercicios: any[]): Exercicio[]
+        {
+            return exercicios.map(({muscles, ...item}:any) => {
+                muscles = muscles.map(({muscle, role}:any) => ({...muscle, role})) as TMuscle
+                return ExerciseFactory.create(item, muscles) 
+            })
         }
     }
 }

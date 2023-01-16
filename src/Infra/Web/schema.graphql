@@ -34,4 +34,5 @@ type Query {
     user(id: ID!):User 
     alunos : [Aluno]
     exercises: [Exercise]
+    exercise(id:ID, name:String): Exercise
 }

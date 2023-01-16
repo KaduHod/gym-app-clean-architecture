@@ -5,7 +5,7 @@
   "main": "./src/Infra/Web/Server.ts",
   "scripts": {
     "test": "vitest",
-    "web:serve": "npx nodemon --legacy-watch ./src/Infra/Web/Server.ts"
+    "web:serve": "nodemon ./src/Infra/Web/Server.ts"
   },
   "repository": {
     "type": "git",

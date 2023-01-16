@@ -72,16 +72,24 @@ let exercisesResolver = async (body:GraphQlObject) => {
     ).main()
 }
 
+let exerciseResolver = async(body:GraphQlObject, params:object) => {
+    return []
+}
+
 usersResolver = GrapQlRequest(usersResolver);
+userResolver = GrapQlRequest(userResolver);
 alunosResolver = GrapQlRequest(alunosResolver);
 exercisesResolver = GrapQlRequest(exercisesResolver);
-userResolver = GrapQlRequest(userResolver);
+exerciseResolver = GrapQlRequest(exerciseResolver);
+
+
 
 export default {
     Query:{
         user: userResolver,
         users: usersResolver,
         alunos: alunosResolver,
-        exercises: exercisesResolver
+        exercises: exercisesResolver,
+        exercise: exerciseResolver
     }
 }

@@ -50,11 +50,44 @@ export const toJson = (string:string): GraphQlJson =>
     return item
   }
 
+  const getArgs = (string:string) => {
+    const splitByParenteses = string.split('(')[1].split(')')[0]
+    const args = splitByParenteses.split(',').reduce((acc: any, curr) => {
+        const key = curr.split(':')[0].trim();
+        const value = curr.split(':')[1].trim().split('"').join('');
+        acc[key]= value
+        return acc
+    }, {})
+    return args 
+  }
+
+  const isFunction = (arr:string[]) => arr.join('').indexOf('(') > -1 && arr.join('').indexOf(')') > -1;
+
+  const splitFromArgs = (arr:string[]) => {
+    let joined = arr.join('');
+    return [joined.split('(')[0], joined.split(')')[1]].join('');
+  }
+
   const main = () => {
-        const result = splitByLine(string)
+        let result = splitByLine(string)
                       .map(jsonfy)
-					            .map(setQuotationMarks)
-                      .map(item => item + '\n');
+        
+        let args = false;
+        
+        if(isFunction(result)) 
+        {
+          args = getArgs(result[1]);
+          result = splitFromArgs(result)
+        }
+
+
+        result 
+              .map(item => {
+                console.log({item})
+                return item
+              })
+					    .map(setQuotationMarks)
+              .map(item => item + '\n');
 
         const resultWithComas = setComas(result);
 		

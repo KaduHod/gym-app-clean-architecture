@@ -3,11 +3,6 @@ import User from "../../../Domain/Entities/User";
 import { AlunoRepository, Repository } from "../../Repositories/Repository";
 import { Prisma } from "@prisma/client";
 
-type alunoQueryFields = {
-    alunoFields?:string[],
-    userFields?:string[]
-} | any
-
 export default class getAlunosUseCase<RepositoryQueryOptions>
 {
     constructor(

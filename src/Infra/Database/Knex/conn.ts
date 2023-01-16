@@ -15,13 +15,14 @@ export class MysqlDB
 
     public createConn(): Knex
     {
+        console.log(process.env.MYSQL_PORT)
         this.conn = this.isConnected ? this.conn : knex({
             client: 'mysql2',
             connection:{
                 host: process.env.MYSQL_HOST,
-                user: process.env.MYSQL_USER,
+                user: process.env.MYSQL_USERNAME,
                 password : process.env.MYSQL_PASSWORD,
-                port: 4567,
+                port: Number(process.env.MYSQL_PORT),
                 database : process.env.MYSQL_DATABASE
             }
         })

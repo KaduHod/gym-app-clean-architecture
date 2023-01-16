@@ -14,7 +14,7 @@ export type GraphQlObject = {
 
 const GrapQlRequest = (fn:Function) => {
     return (...args:any) => {
-        console.log(args[2].params.query)
+        console.log('Aqui', args[2].params.query)
         const body = graphQlMapper.toJson(args[2].params.query);
         console.log(JSON.stringify(body))
         return fn(body);

@@ -1,12 +1,41 @@
 version: "3.9"
 services:
-  mysql:
-    image: mysql:latest
+  gym-db:
+    env_file:
+      - ./.env
     container_name: gym-db
     hostname: gym-db
     ports:
-      - 3309:3309
+      - ${MYSQL_PORT}:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    build: 
+      context: ./src/Infra/Database/
+      dockerfile: Dockerfile
     volumes:
-      - mysqlVolume:containerPath:ro
+      - ./src/Infra/Database/Dump/:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  gym-app: 
+    stdin_open: true
+    container_name: gym-app
+    hostname: gym-app
+    ports:
+      - 49000:4000
+    depends_on:
+      - gym-db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/app
+    restart: always
+    env_file:
+      - ./.env
+
+networks:
+  gym:
+    driver: bridge

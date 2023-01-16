@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:latest
+    container_name: gym-db
+    hostname: gym-db
+    ports:
+      - 3309:3309
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - mysqlVolume:containerPath:ro

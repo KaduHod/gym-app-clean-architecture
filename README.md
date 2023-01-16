@@ -13,3 +13,9 @@ docker build -t gym-app/node-image .
 
 # Subir container do app
 docker run -d --rm -p 49000:4000 -d --name gym-app gym-app/node-image
+
+# SUBIR COM DOCKER COMPOSE
+- docker compose up --build
+- docker exec -it gym-app sh 
+- npx prisma generate
+- npm run web:serve

@@ -31,8 +31,9 @@ type Aluno {
 
 type Query {
     users : [User]
-    user(id: ID!):User 
+    user(id:ID!):User 
     alunos : [Aluno]
+    aluno(id:ID!): Aluno
     exercises: [Exercise]
-    exercise(id:ID): Exercise
+    exercise(id:ID!): Exercise
 }

@@ -44,28 +44,27 @@ const PrismaMapper = {
     aluno: {
         getUserFields(body:GraphQlObject): string[]
         {
-            const user = body.alunos?.user
+            const user = body.alunos?.user ?? body.alunos?.users ?? body.aluno?.user ?? body.aluno?.users
             if(!user) return [];
             const userFields = Object.keys(user)
             return userFields.filter( (field:string) => !isObject(user[field]));
         },
-        getAlunoFields(body:GraphQlObject): string[]
+        getFields(body:GraphQlObject): string[]
         {
-            const aluno = body.alunos
+            const aluno = body.alunos ?? body.aluno 
             const alunoFields = Object.keys(aluno)
             return alunoFields.filter((field:string) => !isObject(aluno[field]));
         },
-        queryOption({
+        setSelect({
             userFields, 
             alunoFields
-        }:PrismaAlunoQueryOptions): Prisma.alunosFindManyArgs
+        }:PrismaAlunoQueryOptions): Prisma.alunosSelect
         {
-            const queryOptions:Prisma.alunosFindManyArgs = {}
             let select: Prisma.alunosSelect = {}
-            queryOptions.select = select
+            
             if(alunoFields)
             {
-                queryOptions.select = alunoFields.reduce((acc:Prisma.alunosSelect, curr:string) => {
+                select = alunoFields.reduce((acc:Prisma.alunosSelect, curr:string) => {
                     acc[curr as keyof Prisma.alunosSelect] = true
                     return acc
                 },{})
@@ -78,10 +77,21 @@ const PrismaMapper = {
                     acc[curr as keyof Prisma.usersSelect] = true
                     return acc
                 },{})
-                queryOptions.select.user = usersArgs
+                select.user = usersArgs
             }
 
-            return queryOptions
+            return select
+        },
+        setWhere(body:GraphQlObject): Prisma.alunosWhereInput
+        {
+            const user = body.alunos ?? body.aluno 
+            let where = {} as Prisma.alunosWhereInput
+            for(const key in user) 
+            {
+                if(!isParam(user[key])) continue;
+                where[key as keyof Prisma.alunosWhereInput] =  key === 'id' ? Number(user[key]) : user[key];
+            }
+            return where;
         }
     },
     exercicios: {

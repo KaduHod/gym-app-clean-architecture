@@ -13,16 +13,6 @@ describe('Use case register user', () => {
         expect(newUser).toBeInstanceOf(User)
     })
 
-    // it('Should save user', async () => {
-        // const newUser = UserFactory.createRandom()
-        // const useCase = new RegisterUserUseCase(
-            // new MysqlUserRepository(),
-            // {...newUser}
-        // )
-        // const resgitrationResult = await useCase.main() 
-        // expect(resgitrationResult.length).toBeTruthy()
-    // })
-
     it('Should save user with prisma ORM', async () => {
         const newUser = UserFactory.createRandom()
         const useCase = new RegisterUserUseCase(

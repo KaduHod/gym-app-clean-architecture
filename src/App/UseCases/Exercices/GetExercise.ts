@@ -17,10 +17,8 @@ export default
     public async main():Promise<any>
     {
         const exercise = await this.getExercise()
-        if(exercise) return null
+        if(!exercise) return null
         if(this.mapper) return this.mapper(exercise)
-
-        await writeFile('result.json', JSON.stringify(exercise))
         
         return exercise
     }

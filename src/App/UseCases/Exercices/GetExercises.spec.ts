@@ -38,7 +38,7 @@ describe('Test use case get exercises', () => {
                     }
                 }
             },
-            PrismaMapper.exercicio.toArrExercicios
+            PrismaMapper.exercicios.toArrExercicios
         );
 
         const result = await useCase.main()

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import PrismaExercicioRepository from "./PrismaExercicioRepository";
-import GetExercisesUseCase from "../../../App/UseCases/Exercices/GetExercises";
 
 describe('Teste Prisma Exercise Repository prisma', () => {
     const repo = new PrismaExercicioRepository()

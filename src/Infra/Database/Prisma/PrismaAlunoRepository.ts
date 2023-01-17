@@ -33,9 +33,23 @@ export default
     {
 
     }
-    findBy(options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs, first:boolean): Promise<Aluno[] | null> 
+    async findBy(
+        options:Prisma.alunosFindManyArgs | Prisma.alunosFindUniqueArgs, 
+        first:boolean
+    ): Promise<Aluno[] | Aluno | null> 
     {
-        throw new Error("Method not implemented.");
+        if(first)
+        {
+            return await this
+                        .conn
+                        .alunos
+                        .findUnique(options as Prisma.alunosFindUniqueArgs) as Aluno
+        }
+
+        return await this
+                        .conn
+                        .alunos
+                        .findMany(options as Prisma.alunosFindManyArgs) as Aluno[]
     }
     async findByPK(pk:PK): Promise<Aluno | null> 
     {

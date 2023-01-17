@@ -1,5 +1,5 @@
 import { AlunoRepository } from "../../Repositories/Repository";
-export default class GetAlunosUseCase
+export default class GetAlunoUseCase
 {
     constructor(
         public alunoRepository: AlunoRepository,
@@ -10,6 +10,6 @@ export default class GetAlunosUseCase
     {
         return await this
                         .alunoRepository
-                        .findAll(this.options)
+                        .findBy(this.options, true)
     }
 }

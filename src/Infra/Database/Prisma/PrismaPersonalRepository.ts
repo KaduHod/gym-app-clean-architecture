@@ -33,8 +33,22 @@ export default
     findAll(options?: any): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    findBy(options: any, first?: boolean): Promise<any> {
-        throw new Error("Method not implemented.");
+    async findBy(
+        options: Prisma.personaisFindUniqueArgsBase | Prisma.personaisFindManyArgs, 
+        first?: boolean
+    ): Promise<Personal | Personal[] | null> {
+        if(first)
+        {
+            return await this
+                            .conn
+                            .personais
+                            .findUnique(options as Prisma.personaisFindUniqueArgsBase)
+        }
+        
+        return await this
+                        .conn
+                        .personais
+                        .findMany(options as Prisma.personaisFindManyArgs)
     }
     findByPK(pk: PK): Promise<Personal | null> {
         return this

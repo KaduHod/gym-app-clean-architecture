@@ -13,7 +13,7 @@ describe('Get Exercise use case', () => {
             exercicioRepo, {where:{id:882}}
         )
         const queryResult = await useCase.main()
-        
+            
         expect(queryResult).toBeTruthy()
     })
 
@@ -24,8 +24,8 @@ describe('Get Exercise use case', () => {
             }
         )
 
-        const queryResult = useCase.main()
+        const queryResult = await useCase.main()
         
-        await expect(queryResult).rejects.toThrow('Exercise not found!')
+        expect(queryResult).toBeFalsy()
     })
 })

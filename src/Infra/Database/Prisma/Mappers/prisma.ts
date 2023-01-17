@@ -4,11 +4,13 @@ import { Prisma, exercicios } from '@prisma/client'
 import { GraphQlObject } from '../../../Web/resolvers'
 import { 
     PrismaAlunoQueryOptions, 
-    PrismaExerciseQueryOptions, 
+    PrismaExercisesQueryOptions, 
     PrismaUserQueryOptions 
 } from '../querys'
-import { Exercicio, TMuscle } from '../../../../Domain/Entities/Entities'
+import { Exercicio, TExercicio, TMuscle } from '../../../../Domain/Entities/Entities'
 import { ExerciseFactory } from '../../../../Domain/Factory/ExerciseFactory'
+import PrismaExercicioRepository from '../PrismaExercicioRepository'
+import Muscle from '../../../../Domain/Entities/Muscle'
 
 
 
@@ -71,7 +73,7 @@ const PrismaMapper = {
             return queryOptions
         }
     },
-    exercicio: {
+    exercicios: {
         getFields(body:GraphQlObject){
             const exercicio = body.exercises
             const exercicioFields = Object.keys(exercicio)
@@ -86,7 +88,7 @@ const PrismaMapper = {
         queryOption({
             exercicioFields, 
             muscleFields
-        }:PrismaExerciseQueryOptions): Prisma.exerciciosFindManyArgs
+        }:PrismaExercisesQueryOptions): Prisma.exerciciosFindManyArgs
         {
             let queryOptions:Prisma.exerciciosFindManyArgs = {select:{}}
             if(exercicioFields)
@@ -127,6 +129,86 @@ const PrismaMapper = {
                 muscles = muscles.map(({muscle, role}:any) => ({...muscle, role})) as TMuscle
                 return ExerciseFactory.create(item, muscles) 
             })
+        }
+    },
+    exercicio: {
+        getFields(body:GraphQlObject){
+            const exercicio = body?.exercise
+            if(!exercicio) return []
+            return Object.keys(exercicio).filter( key => !isObject(exercicio[key]));
+        },
+        getMuscleFields(body:GraphQlObject){
+            const muscle = body.exercise?.muscles
+            if(!muscle) return []
+            const muscleFields = Object.keys(muscle)
+            return muscleFields.filter((field:string) => !isObject(muscle[field]))
+        },
+        setSelect({
+            exercicioFields, 
+            muscleFields
+        }:PrismaExercisesQueryOptions): any //Prisma.exerciciosSelect
+        {
+            let select = {} as Prisma.exerciciosSelect
+            if(exercicioFields){
+                select = exercicioFields.reduce((acc: Prisma.exerciciosSelect, curr:string) => {
+                    acc[curr as keyof Prisma.exerciciosSelect] = true
+                    return acc
+                }, {})
+            }
+
+            if(muscleFields)
+            {
+                let musclesSelect = {
+                    select: {} as Prisma.exercise_muscleSelect
+                } as Prisma.exercicios$musclesArgs
+
+                let muscle = {} as Prisma.musclesArgs
+                
+                muscleFields.forEach( field => {
+                    if(field === 'role' && musclesSelect.select) {
+                      return musclesSelect.select.role = true
+                    } 
+                    if(typeof musclesSelect.select?.muscle === 'boolean'){
+                        throw new Error('Erro de tipagem do typescript que não identificou tipo Prisma.musclesArgs')
+                    } else {
+                        if(!muscle.select) muscle.select = {} as Prisma.musclesSelect
+                        muscle.select[field as keyof Prisma.musclesSelect] = true
+                    }                
+                })
+                if(muscle.select) {
+                    musclesSelect.select = {
+                        ...musclesSelect.select,
+                        muscle
+                    }
+                }
+                select.muscles = musclesSelect
+            }
+            
+            return select
+        },
+        setWhere(body:GraphQlObject): Prisma.exerciciosWhereInput
+        {
+            const exercicio = body?.exercise
+            if(!exercicio)
+                throw new Error('SetWhere function should not be invoked without exercise in requestBody body');
+            
+
+            const isParam = (item:any) => typeof item === 'string';
+            const where = { } as Prisma.exerciciosWhereInput
+            for(const key in exercicio)
+            {
+                if(!isParam(exercicio[key])) continue;
+                where[key as keyof Prisma.exerciciosWhereInput] = key === 'id' ? Number(exercicio[key]) : exercicio[key]
+            }
+           
+            return where
+        },
+        toGraphQlExercise(exercicio:TExercicio) {
+            exercicio.muscles = exercicio.muscles.map(({role, muscle}:any) => {
+                return {role, ...muscle}
+            })
+
+            return exercicio;
         }
     }
 }

@@ -7,7 +7,7 @@ export type PrismaUserQueryOptions = {
     userFields: string[]
 }
 
-export type PrismaExerciseQueryOptions = {
+export type PrismaExercisesQueryOptions = {
     exercicioFields?: string[],
     muscleFields?: string[]
 }

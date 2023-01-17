@@ -30,8 +30,19 @@ export default
     findByPKWithUser(options: optionsFindByPkPersonalWithUsers): Promise<Personal> {
         throw new Error("Method not implemented.");
     }
-    findAll(options?: any): Promise<any> {
-        throw new Error("Method not implemented.");
+    async findAll(options?: Prisma.personaisFindManyArgs): Promise<Personal[]> {
+        if(options)
+        {
+            return await this
+                            .conn
+                            .personais
+                            .findMany(options)
+        }
+        
+        return await this
+                        .conn
+                        .personais
+                        .findMany()
     }
     async findBy(
         options: Prisma.personaisFindUniqueArgsBase | Prisma.personaisFindManyArgs, 

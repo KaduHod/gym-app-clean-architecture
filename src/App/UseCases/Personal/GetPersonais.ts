@@ -1,15 +1,15 @@
 import Personal from "../../../Domain/Entities/Personal";
 import { optionsFindByPersonalWithUsers, PersonalRepository } from "../../Repositories/Repository";
 
-export default class GetPersonaisUseCase<RepositoryQueryOptions>
+export default class GetPersonaisUseCase
 {
     constructor(
         public personalRepository: PersonalRepository,
-        public options: optionsFindByPersonalWithUsers | any,
+        public options: any,
     ){}
 
     async main()
     {
-        return await this.personalRepository.findByWithUser(this.options)
+        return await this.personalRepository.findAll(this.options)
     }
 }

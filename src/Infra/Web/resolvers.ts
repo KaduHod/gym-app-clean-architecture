@@ -11,6 +11,9 @@ import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 import { writeFile } from "fs/promises"
 import { Prisma } from "@prisma/client"
+import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
+import PrismaPersonalRepository from "../Database/Prisma/PrismaPersonalRepository"
+import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
 
 export type GraphQlObject = {
     [key:string]:any
@@ -60,6 +63,47 @@ let alunosResolver = async (body:GraphQlObject) => {
             {select}
         )
     ).execute();
+}
+
+let personaisResolver = async (body:GraphQlObject) => {
+    const personalFields = PrismaMapper.personal.getFields(body);
+    const userFields = PrismaMapper.personal.getUserFields(body);
+    const alunosFields = PrismaMapper.personal.getAlunoFields(body);
+    const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
+    const select = PrismaMapper.personal.setSelect({
+        personalFields, 
+        userFields,
+        alunosFields,
+        alunosUserFields
+    })
+    
+    return await (
+        new GetPersonaisUseCase(
+            new PrismaPersonalRepository,
+            {select}
+        ).main()
+    )
+}
+
+let personalResolver = async (body:GraphQlObject) => {
+    const personalFields = PrismaMapper.personal.getFields(body);
+    const userFields = PrismaMapper.personal.getUserFields(body);
+    const alunosFields = PrismaMapper.personal.getAlunoFields(body);
+    const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
+    const select = PrismaMapper.personal.setSelect({
+        personalFields, 
+        userFields,
+        alunosFields,
+        alunosUserFields
+    })
+    const where = PrismaMapper.personal.setWhere(body)
+
+    return await (
+        new GetPersonalUseCase(
+            new PrismaPersonalRepository,
+            {select, where}
+        ).main()
+    )
 }
 
 let alunoResolver = async (body:GraphQlObject) => {
@@ -112,6 +156,8 @@ alunosResolver = YogaRequest(alunosResolver);
 alunoResolver = YogaRequest(alunoResolver);
 exercisesResolver = YogaRequest(exercisesResolver);
 exerciseResolver = YogaRequest(exerciseResolver);
+personaisResolver = YogaRequest(personaisResolver);
+personalResolver = YogaRequest(personalResolver);
 
 export default {
     Query:{
@@ -120,6 +166,8 @@ export default {
         alunos: alunosResolver,
         aluno: alunoResolver,
         exercises: exercisesResolver,
-        exercise: exerciseResolver
+        exercise: exerciseResolver,
+        personais: personaisResolver,
+        personal: personalResolver
     }
 }

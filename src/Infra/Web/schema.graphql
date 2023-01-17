@@ -29,6 +29,12 @@ type Aluno {
     user: User
 }
 
+type Personal {
+    id: ID!
+    user: User
+    alunos: [Aluno]
+}
+
 type Query {
     users : [User]
     user(id:ID!):User 
@@ -36,4 +42,6 @@ type Query {
     aluno(id:ID!): Aluno
     exercises: [Exercise]
     exercise(id:ID!): Exercise
+    personais: [Personal]
+    personal(id:ID!): Personal
 }

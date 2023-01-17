@@ -5,6 +5,7 @@ import { GraphQlObject } from '../../../Web/resolvers'
 import { 
     PrismaAlunoQueryOptions, 
     PrismaExercisesQueryOptions, 
+    PrismaPersonalQueryOptions, 
     PrismaUserQueryOptions 
 } from '../querys'
 import { Exercicio, TExercicio, TMuscle } from '../../../../Domain/Entities/Entities'
@@ -49,6 +50,7 @@ const PrismaMapper = {
             const userFields = Object.keys(user)
             return userFields.filter( (field:string) => !isObject(user[field]));
         },
+        
         getFields(body:GraphQlObject): string[]
         {
             const aluno = body.alunos ?? body.aluno 
@@ -70,6 +72,7 @@ const PrismaMapper = {
                 },{})
                 
             }
+
             if(userFields && userFields.length)
             {
                 let usersArgs: Prisma.usersArgs = {}
@@ -228,6 +231,113 @@ const PrismaMapper = {
             })
 
             return exercicio;
+        }
+    },
+    personal: {
+        getFields(body:GraphQlObject)
+        {
+            const personal = body?.personais ?? body?.personal
+            if(!personal) return []
+
+            return Object
+                        .keys(personal)
+                        .filter((field:any) => !isObject(personal[field]))
+
+        },
+        getUserFields(body:GraphQlObject)
+        {
+            const user = body.personais?.user ?? body.personais?.users ?? body.personal?.user ?? body.personal?.users
+            if(!user) return [];
+            const userFields = Object.keys(user)
+            return userFields.filter( (field:string) => !isObject(user[field]));
+        },
+        getAlunoFields(body:GraphQlObject)
+        {
+            const alunos = body.personais?.alunos ?? body.personais?.aluno ?? body.personal?.aluno ?? body.personal?.alunos
+            if(!alunos) return []
+            const alunosFields = Object.keys(alunos)
+            return alunosFields.filter((field:string) => !isObject(alunos[field]))
+        },
+        getAlunoUserFields(body:GraphQlObject)
+        {
+            const user = body.personais?.alunos.user ?? body.personais?.aluno.user ?? body.personal?.alunos.user ?? body.personal?.aluno.user 
+            if(!user) return []
+            const userFields = Object.keys(user)
+            return userFields.filter((field:string) => !isObject(user[field]))
+        },
+        setSelect({
+            personalFields,
+            userFields,
+            alunosFields,
+            alunosUserFields
+        }:PrismaPersonalQueryOptions) : Prisma.personaisSelect
+        {
+            const select = {} as Prisma.personaisSelect
+            if(personalFields && personalFields.length)
+            {
+                personalFields.forEach((field:string) => select[field as keyof Prisma.personaisSelect] = true)
+            }
+
+            if(userFields && userFields.length)
+            {
+                let user = {
+                    select: {} as Prisma.usersSelect
+                } as Prisma.usersArgs
+                if(typeof user.select === 'boolean'){
+                    throw new Error('Erro de tipagem do typescript que não identificou tipo Prisma.usersSelect')
+                }
+                
+                if(!user.select) user.select = {} as Prisma.usersSelect
+                userFields.forEach((field:string) => {
+                    if(!field || !user || !user.select) return;
+                    user.select[field as keyof Prisma.usersSelect] = true
+                })    
+
+                select.user = user;       
+            }
+
+            if(alunosFields &&  alunosFields.length)
+            {
+                let alunos = {
+                    select: {} as Prisma.alunosSelect
+                } as Prisma.alunosArgs
+                if(typeof alunos.select === 'boolean'){
+                    throw new Error('Erro de tipagem do typescript que não identificou tipo Prisma.alunosSelect')
+                }
+
+                if(!alunos.select) alunos.select = {} as Prisma.alunosSelect
+                alunosFields.forEach((field:string) => {
+                    if(!field || !alunos || !alunos.select) return;
+                    alunos.select[field as keyof Prisma.alunosSelect] = true
+                })   
+
+                if(alunosUserFields && alunosUserFields.length) 
+                {
+                    let user = {} as Prisma.usersArgs
+                    if(alunos.select){
+                        alunosUserFields.forEach(field => {
+                            if(!user.select) user.select = {} as Prisma.usersSelect
+                            user.select[field as keyof Prisma.usersSelect] = true
+                        })
+                    }
+
+                    alunos.select.user = user
+                }
+
+                select.alunos = alunos
+            }
+
+           return select
+        },
+        setWhere(body:GraphQlObject){
+            let where = {} as Prisma.personaisWhereInput
+            const personal = body.personal ?? body.personais 
+            for(const key in personal) 
+            {
+                if(!isParam(personal[key])) continue;
+                where[key as keyof Prisma.personaisWhereInput] =  key === 'id' ? Number(personal[key]) : personal[key];
+            }
+            return where;
         }
     }
 }

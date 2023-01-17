@@ -11,3 +11,10 @@ export type PrismaExercisesQueryOptions = {
     exercicioFields?: string[],
     muscleFields?: string[]
 }
+
+export type PrismaPersonalQueryOptions = {
+    personalFields?: string[],
+    userFields?: string[],
+    alunosFields?: string[],
+    alunosUserFields?: string[]
+}

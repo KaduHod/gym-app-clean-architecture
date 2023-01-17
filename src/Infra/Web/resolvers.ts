@@ -12,11 +12,10 @@ export type GraphQlObject = {
     [key:string]:any
 }
 
-const GrapQlRequest = (fn:Function) => {
+const YogaRequest = (fn:Function) => {
     return (...args:any) => {
-        console.log('Aqui', args[2].params.query)
         const body = graphQlMapper.toJson(args[2].params.query);
-        console.log(JSON.stringify(body))
+        console.log(body)
         return fn(body);
     }
 }
@@ -73,14 +72,14 @@ let exercisesResolver = async (body:GraphQlObject) => {
 }
 
 let exerciseResolver = async(body:GraphQlObject, params:object) => {
-    return []
+    return {id:1}
 }
 
-usersResolver = GrapQlRequest(usersResolver);
-userResolver = GrapQlRequest(userResolver);
-alunosResolver = GrapQlRequest(alunosResolver);
-exercisesResolver = GrapQlRequest(exercisesResolver);
-exerciseResolver = GrapQlRequest(exerciseResolver);
+usersResolver = YogaRequest(usersResolver);
+userResolver = YogaRequest(userResolver);
+alunosResolver = YogaRequest(alunosResolver);
+exercisesResolver = YogaRequest(exercisesResolver);
+exerciseResolver = YogaRequest(exerciseResolver);
 
 
 

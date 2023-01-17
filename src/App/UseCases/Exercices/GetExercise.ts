@@ -22,6 +22,6 @@ export default
 
     public async getExercise():Promise<Exercise>
     {
-        return await this.exerciseRepository.findByPK(this.options)
+        return await this.exerciseRepository.findBy(this.options, true)
     }
 }

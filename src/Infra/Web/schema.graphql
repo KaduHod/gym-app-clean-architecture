@@ -12,7 +12,7 @@ type Exercise {
     name: String!
     force: String
     link: String
-    execution: String!
+    execution: String
     muscles: [Muscle]
 }
 
@@ -34,5 +34,5 @@ type Query {
     user(id: ID!):User 
     alunos : [Aluno]
     exercises: [Exercise]
-    exercise(id:ID, name:String): Exercise
+    exercise(id:ID): Exercise
 }

@@ -12,22 +12,33 @@ import { ExerciseFactory } from '../../../../Domain/Factory/ExerciseFactory'
 import PrismaExercicioRepository from '../PrismaExercicioRepository'
 import Muscle from '../../../../Domain/Entities/Muscle'
 
-
+const isParam = (item:any) => typeof item === 'string';
 
 const PrismaMapper = {
     user: {
         getFields(body:GraphQlObject): string[]
         {
-            const users = body.users
+            const users = body.users ?? body.user
             const userFields = Object.keys(users)
             return userFields.filter( (field:string) => !isObject(users[field]));
         },
-        queryOption(options:PrismaUserQueryOptions): Prisma.usersFindManyArgs
+        setSelect(options:PrismaUserQueryOptions): Prisma.usersSelect
         {
-            return { select : options.userFields.reduce((acc:Prisma.usersSelect, curr:any) => {
+            return options.userFields.reduce((acc:Prisma.usersSelect, curr:any) => {
                 acc[curr as keyof Prisma.usersSelect] = true
                 return acc
-            },{})}
+            },{})
+        },
+        setWhere(body:GraphQlObject)
+        {
+            const user = body.users ?? body.user
+            let where = {} as Prisma.usersWhereInput
+            for(const key in user) 
+            {
+                if(!isParam(user[key])) continue;
+                where[key as keyof Prisma.usersWhereInput] =  key === 'id' ? Number(user[key]) : user[key];
+            }
+            return where;
         }
     },
     aluno: {
@@ -191,9 +202,7 @@ const PrismaMapper = {
             const exercicio = body?.exercise
             if(!exercicio)
                 throw new Error('SetWhere function should not be invoked without exercise in requestBody body');
-            
-
-            const isParam = (item:any) => typeof item === 'string';
+                        
             const where = { } as Prisma.exerciciosWhereInput
             for(const key in exercicio)
             {

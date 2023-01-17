@@ -8,6 +8,7 @@ import PrismaExercicioRepository from "../Database/Prisma/PrismaExercicioReposit
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 import { writeFile } from "fs/promises"
+import GetUserUseCase from "../../App/UseCases/Users/GetUser"
 
 export type GraphQlObject = {
     [key:string]:any
@@ -22,21 +23,26 @@ const YogaRequest = (fn:Function) => {
 }
 
 let userResolver = async (body:GraphQlObject) => {
+    const userFields = PrismaMapper.user.getFields(body)
+    const select = PrismaMapper.user.setSelect({userFields})
+    const where = PrismaMapper.user.setWhere(body);
+
     return await (
-        new GetUsersUseCase(
-            new PrismaUserRepository()
+        new GetUserUseCase(
+            new PrismaUserRepository(),
+            {select, where}
         )
     ).main()
 }
 
 let usersResolver  = async (body:GraphQlObject) => {
     const userFields = PrismaMapper.user.getFields(body)
-    const usersQueryOption = PrismaMapper.user.queryOption({userFields})
+    const select = PrismaMapper.user.setSelect({userFields})
     
     return await (
         new GetUsersUseCase(
             new PrismaUserRepository(), 
-            usersQueryOption
+            {select}
         )
     ).main()
 }

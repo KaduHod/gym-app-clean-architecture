@@ -1,19 +1,17 @@
 import { randomUUID } from "crypto";
 import { PK } from "../../App/Repositories/Repository";
-import { Entity, TAluno } from "./Entities";
+import { Entity, TAluno, TPersonal } from "./Entities";
+import Personal from "./Personal";
+import User from "./User";
 
 export default 
     class Aluno 
+    extends User
     implements Entity
 {
-    public user_id:PK
-    public personal_id?:PK
-    public id?:PK | null
-    
-    constructor(attrs: TAluno)
-    {
-        this.id = attrs.id
-        this.user_id = attrs.user_id 
-        this.personal_id = attrs.personal_id
+    public personal?: Personal
+    constructor(attrs:TAluno){
+        super(attrs)
+        this.personal = attrs.personal ?? undefined
     }
 }

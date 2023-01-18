@@ -1,15 +1,17 @@
 import { randomUUID } from "crypto";
 import { PK } from "../../App/Repositories/Repository";
-import { Entity, TPersonal } from "./Entities";
+import { Entity, TAluno, TPersonal } from "./Entities";
+import User from "./User";
 
 export default
     class Personal
+    extends User
     implements Entity 
 {
-    public user_id:PK
-    public id?: PK | null;
-    constructor(attrs: TPersonal){
-        this.id = attrs.id
-        this.user_id = attrs.user_id
+    public alunos?: TAluno[];
+    constructor(attrs: TPersonal)
+    {
+        super(attrs)
+        this.alunos = attrs.alunos ?? undefined
     }
 }

@@ -6,14 +6,12 @@ import GetExercisesUseCase from "../../App/UseCases/Exercices/GetExercises"
 import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
 import GetExerciseUseCase from "../../App/UseCases/Exercices/GetExercise"
 import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
-import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
-import GetAlunoUseCase from "../../App/UseCases/Aluno/getAluno"
+import GetAlunosUseCase from "../../App/UseCases/Aluno/GetAlunos"
+import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
-import { writeFile } from "fs/promises"
-import { Prisma } from "@prisma/client"
 
 export type GraphQlObject = {
     [key:string]:any

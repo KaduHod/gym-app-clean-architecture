@@ -10,6 +10,20 @@ export type TUser = Entity & {
     nickname:string,
     email:string,
     password:string
+    permissions?: TPermission[]
+}
+
+export type TAluno = TUser & {
+    personal? : TPersonal 
+}
+
+export type TPersonal = TUser & {
+    alunos?: TAluno[]
+}
+
+export type TPermission = {
+    id?:PK,
+    title: string
 }
 
 export type UserFields = {
@@ -18,15 +32,6 @@ export type UserFields = {
     nickname?:boolean
     email?:boolean
     password?:boolean
-}
-
-export type TAluno = Entity & {
-    user_id:PK
-    personal_id?:PK
-}
-
-export type TPersonal = Entity & {
-    user_id:PK
 }
 
 export type Treino = Entity & {

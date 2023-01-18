@@ -7,6 +7,25 @@ type User {
     cellphone: String
 }
 
+type Aluno {
+    id: ID!
+    name: String!
+    nickname: String!
+    email : String!
+    password : String!
+    cellphone: String
+}
+
+type Personal {
+    id: ID!
+    name: String!
+    nickname: String!
+    email : String!
+    password : String!
+    cellphone: String
+    alunos: [Aluno]
+}
+
 type Exercise {
     id: ID!
     name: String!
@@ -24,16 +43,7 @@ type Muscle {
     role: String
 }
 
-type Aluno {
-    id: ID!
-    user: User
-}
 
-type Personal {
-    id: ID!
-    user: User
-    alunos: [Aluno]
-}
 
 type Query {
     users : [User]

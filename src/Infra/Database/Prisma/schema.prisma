@@ -1,46 +1,19 @@
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
 
-model adonis_schema {
-  id             Int       @id @default(autoincrement()) @db.UnsignedInt
-  name           String    @db.VarChar(255)
-  batch          Int
-  migration_time DateTime? @default(now()) @db.Timestamp(0)
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
-model adonis_schema_versions {
-  version Int
-
-  @@ignore
-}
-
-model alunos {
-  id          Int        @id @default(autoincrement()) @db.UnsignedInt
-  user_id     Int        @db.UnsignedInt
-  personal_id Int?       @db.UnsignedInt
-  created_at  DateTime?  @db.Timestamp(0)
-  updated_at  DateTime?  @db.Timestamp(0)
-  personais   personais? @relation(fields: [personal_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "alunos_personal_id_foreign")
-  user       users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "alunos_user_id_foreign")
-
-  @@index([personal_id], map: "alunos_personal_id_foreign")
-  @@index([user_id], map: "alunos_user_id_foreign")
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model articulation_movement {
   id              Int           @id @default(autoincrement()) @db.UnsignedInt
   articulation_id Int           @db.UnsignedInt
   movement_id     Int           @db.UnsignedInt
-  created_at      DateTime?     @db.Timestamp(0)
-  updated_at      DateTime?     @db.Timestamp(0)
+  createdAt       DateTime?     @default(now()) @db.DateTime(0)
+  updatedAt       DateTime?     @db.DateTime(0)
   articulations   articulations @relation(fields: [articulation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "movement_articulations_articulation_id_foreign")
   movements       movements     @relation(fields: [movement_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "movement_articulations_movement_id_foreign")
 
@@ -50,8 +23,8 @@ model articulation_movement {
 
 model articulation_movement_muscle {
   id              Int                                @id @default(autoincrement()) @db.UnsignedInt
-  created_at      DateTime?                          @db.Timestamp(0)
-  updated_at      DateTime?                          @db.Timestamp(0)
+  createdAt       DateTime?                          @default(now()) @db.DateTime(0)
+  updatedAt       DateTime?                          @db.DateTime(0)
   muscle_id       Int                                @db.UnsignedInt
   movement_id     Int                                @db.UnsignedInt
   articulation_id Int                                @db.UnsignedInt
@@ -69,8 +42,8 @@ model articulation_muscle {
   id              Int           @id @default(autoincrement()) @db.UnsignedInt
   muscle_id       Int           @db.UnsignedInt
   articulation_id Int           @db.UnsignedInt
-  created_at      DateTime?     @db.Timestamp(0)
-  updated_at      DateTime?     @db.Timestamp(0)
+  createdAt       DateTime?     @default(now()) @db.DateTime(0)
+  updatedAt       DateTime?     @db.DateTime(0)
   articulations   articulations @relation(fields: [articulation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_articulation_id_foreign")
   muscles         muscles       @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_muscle_id_foreign")
 
@@ -81,47 +54,47 @@ model articulation_muscle {
 model articulations {
   id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
   name                         String                         @db.VarChar(255)
-  created_at                   DateTime?                      @db.Timestamp(0)
-  updated_at                   DateTime?                      @db.Timestamp(0)
+  createdAt                    DateTime?                      @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime?                      @db.DateTime(0)
   articulation_movement        articulation_movement[]
   articulation_movement_muscle articulation_movement_muscle[]
   articulation_muscle          articulation_muscle[]
 }
 
 model exercicios {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  created_at DateTime? @db.Timestamp(0)
-  updated_at DateTime? @db.Timestamp(0)
-  name       String    @db.VarChar(255)
-  force      String?   @db.VarChar(255)
-  link       String?   @db.VarChar(255)
-  execution  String?   @db.Text
-  mechanic   String?   @db.Text
-  muscles    exercise_muscle[]  
+  id              Int               @id @default(autoincrement()) @db.UnsignedInt
+  createdAt       DateTime?         @default(now()) @db.DateTime(0)
+  updatedAt       DateTime?         @db.DateTime(0)
+  name            String            @db.VarChar(255)
+  force           String?           @db.VarChar(255)
+  link            String?           @db.VarChar(255)
+  execution       String?           @db.Text
+  mechanic        String?           @db.Text
+  exercise_muscle exercise_muscle[]
 }
 
 model exercise_muscle {
   id          Int                   @id @default(autoincrement()) @db.UnsignedInt
   muscle_id   Int                   @db.UnsignedInt
   exercise_id Int                   @db.UnsignedInt
-  created_at  DateTime?             @db.Timestamp(0)
-  updated_at  DateTime?             @db.Timestamp(0)
+  createdAt   DateTime?             @default(now()) @db.DateTime(0)
+  updatedAt   DateTime?             @db.DateTime(0)
   role        exercise_muscle_role?
   exercicios  exercicios            @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_exercise_id_foreign")
-  muscle       muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
+  muscles     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
 
+  @@index([exercise_id], map: "exercise_muscle_exercise_id_foreign")
   @@index([muscle_id], map: "exercise_muscle_muscle_id_foreign")
-  @@index([exercise_id], map:"exercise_muscle_exercise_id_foreign")
 }
 
 model movement_muscle {
   id          Int       @id @default(autoincrement()) @db.UnsignedInt
   muscle_id   Int       @db.UnsignedInt
-  created_at  DateTime? @db.Timestamp(0)
-  updated_at  DateTime? @db.Timestamp(0)
+  createdAt   DateTime? @default(now()) @db.DateTime(0)
+  updatedAt   DateTime? @db.DateTime(0)
   movement_id Int       @db.UnsignedInt
-  movement   movements @relation(fields: [movement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_movements_id")
-  muscle     muscles   @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_movements_muscle_id_foreign")
+  movements   movements @relation(fields: [movement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_movements_id")
+  muscles     muscles   @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "muscle_articulation_movements_muscle_id_foreign")
 
   @@index([movement_id], map: "FK_movements_id")
   @@index([muscle_id], map: "muscle_articulation_movements_muscle_id_foreign")
@@ -130,8 +103,8 @@ model movement_muscle {
 model movements {
   id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
   name                         String                         @db.VarChar(255)
-  created_at                   DateTime?                      @db.Timestamp(0)
-  updated_at                   DateTime?                      @db.Timestamp(0)
+  createdAt                    DateTime?                      @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime?                      @db.DateTime(0)
   articulation_movement        articulation_movement[]
   articulation_movement_muscle articulation_movement_muscle[]
   movement_muscle              movement_muscle[]
@@ -141,8 +114,8 @@ model muscles {
   id                           Int                            @id @default(autoincrement()) @db.UnsignedInt
   name                         String                         @db.VarChar(255)
   image                        String?                        @db.VarChar(255)
-  created_at                   DateTime?                      @db.Timestamp(0)
-  updated_at                   DateTime?                      @db.Timestamp(0)
+  createdAt                    DateTime?                      @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime?                      @db.DateTime(0)
   articulation_movement_muscle articulation_movement_muscle[]
   articulation_muscle          articulation_muscle[]
   exercise_muscle              exercise_muscle[]
@@ -150,39 +123,63 @@ model muscles {
 }
 
 model periodizacoes {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  created_at DateTime? @db.Timestamp(0)
-  updated_at DateTime? @db.Timestamp(0)
+  id        Int       @id @default(autoincrement()) @db.UnsignedInt
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
 }
 
-model personais {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  user_id    Int       @db.UnsignedInt
-  created_at DateTime? @db.Timestamp(0)
-  updated_at DateTime? @db.Timestamp(0)
-  alunos     alunos[]
-  user      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "personais_user_id_foreign")
-
-  @@index([user_id], map: "personais_user_id_foreign")
+model permissions {
+  id                Int                 @id @default(autoincrement()) @db.UnsignedInt
+  title             String              @db.VarChar(45)
+  createdAt         DateTime?           @default(now()) @db.DateTime(0)
+  updatedAt         DateTime?           @db.DateTime(0)
+  users_permissions users_permissions[]
 }
 
 model treinos {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  created_at DateTime? @db.Timestamp(0)
-  updated_at DateTime? @db.Timestamp(0)
+  id        Int       @id @default(autoincrement()) @db.UnsignedInt
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
 }
 
 model users {
-  id         Int         @id @default(autoincrement()) @db.UnsignedInt
-  name       String?     @db.VarChar(55)
-  nickname   String?     @unique(map: "users_nickname_unique") @db.VarChar(30)
-  email      String?     @unique(map: "users_email_unique") @db.VarChar(100)
-  password   String?     @db.VarChar(255)
-  cellphone  String?     @db.VarChar(20)
-  created_at DateTime?   @db.Timestamp(0)
-  updated_at DateTime?   @db.Timestamp(0)
-  alunos     alunos[]
-  personais  personais[]
+  id                                               Int                 @id @default(autoincrement()) @db.UnsignedInt
+  name                                             String?             @db.VarChar(55)
+  nickname                                         String?             @unique(map: "users_nickname_unique") @db.VarChar(30)
+  email                                            String?             @unique(map: "users_email_unique") @db.VarChar(100)
+  password                                         String?             @db.VarChar(255)
+  cellphone                                        String?             @db.VarChar(20)
+  createdAt                                        DateTime?           @default(now()) @db.DateTime(0)
+  updatedAt                                        DateTime?           @db.DateTime(0)
+  personal_aluno_personal_aluno_personal_idTousers personal_aluno[]    @relation("personal_aluno_personal_idTousers")
+  personal_aluno_personal_aluno_aluno_idTousers    personal_aluno[]    @relation("personal_aluno_aluno_idTousers")
+  users_permissions                                users_permissions[]
+}
+
+model users_permissions {
+  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  user_id       Int         @db.UnsignedInt
+  permission_id Int         @db.UnsignedInt
+  createdAt     DateTime?   @default(now()) @db.DateTime(0)
+  updatedAt     DateTime?   @db.DateTime(0)
+  user          users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_1")
+  permission    permissions @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_2")
+
+  @@index([permission_id], map: "permission_id")
+  @@index([user_id], map: "user_id")
+}
+
+model personal_aluno {
+  id                                      Int       @id @default(autoincrement()) @db.UnsignedInt
+  personal_id                             Int       @db.UnsignedInt
+  aluno_id                                Int       @db.UnsignedInt
+  createdAt                               DateTime? @default(now()) @db.DateTime(0)
+  updatedAt                               DateTime? @db.DateTime(0)
+  users_personal_aluno_personal_idTousers users     @relation("personal_aluno_personal_idTousers", fields: [personal_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "personal_aluno_ibfk_1")
+  users_personal_aluno_aluno_idTousers    users     @relation("personal_aluno_aluno_idTousers", fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "personal_aluno_ibfk_2")
+
+  @@index([aluno_id], map: "aluno_id")
+  @@index([personal_id], map: "personal_id")
 }
 
 enum exercise_muscle_role {

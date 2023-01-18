@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import PrismaAlunoRepository from "../../../Infra/Database/Prisma/PrismaAlunoRepository";
-import GetAlunoUseCase from "./getAluno";
+import GetAlunoUseCase from "./GetAluno";
 
 describe('Test get Aluno use case', () => {
     const repo = new PrismaAlunoRepository();

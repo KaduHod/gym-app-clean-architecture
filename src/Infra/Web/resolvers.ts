@@ -1,19 +1,19 @@
 import PrismaExercicioRepository from "../Database/Prisma/PrismaExercicioRepository"
+import PrismaPersonalRepository from "../Database/Prisma/PrismaPersonalRepository"
 import PrismaAlunoRepository from "../Database/Prisma/PrismaAlunoRepository"
 import PrismaUserRepository from "../Database/Prisma/PrismaUserRepository"
 import GetExercisesUseCase from "../../App/UseCases/Exercices/GetExercises"
+import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
 import GetExerciseUseCase from "../../App/UseCases/Exercices/GetExercise"
+import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
 import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
-import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
+import GetAlunoUseCase from "../../App/UseCases/Aluno/getAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 import { writeFile } from "fs/promises"
 import { Prisma } from "@prisma/client"
-import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
-import PrismaPersonalRepository from "../Database/Prisma/PrismaPersonalRepository"
-import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
 
 export type GraphQlObject = {
     [key:string]:any
@@ -150,14 +150,15 @@ let exerciseResolver = async(body:GraphQlObject) => {
     )
 }
 
-usersResolver = YogaRequest(usersResolver);
+
 userResolver = YogaRequest(userResolver);
-alunosResolver = YogaRequest(alunosResolver);
+usersResolver = YogaRequest(usersResolver);
 alunoResolver = YogaRequest(alunoResolver);
-exercisesResolver = YogaRequest(exercisesResolver);
+alunosResolver = YogaRequest(alunosResolver);
 exerciseResolver = YogaRequest(exerciseResolver);
-personaisResolver = YogaRequest(personaisResolver);
+exercisesResolver = YogaRequest(exercisesResolver);
 personalResolver = YogaRequest(personalResolver);
+personaisResolver = YogaRequest(personaisResolver);
 
 export default {
     Query:{

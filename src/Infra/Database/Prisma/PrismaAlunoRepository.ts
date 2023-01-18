@@ -29,10 +29,12 @@ export default
         return await this
                         .conn 
                         .personal_aluno
-                        .update({
-                            where :{id:alunoId},
-                            data: {personal_id: personalId}
-                        })
+                        .create({
+                            data: {
+                                personal_id: personalId,
+                                aluno_id: alunoId
+                            }
+                        } as Prisma.personal_alunoCreateArgs)
     }
     
     async findAll(options?: Prisma.usersFindManyArgs): Promise<Aluno[]> {

@@ -57,8 +57,13 @@ describe('Testing PrismaAlunoRepository', () => {
 
     it('Should create aluno', async () => {
         const user = UserFactory.createRandom();
-        const saveQuery = await alunoRepository.save(user) as any;
+        const saveQuery = await alunoRepository.save(user as Prisma.usersCreateInput) as any;
         const check = saveQuery.users_permissions.find((permission:any) => permission.permission_id === 1)
         expect(check).toBeTruthy()
+    })
+
+    it('Should  hire personal', async () => {
+        const result = await alunoRepository.hirePersonal(101, 99)
+        console.log(result)
     })
 })

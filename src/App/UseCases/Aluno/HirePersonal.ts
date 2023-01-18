@@ -25,8 +25,8 @@ export default class HirePersonalUseCase
         const personalExists = await this.personalExists()
         if(!personalExists) throw new PersonalNotFoundError()
 
-        const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal(aluno)
-        if(alunoAlreadyHasPersonal) throw new AlunoAlreadyHasPersonal()
+        // const alunoAlreadyHasPersonal = await this.alunoAlreadyHasPersonal(aluno)
+        // if(alunoAlreadyHasPersonal) throw new AlunoAlreadyHasPersonal()
         
         const hireResult = await this
                                     .alunoRepository
@@ -42,10 +42,10 @@ export default class HirePersonalUseCase
                 )
     }
 
-    public async alunoAlreadyHasPersonal(aluno:Aluno) :Promise<boolean>
-    {
-        return !!aluno?.personal_id
-    }
+    // public async alunoAlreadyHasPersonal(aluno:Aluno) :Promise<boolean>
+    // {
+        // return !!aluno?.personal_id
+    // }
 
     public async getAluno(): Promise<Aluno | null>
     {

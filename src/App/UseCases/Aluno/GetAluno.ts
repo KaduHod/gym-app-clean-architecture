@@ -1,4 +1,5 @@
 import { AlunoRepository } from "../../Repositories/Repository";
+import AlunoNotFound from "../Errors/AlunoNotFound";
 export default class GetAlunoUseCase
 {
     constructor(
@@ -8,8 +9,13 @@ export default class GetAlunoUseCase
 
     async execute()
     {
-        return await this
-                        .alunoRepository
-                        .findBy(this.options, true)
+        const aluno = await this
+                                .alunoRepository
+                                .findBy(this.options, true); 
+        if(!aluno) 
+            throw new AlunoNotFound();
+    
+        
+        return aluno;
     }
 }

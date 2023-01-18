@@ -1,5 +1,5 @@
 import Personal from "../../../Domain/Entities/Personal";
-import { optionsFindByPersonalWithUsers, PersonalRepository } from "../../Repositories/Repository";
+import { PersonalRepository } from "../../Repositories/Repository";
 
 export default class GetPersonaisUseCase
 {

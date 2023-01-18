@@ -15,7 +15,7 @@
 - sudo docker run -d --rm -p 49000:4000 -d --name gym-app gym-app/node-image
 
 # SUBIR COM DOCKER COMPOSE
-- sudo docker compose up --build
-- sudo docker exec -it gym-app sh 
-- sudo npx prisma generate
-- sudo npm run web:serve
++ sudo docker compose up --build
++ sudo docker exec -it gym-app sh 
++ sudo npx prisma generate
++ sudo npm run web:serve

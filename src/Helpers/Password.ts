@@ -6,9 +6,12 @@ export default class Password
 {
     public static encrypt(password:string): string
     {
+        if(!password)
+            throw new Error('Must pass password as argument');
+        
         return crypto
                     .pbkdf2Sync(
-                        password, 
+                        password as string, 
                         salt, 
                         1000, 
                         64, 

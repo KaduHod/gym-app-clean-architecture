@@ -13,7 +13,7 @@ export default
     public name:string
     public nickname:string
     public email:string
-    public password:string
+    public password:string | ArrayBuffer | Buffer |  DataView
 
     
     constructor(attributes:TUser){

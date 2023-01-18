@@ -77,7 +77,7 @@ describe('Test personal repository', () => {
     })
 
     it('Should bring personal by pk', async () => {
-        const personal = await personalRepository.findByPK(1);
-        
+        const personal = await personalRepository.findByPK(3);
+        expect(personal).toBeTruthy()
     })
 })

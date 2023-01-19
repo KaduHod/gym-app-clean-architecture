@@ -1,12 +1,10 @@
-import { TAluno, TPersonal } from "../../../Domain/Entities/Entities";
-import { AlunoRepository, PK, PersonalRepository, Repository } from "../../Repositories/Repository";
+import { AlunoRepository, PK, PersonalRepository } from "../../Repositories/Repository";
 import Aluno from "../../../Domain/Entities/Aluno";
-import Personal from "../../../Domain/Entities/Personal";
 import PersonalNotFoundError from "../Errors/PersonalNotFound";
 import AlunoNotFound from "../Errors/AlunoNotFound";
 import AlunoAlreadyHasPersonal from "../Errors/AlunoAlreadyHasPersonal";
 
-export default class AttachAluno<RepositoryQueryOptions>
+export default class AttachAluno
 {
     public aluno: Aluno | null
     constructor(
@@ -60,7 +58,7 @@ export default class AttachAluno<RepositoryQueryOptions>
     {
         if(!this.aluno) await this.getAluno()
         
-        return !!this.aluno?.personal_id
+        return this.alunoRepository.hasPersonal(this.aluno?.id ?? this.alunoId)
     }
 
     public async getAluno(): Promise<void>

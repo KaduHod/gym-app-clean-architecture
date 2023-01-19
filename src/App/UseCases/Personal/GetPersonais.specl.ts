@@ -1,19 +1,26 @@
+import { Prisma } from "@prisma/client";
 import { describe, expect, it } from "vitest";
-import KnexPersonalRepository from "../../../Infra/Database/Knex/KnexPersonalRepository";
+import PrismaPersonalRepository from "../../../Infra/Database/Prisma/PrismaPersonalRepository";
 import GetPersonaisUseCase from "./GetPersonais";
 
 describe('Get personal', () => {
-    it('Should bring persnal with user', async () => {
+    it('Should bring personal', async () => {
         const useCase = new GetPersonaisUseCase(
-            new KnexPersonalRepository,
+            new PrismaPersonalRepository,
             {
-                attrs: {'personais.id':10},
-                fields: ['id', 'created_at'],
-                userFields: ['name', 'nickname', 'email'],
-                first: false
-            }
+                include:{
+                    users_permissions : {
+                        include : {
+                            permission: true
+                        }
+                    }
+                }
+            } as Prisma.usersFindManyArgs
         )
         const result = await useCase.main()
+       
         expect(result).toBeTruthy()
+        const check = result.filter((permission:any) =>  permission.permission_id = 2)
+        expect(check).toBeTruthy()
     })
 })

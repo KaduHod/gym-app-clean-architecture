@@ -22,6 +22,9 @@ export default
         super()
         this.tableName = 'users';
     }
+    async attachAluno(personalId: number, alunoId: number) {
+        throw new Error("Method not implemented.");
+    }
     
     async findAll(options?: Prisma.usersFindManyArgs): Promise<Personal[] | null> {
         if(options)

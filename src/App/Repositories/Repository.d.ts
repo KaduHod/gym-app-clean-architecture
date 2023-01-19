@@ -55,7 +55,7 @@ type optionsFindByPkPersonalWithUsers = {
 }
 export interface PersonalRepository extends Repository 
 {
-    
+    attachAluno(personalId:PK, alunoId:PK): any
 }
 
 export type MusclesFromExerciseOptions = string[]

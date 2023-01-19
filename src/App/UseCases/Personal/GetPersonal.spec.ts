@@ -10,23 +10,26 @@ describe('Should test get Personal test', async () => {
             new GetPersonalUseCase(
                 repo,
                 {
-                    select : {
-                        id:true,
-                        users:{
-                            select : {
-                                id:true,
-                                name:true
+                    include:{
+                        users_permissions : {
+                            include : {
+                                permission : true
                             }
                         }
                     },
                     where: {
                         id:23
                     }
-                } as Prisma.personaisFindManyArgs
+                } as Prisma.usersFindManyArgs
             ).main()
         )
 
-        expect(result).toBeTruthy()
-        expect(result.users).toBeTruthy()
+        expect(result).toBeTruthy();
+
+        const check = result
+                        .users_permissions
+                        .filter((permission:any) =>  permission.permission_id = 2);
+
+        expect(check).toBeTruthy();
     })
 })

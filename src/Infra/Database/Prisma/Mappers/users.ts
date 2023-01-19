@@ -13,7 +13,7 @@ export default {
         const userFields = Object.keys(users)
         return userFields.filter( (field:string) => !isObject(users[field]));
     },
-    setWhere(body:GraphQlObject)
+    setWhere(body:GraphQlObject) 
     {
         const user = body.users ?? body.user
         let where = {} as Prisma.usersWhereInput

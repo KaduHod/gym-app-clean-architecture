@@ -5,6 +5,7 @@ type User {
     email : String!
     password : String!
     cellphone: String
+    permissions : [Permission]
 }
 
 type Permission {
@@ -19,6 +20,7 @@ type Aluno {
     email : String!
     password : String!
     cellphone: String
+    permissions : [Permission]
 }
 
 type Personal {
@@ -29,6 +31,7 @@ type Personal {
     password : String!
     cellphone: String
     alunos: [Aluno]
+    permissions : [Permission]
 }
 
 type Exercise {

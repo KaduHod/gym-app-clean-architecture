@@ -68,6 +68,19 @@ let alunosResolver = async (body:GraphQlObject) => {
     ).execute();
 }
 
+let alunoResolver = async (body:GraphQlObject) => {
+    const select = PrismaAlunoMapper.setSelect(body);
+    const where = PrismaAlunoMapper.setWhere(body);
+
+    return await (
+        new GetAlunoUseCase(
+            new PrismaAlunoRepository,
+            {select, where},
+            PrismaAlunoMapper.toGraphQlAlunoObject
+        ).execute()
+    )
+}
+
 let personaisResolver = async (body:GraphQlObject) => {
     // const personalFields = PrismaMapper.personal.getFields(body);
     // const userFields = PrismaMapper.personal.getUserFields(body);
@@ -113,21 +126,7 @@ let personalResolver = async (body:GraphQlObject) => {
     // )
 }
 
-let alunoResolver = async (body:GraphQlObject) => {
-    // const alunoFields = PrismaMapper.aluno.getFields(body)
-    // const userFields = PrismaMapper.aluno.getUserFields(body)
 
-    // const select = PrismaMapper.aluno.setSelect({alunoFields, userFields})
-    // const where = PrismaMapper.aluno.setWhere(body)
-
-    return []
-    // return await (
-        // new GetAlunoUseCase(
-            // new PrismaAlunoRepository,
-            // {select, where}
-        // ).execute()
-    // )
-}
 
 let exercisesResolver = async (body:GraphQlObject) => {
     // const exercicioFields = PrismaMapper.exercicios.getFields(body)
@@ -160,7 +159,6 @@ let exerciseResolver = async(body:GraphQlObject) => {
     // )
     return []
 }
-
 
 userResolver = YogaRequest(userResolver);
 usersResolver = YogaRequest(usersResolver);

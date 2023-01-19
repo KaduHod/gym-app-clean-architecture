@@ -4,7 +4,8 @@ export default class GetAlunoUseCase
 {
     constructor(
         public alunoRepository: AlunoRepository,
-        public options?: any
+        public options: any,
+        public mapper:Function
     ){}
 
     async execute()
@@ -14,7 +15,10 @@ export default class GetAlunoUseCase
                                 .findBy(this.options, true); 
         if(!aluno) 
             throw new AlunoNotFound();
-    
+
+
+        if(this.mapper)
+            return this.mapper(aluno);
         
         return aluno;
     }

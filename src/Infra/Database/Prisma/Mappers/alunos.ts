@@ -17,8 +17,8 @@ export default {
         const alunoFields = this.getFields(body)
         const select = {} as Prisma.usersSelect
         alunoFields.forEach((field:string) => select[field as keyof Prisma.usersSelect] = true);
-
-        const permissions = body.alunos.permissions ?? body.aluno.permissions
+        
+        const permissions = body?.alunos?.permissions ?? body?.aluno?.permissions
 
         if(permissions) {
             const selectPermission = {} as Prisma.permissionsSelect;
@@ -37,12 +37,28 @@ export default {
 
         return select
     },
-    async toGraphQlAlunoObject(alunos:Aluno[])
+    setWhere(body:GraphQlObject): Prisma.usersWhereInput
     {
-        return alunos.map( ({users_permissions,...aluno}:any) => {
-            return {...aluno, permissions:users_permissions.map(({permission}:any) => permission)}
-        })
-    }
+        return {
+            id: Number(body?.aluno?.id ?? body?.alunos?.id)
+        } as Prisma.usersWhereInput
+    },
+    toGraphQlAlunoObject(aluno:any[] | any)
+    {
+        if(Array.isArray(aluno)){
+            return aluno.map( ({users_permissions,...aluno}:any) => {
+                return {...aluno, permissions:users_permissions.map(({permission}:any) => permission)}
+            })
+        }
+        const {users_permissions, ...alunoAttrs} = aluno as any;
+ 
+        return {
+            ...alunoAttrs,
+            permissions: users_permissions.map(({permission}:any) => permission)
+            
+        }     
+    },
+
     /*
     setSelect({
         userFields, 

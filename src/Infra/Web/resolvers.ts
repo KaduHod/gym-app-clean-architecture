@@ -6,7 +6,7 @@ import GetExercisesUseCase from "../../App/UseCases/Exercices/GetExercises"
 import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
 import GetExerciseUseCase from "../../App/UseCases/Exercices/GetExercise"
 import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
-import GetAlunosUseCase from "../../App/UseCases/Aluno/GetAlunos"
+import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
@@ -20,7 +20,9 @@ export type GraphQlObject = {
 const YogaRequest = (fn:Function) => {
     return (...args:any) => {
         const body = graphQlMapper.toJson(args[2].params.query);
+        console.log('==== Yoga request body ====')
         console.log(body)
+        console.log('===========================')
         return fn(body);
     }
 }

@@ -45,7 +45,8 @@ let userResolver = async (body:GraphQlObject) => {
 }
 
 let usersResolver  = async (body:GraphQlObject) => {
-    // const userFields = PrismaMapper.user.getFields(body)
+    const userFields = PrismaUserMapper.getFields(body)
+    console.log(userFields)
     // const select = PrismaMapper.user.setSelect({userFields})
     // 
     // return await (
@@ -54,7 +55,7 @@ let usersResolver  = async (body:GraphQlObject) => {
             // {select}
         // )
     // ).main()
-    return []
+    return [{name:'carlos'}]
 }
 
 let alunosResolver = async (body:GraphQlObject) => {

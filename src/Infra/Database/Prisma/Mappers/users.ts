@@ -26,6 +26,7 @@ export default {
     },
     setSelect(body:GraphQlObject): Prisma.usersSelect
     {
+        const entity = body?.alunos ?? body?.aluno ?? body?.personal ?? body?.personais
         return {}
     }
 }

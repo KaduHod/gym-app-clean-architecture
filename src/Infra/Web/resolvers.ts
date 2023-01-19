@@ -11,7 +11,9 @@ import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
-import PrismaMapper from "../Database/Prisma/Mappers/prisma"
+// import PrismaMapper from "../Database/Prisma/Mappers/prisma"
+import PrismaUserMapper  from '../Database/Prisma/Mappers/users'
+import PrismaAlunoMapper from '../Database/Prisma/Mappers/alunos'
 
 export type GraphQlObject = {
     [key:string]:any
@@ -29,9 +31,9 @@ const YogaRequest = (fn:Function) => {
 }
 
 let userResolver = async (body:GraphQlObject) => {
-    const userFields = PrismaMapper.user.getFields(body)
-    const select = PrismaMapper.user.setSelect({userFields})
-    const where = PrismaMapper.user.setWhere(body);
+    const userFields = PrismaUserMapper.getFields(body)
+    const select = PrismaUserMapper.setSelect({userFields})
+    const where = PrismaUserMapper.setWhere(body);
 
     return await (
         new GetUserUseCase(
@@ -42,113 +44,127 @@ let userResolver = async (body:GraphQlObject) => {
 }
 
 let usersResolver  = async (body:GraphQlObject) => {
-    const userFields = PrismaMapper.user.getFields(body)
-    const select = PrismaMapper.user.setSelect({userFields})
-    
-    return await (
-        new GetUsersUseCase(
-            new PrismaUserRepository(), 
-            {select}
-        )
-    ).main()
+    // const userFields = PrismaMapper.user.getFields(body)
+    // const select = PrismaMapper.user.setSelect({userFields})
+    // 
+    // return await (
+        // new GetUsersUseCase(
+            // new PrismaUserRepository(), 
+            // {select}
+        // )
+    // ).main()
+    return []
 }
 
 let alunosResolver = async (body:GraphQlObject) => {
-    const userFields = PrismaMapper.aluno.getUserFields(body)
-    const alunoFields = PrismaMapper.aluno.getFields(body)
-    const select = PrismaMapper.aluno.setSelect({userFields, alunoFields})
+    const select = PrismaAlunoMapper.setSelect(body)
+    console.log({select})
+    // const alunoFields = PrismaMapper.aluno.getFields(body)
+    // const select = PrismaMapper.aluno.setSelect({userFields, alunoFields})
 
-    return  await (
-        new GetAlunosUseCase(
-            new PrismaAlunoRepository,
-            {select}
-        )
-    ).execute();
+    return [{
+        id:1
+    }]
+
+    // return  await (
+        // new GetAlunosUseCase(
+            // new PrismaAlunoRepository,
+            // {select}
+        // )
+    // ).execute();
 }
 
 let personaisResolver = async (body:GraphQlObject) => {
-    const personalFields = PrismaMapper.personal.getFields(body);
-    const userFields = PrismaMapper.personal.getUserFields(body);
-    const alunosFields = PrismaMapper.personal.getAlunoFields(body);
-    const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
-    const select = PrismaMapper.personal.setSelect({
-        personalFields, 
-        userFields,
-        alunosFields,
-        alunosUserFields
-    })
-    
-    return await (
-        new GetPersonaisUseCase(
-            new PrismaPersonalRepository,
-            {select}
-        ).main()
-    )
+    // const personalFields = PrismaMapper.personal.getFields(body);
+    // const userFields = PrismaMapper.personal.getUserFields(body);
+    // const alunosFields = PrismaMapper.personal.getAlunoFields(body);
+    // const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
+    // const select = PrismaMapper.personal.setSelect({
+        // personalFields, 
+        // userFields,
+        // alunosFields,
+        // alunosUserFields
+    // })
+    return [{
+        id:1
+    }]
+    // return await (
+        // new GetPersonaisUseCase(
+            // new PrismaPersonalRepository,
+            // {select}
+        // ).main()
+    // )
 }
 
 let personalResolver = async (body:GraphQlObject) => {
-    const personalFields = PrismaMapper.personal.getFields(body);
-    const userFields = PrismaMapper.personal.getUserFields(body);
-    const alunosFields = PrismaMapper.personal.getAlunoFields(body);
-    const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
-    const select = PrismaMapper.personal.setSelect({
-        personalFields, 
-        userFields,
-        alunosFields,
-        alunosUserFields
-    })
-    const where = PrismaMapper.personal.setWhere(body)
+    // const personalFields = PrismaMapper.personal.getFields(body);
+    // const userFields = PrismaMapper.personal.getUserFields(body);
+    // const alunosFields = PrismaMapper.personal.getAlunoFields(body);
+    // const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
+    // const select = PrismaMapper.personal.setSelect({
+        // personalFields, 
+        // userFields,
+        // alunosFields,
+        // alunosUserFields
+    // })
+    // const where = PrismaMapper.personal.setWhere(body)
 
-    return await (
-        new GetPersonalUseCase(
-            new PrismaPersonalRepository,
-            {select, where}
-        ).main()
-    )
+    return []
+
+    // return await (
+        // new GetPersonalUseCase(
+            // new PrismaPersonalRepository,
+            // {select, where}
+        // ).main()
+    // )
 }
 
 let alunoResolver = async (body:GraphQlObject) => {
-    const alunoFields = PrismaMapper.aluno.getFields(body)
-    const userFields = PrismaMapper.aluno.getUserFields(body)
+    // const alunoFields = PrismaMapper.aluno.getFields(body)
+    // const userFields = PrismaMapper.aluno.getUserFields(body)
 
-    const select = PrismaMapper.aluno.setSelect({alunoFields, userFields})
-    const where = PrismaMapper.aluno.setWhere(body)
+    // const select = PrismaMapper.aluno.setSelect({alunoFields, userFields})
+    // const where = PrismaMapper.aluno.setWhere(body)
 
-    return await (
-        new GetAlunoUseCase(
-            new PrismaAlunoRepository,
-            {select, where}
-        ).execute()
-    )
+    return []
+    // return await (
+        // new GetAlunoUseCase(
+            // new PrismaAlunoRepository,
+            // {select, where}
+        // ).execute()
+    // )
 }
 
 let exercisesResolver = async (body:GraphQlObject) => {
-    const exercicioFields = PrismaMapper.exercicios.getFields(body)
-    const muscleFields = PrismaMapper.exercicios.getMuscleFields(body)
-    const queryOptions = PrismaMapper.exercicios.queryOption({exercicioFields, muscleFields})  
-    
-    return await (
-        new GetExercisesUseCase(
-            new PrismaExercicioRepository(),
-            queryOptions,
-            PrismaMapper.exercicios.toArrExercicios
-        )
-    ).main()
+    // const exercicioFields = PrismaMapper.exercicios.getFields(body)
+    // const muscleFields = PrismaMapper.exercicios.getMuscleFields(body)
+    // const queryOptions = PrismaMapper.exercicios.queryOption({exercicioFields, muscleFields})  
+    // 
+    // return await (
+        // new GetExercisesUseCase(
+            // new PrismaExercicioRepository(),
+            // queryOptions,
+            // PrismaMapper.exercicios.toArrExercicios
+        // )
+    // ).main()
+
+    return []
 }
 
 let exerciseResolver = async(body:GraphQlObject) => {
-    const exercicioFields = PrismaMapper.exercicio.getFields(body)
-    const muscleFields = PrismaMapper.exercicio.getMuscleFields(body)
-    const where = PrismaMapper.exercicio.setWhere(body)
-    const select = PrismaMapper.exercicio.setSelect({exercicioFields, muscleFields})
-    
-    return await (
-        new GetExerciseUseCase(
-            new PrismaExercicioRepository,
-            {select, where},
-            PrismaMapper.exercicio.toGraphQlExercise
-        ).main()
-    )
+    // const exercicioFields = PrismaMapper.exercicio.getFields(body)
+    // const muscleFields = PrismaMapper.exercicio.getMuscleFields(body)
+    // const where = PrismaMapper.exercicio.setWhere(body)
+    // const select = PrismaMapper.exercicio.setSelect({exercicioFields, muscleFields})
+    // 
+    // return await (
+        // new GetExerciseUseCase(
+            // new PrismaExercicioRepository,
+            // {select, where},
+            // PrismaMapper.exercicio.toGraphQlExercise
+        // ).main()
+    // )
+    return []
 }
 
 

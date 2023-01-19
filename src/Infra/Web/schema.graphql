@@ -7,6 +7,11 @@ type User {
     cellphone: String
 }
 
+type Permission {
+    id: String!
+    title: String!
+}
+
 type Aluno {
     id: ID!
     name: String!
@@ -42,8 +47,6 @@ type Muscle {
     exercises: [Exercise]
     role: String
 }
-
-
 
 type Query {
     users : [User]

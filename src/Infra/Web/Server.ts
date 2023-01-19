@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import express from 'express';
 import resolvers from './resolvers';
 
-const PORT = 4000;
+const PORT = 49000;
 const yoga = createYoga({
     graphqlEndpoint: '/',
     schema:createSchema({

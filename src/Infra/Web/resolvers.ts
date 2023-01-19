@@ -14,6 +14,7 @@ import graphQlMapper from "../Resolvers/mappers/graphQl"
 // import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 import PrismaUserMapper  from '../Database/Prisma/Mappers/users'
 import PrismaAlunoMapper from '../Database/Prisma/Mappers/alunos'
+import { writeFile } from "fs/promises"
 
 export type GraphQlObject = {
     [key:string]:any
@@ -57,21 +58,14 @@ let usersResolver  = async (body:GraphQlObject) => {
 }
 
 let alunosResolver = async (body:GraphQlObject) => {
-    const select = PrismaAlunoMapper.setSelect(body)
-    console.log({select})
-    // const alunoFields = PrismaMapper.aluno.getFields(body)
-    // const select = PrismaMapper.aluno.setSelect({userFields, alunoFields})
-
-    return [{
-        id:1
-    }]
-
-    // return  await (
-        // new GetAlunosUseCase(
-            // new PrismaAlunoRepository,
-            // {select}
-        // )
-    // ).execute();
+    const select = PrismaAlunoMapper.setSelect(body) 
+    return  await (
+        new GetAlunosUseCase(
+            new PrismaAlunoRepository,
+            {select},
+            PrismaAlunoMapper.toGraphQlAlunoObject
+        )
+    ).execute();
 }
 
 let personaisResolver = async (body:GraphQlObject) => {

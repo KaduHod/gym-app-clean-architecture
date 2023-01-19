@@ -4,6 +4,7 @@ import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExer
 import GetExercisesUseCase from "./GetExercises";
 import PrismaMapper from "../../../Infra/Database/Prisma/Mappers/prisma";
 import { Exercicio } from "../../../Domain/Entities/Entities";
+import { Prisma } from "@prisma/client";
 
 describe('Test use case get exercises', () => {
     const prismaRepo = new PrismaExercicioRepository()
@@ -26,19 +27,15 @@ describe('Test use case get exercises', () => {
                     name:true,
                     force:true,
                     link:true,
-                    muscles : {
+                    exercise_muscle : {
                         select : {
-                            muscle : {
-                                select : {
-                                    id: true,
-                                    name: true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            PrismaMapper.exercicios.toArrExercicios
+                            role:true,
+                            muscles : true
+                        } as Prisma.exercise_muscleSelect
+                    } as Prisma.exercicios$exercise_muscleArgs
+                } as Prisma.exerciciosSelect
+            } as Prisma.exerciciosFindManyArgs,
+            PrismaMapper.exercicios.PrismaExercisesWithMusclesToGraphQl
         );
 
         const result = await useCase.main()

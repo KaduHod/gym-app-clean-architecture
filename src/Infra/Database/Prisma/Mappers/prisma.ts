@@ -153,6 +153,15 @@ const PrismaMapper = {
                 muscles = muscles.map(({muscle, role}:any) => ({...muscle, role})) as TMuscle
                 return ExerciseFactory.create(item, muscles) 
             })
+        },
+        PrismaExercisesWithMusclesToGraphQl(exercicios: any[]): Exercicio[]
+        {
+            return exercicios.map(
+                ({exercise_muscle ,...exercicio}) => {
+                    let muscles = exercise_muscle.map(({role, muscle}:any) => ({role, ...muscle}))
+                    return ExerciseFactory.create(exercicio, muscles)
+                }
+            )
         }
     },
     exercicio: {

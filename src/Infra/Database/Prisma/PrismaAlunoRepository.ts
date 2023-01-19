@@ -80,6 +80,7 @@ export default
                         .users
                         .findMany(options as Prisma.usersFindManyArgs) as Aluno[]
     }
+
     async findByPK(pk:PK): Promise<Aluno | null> 
     {
         return await this
@@ -87,6 +88,7 @@ export default
                         .users
                         .findUnique({where:{id:pk}}) as Aluno;
     }
+
     async save(options: Prisma.usersCreateInput): Promise<Aluno | null> {
         options.users_permissions = {
             create : {
@@ -112,6 +114,22 @@ export default
     delete(pk: PK): Promise<any> {
         throw new Error("Method not implemented.");
     }
+
+    async hasPersonal(alunoId:PK): Promise<boolean>
+    {
+        return !!(await this
+                        .conn
+                        .personal_aluno
+                        .findFirst({
+                            select: {
+                                id:true
+                            },
+                            where : {
+                                aluno_id : alunoId
+                            } as Prisma.personal_alunoWhereInput
+                        } as Prisma.personal_alunoFindFirstArgs))
+    }
+
     async exists(pk: PK): Promise<boolean> {
         return !!(await this
                             .conn

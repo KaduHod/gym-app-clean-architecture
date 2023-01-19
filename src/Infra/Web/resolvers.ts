@@ -6,7 +6,7 @@ import GetExercisesUseCase from "../../App/UseCases/Exercices/GetExercises"
 import GetPersonaisUseCase from "../../App/UseCases/Personal/GetPersonais"
 import GetExerciseUseCase from "../../App/UseCases/Exercices/GetExercise"
 import GetPersonalUseCase from "../../App/UseCases/Personal/GetPersonal"
-import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
+import GetAlunosUseCase from "../../App/UseCases/Aluno/GetAlunos"
 import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
@@ -16,6 +16,7 @@ import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 export type GraphQlObject = {
     [key:string]:any
 }
+
 
 const YogaRequest = (fn:Function) => {
     return (...args:any) => {

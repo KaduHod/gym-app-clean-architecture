@@ -46,6 +46,7 @@ export default
         options: Prisma.usersFindFirstArgsBase | Prisma.usersFindManyArgs, 
         first?: boolean
     ): Promise<Personal | Personal[] | null> {
+        
         if(!options.where) options.where = {} as Prisma.usersWhereInput
         options.where.users_permissions = this.personalPermissionRelationWhere;
 

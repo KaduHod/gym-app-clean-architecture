@@ -64,6 +64,7 @@ describe('Testing PrismaAlunoRepository', () => {
 
     it('Should  hire personal', async () => {
         const result = await alunoRepository.hirePersonal(101, 99)
-        console.log(result)
+        expect(result.aluno_id).toEqual(99)
+        expect(result.personal_id).toEqual(101)
     })
 })

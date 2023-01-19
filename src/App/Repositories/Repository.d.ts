@@ -33,6 +33,7 @@ export interface Repository {
 
 export interface AlunoRepository extends Repository {
     async hirePersonal(personalId:PK, alunoId:PK): Promise<any>
+    async hasPersonal(alunoId:PK): Promise<boolean>
 }
 
 type optionsFindAllPersonalWithUsers = {

@@ -33,7 +33,7 @@
     "@types/node": "^18.11.16",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
-    "vitest": "^0.26.2"
+    "vitest": "^0.26.3"
   },
   "prisma": {
     "schema": "src/Infra/Database/Prisma/schema.prisma"

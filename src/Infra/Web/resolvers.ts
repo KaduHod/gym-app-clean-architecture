@@ -45,8 +45,9 @@ let userResolver = async (body:GraphQlObject) => {
 }
 
 let usersResolver  = async (body:GraphQlObject) => {
-    const userFields = PrismaUserMapper.getFields(body)
-    console.log(userFields)
+    const userFields = PrismaUserMapper.getFields(body);
+    const select =  PrismaUserMapper.setSelect(body);
+    console.log({select})
     // const select = PrismaMapper.user.setSelect({userFields})
     // 
     // return await (

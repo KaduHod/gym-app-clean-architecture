@@ -74,20 +74,9 @@ let alunoResolver = async (body:GraphQlObject) => {
 let personaisResolver = async (body:GraphQlObject) => {
     const select = PrismaPersonalMapper.setSelect(body)
     const where = PrismaPersonalMapper.setWhere(body)
-    await writeFile('query.json', JSON.stringify({select, where}))
-    // const alunosFields = PrismaMapper.personal.getAlunoFields(body);
-    // const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
-    // const select = PrismaMapper.personal.setSelect({
-    //     personalFields, 
-    //     userFields,
-    //     alunosFields,
-    //     alunosUserFields
-    // })
-    // return [{
-    //     id:1,
-    //     name:'carlos',
-    //     nickname:''
-    // }]
+
+    console.log({where, select})
+    
     return await (
         new GetPersonaisUseCase(
             new PrismaPersonalRepository,

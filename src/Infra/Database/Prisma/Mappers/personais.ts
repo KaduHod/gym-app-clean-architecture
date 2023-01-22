@@ -17,7 +17,7 @@ export default {
         for(const field in personal)
         {
             if(field === 'alunos') {
-                
+                select.alunos = this.setAlunosSelect(body) as Prisma.users$alunosArgs
                 continue;
             }
             select[field as keyof Prisma.usersSelect] = true;
@@ -33,31 +33,32 @@ export default {
         for(const field in personal)
         {
             if(!isParam(personal[field])) continue;
-            
             where[field as keyof Prisma.usersWhereInput] = field === 'id' ? Number(personal[field]) : personal[field]
         }
 
         return where;
     },
-    setAlunosWhere(body:GraphQlObject): Prisma.Personal_alunoListRelationFilter
+    setAlunosSelect(body:GraphQlObject): Prisma.users$alunosArgs
     {
-        const where = {
-            some: {
-                personal_id: {}
-            } as Prisma.personal_alunoWhereInput
-        } as Prisma.Personal_alunoListRelationFilter
-        return {}
+        const {alunos} = body.personais ?? body.personal
+        const select = {} as Prisma.usersSelect;
+
+        for(const field in alunos)
+        {
+            select[field as keyof Prisma.usersSelect] = true
+        }
+        return {
+            select: {
+                aluno: {
+                    select
+                } as Prisma.usersArgs
+            } as Prisma.personal_alunoSelect
+        } as Prisma.users$alunosArgs
     },
     toArrayGraphQL(personais:any[]): any[]
     {
-        writeFile('personais.json', JSON.stringify(personais), (err:any) => {
-            if(err) throw new Error(err)
+        return personais.map(({alunos, ...personal}) => {
+            return {...personal, alunos:alunos.map(({aluno}:any) => aluno)  }
         })
-        // console.log(personais)
-        return []
-    },
-    PersonaisWithAlunosToGRaphQL(personais:any, alunos:any)
-    {
-        
     }
 }

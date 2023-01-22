@@ -5,7 +5,7 @@ import {Prisma} from '@prisma/client'
 
 describe('Should test get Personal test', async () => {
     const repo = new PrismaPersonalRepository;
-    it('Should get personal and user', async () => {
+    it('Should get personal', async () => {
         const result = await (
             new GetPersonalUseCase(
                 repo,
@@ -31,5 +31,33 @@ describe('Should test get Personal test', async () => {
                         .filter((permission:any) =>  permission.permission_id = 2);
 
         expect(check).toBeTruthy();
+    })
+
+    it('Should get personal and alunos', async () => {
+        const result = await (
+            new GetPersonalUseCase(
+                repo,
+                {
+                    where: {
+                        id: 1
+                    },
+                    select: {
+                        name:true,
+                        id:true,
+                        alunos: {
+                            select: {
+                                aluno: {
+                                    select: {
+                                        id:true, name:true
+                                    } as Prisma.usersSelect
+                                } as Prisma.usersArgs
+                            } as Prisma.personal_alunoSelect
+                        } as Prisma.users$alunosArgs
+                    } as Prisma.usersSelect
+                } as Prisma.usersFindManyArgs
+            ).main()
+        )
+
+        expect(result.alunos.length).toBeTruthy()
     })
 })

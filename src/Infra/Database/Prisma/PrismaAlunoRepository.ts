@@ -93,8 +93,8 @@ export default
         options.users_permissions = {
             create : {
                 permission_id:1
-            } as Prisma.users_permissionsUncheckedCreateWithoutUserInput
-        }
+            } as Prisma.users_permissionsUncheckedCreateWithoutUsersInput 
+        } as Prisma.users_permissionsCreateNestedManyWithoutUsersInput
 
         return await this 
                         .conn 

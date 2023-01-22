@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { writeFile } from "fs";
+import { PK } from "../../../../App/Repositories/Repository";
 import Personal from "../../../../Domain/Entities/Personal";
 import { GraphQlObject } from "../../../Web/resolvers";
 import { isParam } from "./prisma";
@@ -16,31 +17,13 @@ export default {
         for(const field in personal)
         {
             if(field === 'alunos') {
-                select.personal_aluno_personal_aluno_aluno_idTousers = this.setAlunosSelectArgs(body);
+                
                 continue;
             }
             select[field as keyof Prisma.usersSelect] = true;
             
         }
         return select;
-    },
-    setAlunosSelectArgs(body:GraphQlObject): Prisma.users$personal_aluno_personal_aluno_personal_idTousersArgs
-    {
-        const personal = this.getPersonalFromBody(body);
-        const {alunos} = personal;
-
-        const selectAluno = {} as Prisma.usersSelect;
-        for(const field in alunos)
-        {
-            selectAluno[field as keyof Prisma.usersSelect] = true;
-        }
-        return {
-            select: {
-                users_personal_aluno_aluno_idTousers: {
-                    select : selectAluno
-                } as Prisma.usersArgs
-            } as Prisma.personal_alunoSelect
-        } as Prisma.users$personal_aluno_personal_aluno_personal_idTousersArgs;
     },
     setWhere(body:GraphQlObject): Prisma.usersWhereInput
     {
@@ -50,10 +33,20 @@ export default {
         for(const field in personal)
         {
             if(!isParam(personal[field])) continue;
+            
             where[field as keyof Prisma.usersWhereInput] = field === 'id' ? Number(personal[field]) : personal[field]
         }
 
         return where;
+    },
+    setAlunosWhere(body:GraphQlObject): Prisma.Personal_alunoListRelationFilter
+    {
+        const where = {
+            some: {
+                personal_id: {}
+            } as Prisma.personal_alunoWhereInput
+        } as Prisma.Personal_alunoListRelationFilter
+        return {}
     },
     toArrayGraphQL(personais:any[]): any[]
     {
@@ -62,5 +55,9 @@ export default {
         })
         // console.log(personais)
         return []
+    },
+    PersonaisWithAlunosToGRaphQL(personais:any, alunos:any)
+    {
+        
     }
 }

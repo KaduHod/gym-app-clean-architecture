@@ -70,7 +70,7 @@ describe('Test personal repository', () => {
 
     it('Should save personal as personal', async () => {
         const newPersonal = UserFactory.createRandom()
-        const saveQuery = await personalRepository.save(newPersonal) as any;
+        const saveQuery = await personalRepository.save(newPersonal as Prisma.usersCreateInput) as any;
         expect(saveQuery).toBeTruthy()
         expect(saveQuery.users_permissions[0].permission_id).toEqual(2)
         expect(saveQuery.users_permissions[0].permission.title).toEqual('personal')

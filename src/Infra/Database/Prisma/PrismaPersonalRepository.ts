@@ -2,6 +2,7 @@ import { PersonalRepository, PK } from "../../../App/Repositories/Repository";
 import Personal from "../../../Domain/Entities/Personal";
 import PrismaRepository from "./PrismaRepository";
 import { Prisma } from "@prisma/client";
+import User from "../../../Domain/Entities/User";
 
 export default 
     class PrismaPersonalRepository
@@ -87,8 +88,8 @@ export default
         options.users_permissions = {
             create : {
                 permission_id:2
-            } as Prisma.users_permissionsUncheckedCreateWithoutUserInput
-        }
+            } as Prisma.users_permissionsUncheckedCreateWithoutUsersInput 
+        } as Prisma.users_permissionsCreateNestedManyWithoutUsersInput
 
         return await this
                         .conn 
@@ -129,6 +130,5 @@ export default
                                     } as Prisma.Users_permissionsListRelationFilter
                                 } as Prisma.usersWhereInput
                             } as Prisma.usersFindFirstArgsBase))
-    }
-    
+    }    
 }

@@ -8,15 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model personal_alunoTousers {
-  A Int @db.UnsignedInt
-  B Int @db.UnsignedInt
-
-  @@unique([A, B], map: "_personal_alunoTousers_AB_unique")
-  @@index([B], map: "_personal_alunoTousers_B_index")
-  @@map("_personal_alunoTousers")
-}
-
 model articulation_movement {
   id              Int           @id @default(autoincrement()) @db.UnsignedInt
   articulation_id Int           @db.UnsignedInt
@@ -145,18 +136,6 @@ model permissions {
   users_permissions users_permissions[]
 }
 
-model personal_aluno {
-  id          Int       @id @default(autoincrement()) @db.UnsignedInt
-  personal_id Int       @db.UnsignedInt
-  aluno_id    Int       @db.UnsignedInt
-  createdAt   DateTime? @default(now()) @db.DateTime(0)
-  updatedAt   DateTime? @db.DateTime(0)
-  aluno       users     @relation(name: "alunos_personal" ,fields: [aluno_id], references: [id])
-  personal    users     @relation(name: "personais_aluno", fields: [personal_id], references: [id])
-  @@index([aluno_id], map: "aluno_id")
-  @@index([personal_id], map: "personal_id")
-}
-
 model treinos {
   id        Int       @id @default(autoincrement()) @db.UnsignedInt
   createdAt DateTime? @default(now()) @db.DateTime(0)
@@ -164,18 +143,16 @@ model treinos {
 }
 
 model users {
-  id                Int                 @id @default(autoincrement()) @db.UnsignedInt
-  name              String?             @db.VarChar(55)
-  nickname          String?             @unique(map: "users_nickname_unique") @db.VarChar(30)
-  email             String?             @unique(map: "users_email_unique") @db.VarChar(100)
-  password          String?             @db.VarChar(255)
-  cellphone         String?             @db.VarChar(20)
-  createdAt         DateTime?           @default(now()) @db.DateTime(0)
-  updatedAt         DateTime?           @db.DateTime(0)
-  users_permissions users_permissions[]
-  personais         personal_aluno[]    @relation("alunos_personal")
-  alunos            personal_aluno[]    @relation("personais_aluno")
-
+  id                                               Int                 @id @default(autoincrement()) @db.UnsignedInt
+  name                                             String?             @db.VarChar(55)
+  nickname                                         String?             @unique(map: "users_nickname_unique") @db.VarChar(30)
+  email                                            String?             @unique(map: "users_email_unique") @db.VarChar(100)
+  password                                         String?             @db.VarChar(255)
+  cellphone                                        String?             @db.VarChar(20)
+  createdAt                                        DateTime?           @default(now()) @db.DateTime(0)
+  updatedAt                                        DateTime?           @db.DateTime(0)
+  users_permissions                                users_permissions[]
+  personal_aluno                                   personal_aluno[]    
 }
 
 model users_permissions {
@@ -184,11 +161,23 @@ model users_permissions {
   permission_id Int         @db.UnsignedInt
   createdAt     DateTime?   @default(now()) @db.DateTime(0)
   updatedAt     DateTime?   @db.DateTime(0)
-  users         users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_1")
-  permission   permissions  @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_2")
+  user          users       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_1")
+  permission    permissions @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_permissions_ibfk_2")
 
   @@index([permission_id], map: "permission_id")
   @@index([user_id], map: "user_id")
+}
+
+model personal_aluno {
+  id                                      Int       @id @default(autoincrement()) @db.UnsignedInt
+  personal_id                             Int       @db.UnsignedInt
+  aluno_id                                Int       @db.UnsignedInt
+  createdAt                               DateTime? @default(now()) @db.DateTime(0)
+  updatedAt                               DateTime? @db.DateTime(0)
+  users                                   users[]
+
+  @@index([aluno_id], map: "aluno_id")
+  @@index([personal_id], map: "personal_id")
 }
 
 enum exercise_muscle_role {

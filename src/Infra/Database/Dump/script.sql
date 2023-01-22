@@ -454,6 +454,8 @@ INSERT INTO `users_permissions` VALUES (1,101,1,'2023-01-18 11:51:13',NULL),(2,1
 /*!40000 ALTER TABLE `users_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+insert into personal_aluno (aluno_id, personal_id) values (101,1),(102,1),(103,1),(104,1);
 --
 -- Dumping routines for database 'gymapp2'
 --

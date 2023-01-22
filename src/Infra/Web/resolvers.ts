@@ -31,24 +31,9 @@ const YogaRequest = (fn:Function) => {
     }
 }
 
-let userResolver = async (body:GraphQlObject) => {
-    const userFields = PrismaUserMapper.getFields(body)
-    const select = PrismaUserMapper.setSelect({userFields})
-    const where = PrismaUserMapper.setWhere(body);
-
-    return await (
-        new GetUserUseCase(
-            new PrismaUserRepository(),
-            {select, where}
-        )
-    ).main()
-}
-
 let usersResolver  = async (body:GraphQlObject) => {
     const select =  PrismaUserMapper.setSelect(body);
     const where = PrismaUserMapper.setWhere(body);
-    // await writeFile('query.json', JSON.stringify({select, where}))
-        
     return await (
         new GetUsersUseCase(
             new PrismaUserRepository(), 
@@ -161,7 +146,6 @@ let exerciseResolver = async(body:GraphQlObject) => {
     return []
 }
 
-userResolver = YogaRequest(userResolver);
 usersResolver = YogaRequest(usersResolver);
 alunoResolver = YogaRequest(alunoResolver);
 alunosResolver = YogaRequest(alunosResolver);
@@ -172,7 +156,6 @@ personaisResolver = YogaRequest(personaisResolver);
 
 export default {
     Query:{
-        user: userResolver,
         users: usersResolver,
         alunos: alunosResolver,
         aluno: alunoResolver,

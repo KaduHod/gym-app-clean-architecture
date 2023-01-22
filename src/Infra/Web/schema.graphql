@@ -52,8 +52,7 @@ type Muscle {
 }
 
 type Query {
-    users(permission:String) : [User]
-    user(id:ID!, permission:String):User 
+    users(id:ID, permission:String) : [User]
     alunos : [Aluno]
     aluno(id:ID!): Aluno
     exercises: [Exercise]

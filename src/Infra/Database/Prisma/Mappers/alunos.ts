@@ -47,45 +47,21 @@ export default {
     {
         if(Array.isArray(aluno)){
             return aluno.map( ({users_permissions,...aluno}:any) => {
-                return {...aluno, permissions:users_permissions.map(({permission}:any) => permission)}
+                if(users_permissions){
+                    return {...aluno, permissions:users_permissions.map(({permission}:any) => permission)}
+                } 
+                return aluno
             })
         }
         const {users_permissions, ...alunoAttrs} = aluno as any;
- 
-        return {
-            ...alunoAttrs,
-            permissions: users_permissions.map(({permission}:any) => permission)
-            
-        }     
-    },
 
-    /*
-    setSelect({
-        userFields, 
-        alunoFields
-    }:PrismaAlunoQueryOptions): Prisma.usersSelect
-    {
-        let select: Prisma.usersSelect = {}
+        if(users_permissions) {
+            return {
+                ...alunoAttrs,
+                permissions: users_permissions.map(({permission}:any) => permission)
+            }     
+        }
         
-        if(alunoFields)
-        {
-            select = alunoFields.reduce((acc:Prisma.usersSelect, curr:string) => {
-                acc[curr as keyof Prisma.usersSelect] = true
-                return acc
-            },{})
-            
-        }
-
-        if(userFields && userFields.length)
-        {
-            let usersArgs: Prisma.usersArgs = {}
-            usersArgs.select = userFields.reduce((acc:Prisma.usersSelect, curr:string) => {
-                acc[curr as keyof Prisma.usersSelect] = true
-                return acc
-            },{})
-            select.user = usersArgs
-        }
-
-        return select
-    }*/
+        return alunoAttrs
+    },
 }

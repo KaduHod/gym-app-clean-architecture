@@ -10,10 +10,12 @@ import GetAlunosUseCase from "../../App/UseCases/Aluno/getAlunos"
 import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
-import graphQlMapper from "../Resolvers/mappers/graphQl"
 import PrismaPersonalMapper from '../Database/Prisma/Mappers/personais'
+import PrismaExercicioMapper from '../Database/Prisma/Mappers/exercicios'
 import PrismaAlunoMapper from '../Database/Prisma/Mappers/alunos'
 import PrismaUserMapper  from '../Database/Prisma/Mappers/users'
+import graphQlMapper from "../Resolvers/mappers/graphQl"
+
 // import PrismaMapper from "../Database/Prisma/Mappers/prisma"
 
 
@@ -74,8 +76,6 @@ let alunoResolver = async (body:GraphQlObject) => {
 let personaisResolver = async (body:GraphQlObject) => {
     const select = PrismaPersonalMapper.setSelect(body)
     const where = PrismaPersonalMapper.setWhere(body)
-
-    console.log({where, select})
     
     return await (
         new GetPersonaisUseCase(
@@ -112,19 +112,17 @@ let personalResolver = async (body:GraphQlObject) => {
 
 
 let exercisesResolver = async (body:GraphQlObject) => {
-    // const exercicioFields = PrismaMapper.exercicios.getFields(body)
-    // const muscleFields = PrismaMapper.exercicios.getMuscleFields(body)
-    // const queryOptions = PrismaMapper.exercicios.queryOption({exercicioFields, muscleFields})  
-    // 
-    // return await (
-        // new GetExercisesUseCase(
-            // new PrismaExercicioRepository(),
-            // queryOptions,
-            // PrismaMapper.exercicios.toArrExercicios
-        // )
-    // ).main()
+    const select = PrismaExercicioMapper.setSelect(body)
+    const where = PrismaExercicioMapper.setWhere(body)
 
-    return []
+    return await (
+        new GetExercisesUseCase(
+            new PrismaExercicioRepository(),
+            {select, where},
+            PrismaExercicioMapper.toArrayGraphQL
+        )
+    ).main()
+
 }
 
 let exerciseResolver = async(body:GraphQlObject) => {

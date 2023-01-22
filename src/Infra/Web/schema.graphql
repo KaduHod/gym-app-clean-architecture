@@ -55,7 +55,7 @@ type Query {
     users(id:ID, permission:String) : [User]
     alunos : [Aluno]
     aluno(id:ID!): Aluno
-    exercises: [Exercise]
+    exercises(id:ID, name:String, muscle:String, role: String): [Exercise]
     exercise(id:ID, name:String, muscle:String): Exercise
     personais(id:ID): [Personal]
     personal(id:ID!): Personal

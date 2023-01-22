@@ -45,18 +45,17 @@ let userResolver = async (body:GraphQlObject) => {
 }
 
 let usersResolver  = async (body:GraphQlObject) => {
-    const userFields = PrismaUserMapper.getFields(body);
     const select =  PrismaUserMapper.setSelect(body);
-    console.log({select})
-    // const select = PrismaMapper.user.setSelect({userFields})
-    // 
-    // return await (
-        // new GetUsersUseCase(
-            // new PrismaUserRepository(), 
-            // {select}
-        // )
-    // ).main()
-    return [{name:'carlos'}]
+    const where = PrismaUserMapper.setWhere(body);
+    // await writeFile('query.json', JSON.stringify({select, where}))
+        
+    return await (
+        new GetUsersUseCase(
+            new PrismaUserRepository(), 
+            {select, where},
+            PrismaUserMapper.toArrayGraphQL
+        )
+    ).main()
 }
 
 let alunosResolver = async (body:GraphQlObject) => {

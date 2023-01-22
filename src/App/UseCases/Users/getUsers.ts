@@ -6,12 +6,13 @@ export default class GetUsersUseCase<RepositoryQueryOptions>
 {
     constructor(
         public userRepository: Repository,
-        public options?:any
+        public options:any,
+        public mapper?: Function
     ){}
 
     public async main(): Promise< User[] | TUser[]>
     {
-        if(this.options) return await this.userRepository.findAll(this.options);
-        return await this.userRepository.findAll();
+        if(this.mapper) return await this.mapper(await this.userRepository.findAll(this.options));
+        return await this.userRepository.findAll(this.options);
     }
 }

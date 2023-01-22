@@ -11,9 +11,12 @@ import GetAlunoUseCase from "../../App/UseCases/Aluno/GetAluno"
 import GetUsersUseCase from "../../App/UseCases/Users/getUsers"
 import GetUserUseCase from "../../App/UseCases/Users/GetUser"
 import graphQlMapper from "../Resolvers/mappers/graphQl"
-// import PrismaMapper from "../Database/Prisma/Mappers/prisma"
-import PrismaUserMapper  from '../Database/Prisma/Mappers/users'
+import PrismaPersonalMapper from '../Database/Prisma/Mappers/personais'
 import PrismaAlunoMapper from '../Database/Prisma/Mappers/alunos'
+import PrismaUserMapper  from '../Database/Prisma/Mappers/users'
+// import PrismaMapper from "../Database/Prisma/Mappers/prisma"
+
+
 import { writeFile } from "fs/promises"
 
 export type GraphQlObject = {
@@ -44,7 +47,8 @@ let usersResolver  = async (body:GraphQlObject) => {
 }
 
 let alunosResolver = async (body:GraphQlObject) => {
-    const select = PrismaAlunoMapper.setSelect(body) 
+    const select = PrismaAlunoMapper.setSelect(body)
+
     return  await (
         new GetAlunosUseCase(
             new PrismaAlunoRepository,
@@ -68,25 +72,29 @@ let alunoResolver = async (body:GraphQlObject) => {
 }
 
 let personaisResolver = async (body:GraphQlObject) => {
-    // const personalFields = PrismaMapper.personal.getFields(body);
-    // const userFields = PrismaMapper.personal.getUserFields(body);
+    const select = PrismaPersonalMapper.setSelect(body)
+    const where = PrismaPersonalMapper.setWhere(body)
+    // await writeFile('query.json', JSON.stringify({select, where}))
     // const alunosFields = PrismaMapper.personal.getAlunoFields(body);
     // const alunosUserFields = PrismaMapper.personal.getAlunoUserFields(body);
     // const select = PrismaMapper.personal.setSelect({
-        // personalFields, 
-        // userFields,
-        // alunosFields,
-        // alunosUserFields
+    //     personalFields, 
+    //     userFields,
+    //     alunosFields,
+    //     alunosUserFields
     // })
-    return [{
-        id:1
-    }]
-    // return await (
-        // new GetPersonaisUseCase(
-            // new PrismaPersonalRepository,
-            // {select}
-        // ).main()
-    // )
+    // return [{
+    //     id:1,
+    //     name:'carlos',
+    //     nickname:''
+    // }]
+    return await (
+        new GetPersonaisUseCase(
+            new PrismaPersonalRepository,
+            {select, where},
+            PrismaPersonalMapper.toArrayGraphQL
+        ).main()
+    )
 }
 
 let personalResolver = async (body:GraphQlObject) => {

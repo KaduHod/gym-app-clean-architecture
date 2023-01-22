@@ -154,6 +154,7 @@ model users {
   personal_aluno_personal_aluno_personal_idTousers personal_aluno[]    @relation("personal_aluno_personal_idTousers")
   personal_aluno_personal_aluno_aluno_idTousers    personal_aluno[]    @relation("personal_aluno_aluno_idTousers")
   users_permissions                                users_permissions[]
+  personal_aluno                                   personal_aluno[]    
 }
 
 model users_permissions {
@@ -177,6 +178,7 @@ model personal_aluno {
   updatedAt                               DateTime? @db.DateTime(0)
   users_personal_aluno_personal_idTousers users     @relation("personal_aluno_personal_idTousers", fields: [personal_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "personal_aluno_ibfk_1")
   users_personal_aluno_aluno_idTousers    users     @relation("personal_aluno_aluno_idTousers", fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "personal_aluno_ibfk_2")
+  users                                   users[]
 
   @@index([aluno_id], map: "aluno_id")
   @@index([personal_id], map: "personal_id")

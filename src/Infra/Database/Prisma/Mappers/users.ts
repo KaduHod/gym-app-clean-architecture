@@ -74,7 +74,7 @@ export default {
     },
     setSelect(body:GraphQlObject): Prisma.usersSelect
     {
-        const entity =  body.alunos ?? body.users ?? body.aluno ?? body.personal ?? body.personais;
+        const entity =  body.alunos ?? body.users ?? body.aluno;
     
         const select = {} as Prisma.usersSelect
 
@@ -91,7 +91,7 @@ export default {
         }
         return select
     },
-    async toArrayGraphQL(users:any[])
+    toArrayGraphQL(users:any[])
     {
         return users.map(({users_permissions,...user}) => {
             if(users_permissions)

@@ -79,7 +79,7 @@ model exercicios {
   link            String?           @db.VarChar(255)
   execution       String?           @db.Text
   mechanic        String?           @db.Text
-  exercise_muscle exercise_muscle[]
+  muscles         exercise_muscle[] 
 }
 
 model exercise_muscle {
@@ -89,8 +89,8 @@ model exercise_muscle {
   createdAt   DateTime?             @default(now()) @db.DateTime(0)
   updatedAt   DateTime?             @db.DateTime(0)
   role        exercise_muscle_role?
-  exercicios  exercicios            @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_exercise_id_foreign")
-  muscles     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
+  exercicio  exercicios            @relation(fields: [exercise_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_exercise_id_foreign")
+  muscle     muscles               @relation(fields: [muscle_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "exercise_muscle_muscle_id_foreign")
 
   @@index([exercise_id], map: "exercise_muscle_exercise_id_foreign")
   @@index([muscle_id], map: "exercise_muscle_muscle_id_foreign")
@@ -127,7 +127,7 @@ model muscles {
   updatedAt                    DateTime?                      @db.DateTime(0)
   articulation_movement_muscle articulation_movement_muscle[]
   articulation_muscle          articulation_muscle[]
-  exercise_muscle              exercise_muscle[]
+  exercicios                   exercise_muscle[]              
   movement_muscle              movement_muscle[]
 }
 

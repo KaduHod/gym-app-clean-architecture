@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { describe, expect, it } from "vitest";
 import PrismaAlunoRepository from "../../../Infra/Database/Prisma/PrismaAlunoRepository";
-import GetAlunosUseCase from "./GetAlunos";
+import GetAlunosUseCase from "./getAlunos";
 
 describe('Should teste get Alunos use case', () => {
     const alunoRepository = new PrismaAlunoRepository;
@@ -25,7 +25,7 @@ describe('Should teste get Alunos use case', () => {
         {
             const check = aluno
                             .users_permissions
-                            .find((permission:any) => permission.permission_id === 1 && permission.ppermission.title === 'aluno')
+                            .find((permission:any) => permission.permission_id === 1 && permission.permission.title === 'aluno')
             if(!check) throw new Error('Prisma repository bring user that is not aluno')
         }
 

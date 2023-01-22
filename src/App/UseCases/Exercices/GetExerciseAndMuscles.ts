@@ -8,13 +8,15 @@ export default class GetExerciseAndHisMuscles<RepositoryQueryOptions>
 {
     constructor(
         public exerciseRepository: ExerciseRepository,
-        public options: RepositoryQueryOptions 
+        public options: RepositoryQueryOptions,
+        public mapper?:Function
     ){}
 
     public async main(): Promise<Exercise>
     {
         let exerciseDB:any = await this.exerciseRepository.findByPK(this.options)
         if(!exerciseDB) throw new ExerciseNotFound()
+        if(this.mapper) return this.mountExercise(this.mapper(exerciseDB))
         return this.mountExercise(exerciseDB);
     }
 

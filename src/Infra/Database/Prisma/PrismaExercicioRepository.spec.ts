@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { describe, expect, it } from "vitest";
 import PrismaExercicioRepository from "./PrismaExercicioRepository";
 
@@ -23,20 +24,22 @@ describe('Teste Prisma Exercise Repository prisma', () => {
     })
     it('Should get one exercise em all of his muscles', async () => {
         const result = await repo.findAll({
-            where: {id:1017},
+            where: {
+                id:1017
+            } as Prisma.exerciciosWhereInput , 
             select: {
-                id:true, name:true, force:true,
                 muscles: {
                     select: {
-                        muscle:{
-                            select: {
+                        muscle: {
+                            select : {
                                 name:true
-                            }
-                        }
-                    }
-                }
-            }
-        })
+                            } as Prisma.musclesSelect
+                        } as Prisma.musclesArgs
+                    } as Prisma.exercise_muscleSelect
+                } as Prisma.exercicios$musclesArgs
+            } as Prisma.exerciciosSelect
+            
+        } as Prisma.exerciciosFindManyArgs)
 
         expect(result).toBeTruthy();
     })

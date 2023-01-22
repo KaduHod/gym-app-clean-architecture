@@ -4,27 +4,33 @@ import Exercise from "../../../Domain/Entities/Exercise";
 import MysqlExerciseRepository from "../../../Infra/Database/Knex/KnexExerciseRepository";
 import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExercicioRepository";
 import GetExercisesAndHisMuscles from './GetExerciseAndMuscles'
+import PrismaExerciseMapper from '../../../Infra/Database/Prisma/Mappers/exercicios'
 import { Prisma } from "@prisma/client";
 
 describe('Exercise and his muscles use case', () => {
     const exerciseRepo = new PrismaExercicioRepository;
-
+   
     it('Should get exercise and his muscles', async () => {
-        const useCase = new GetExercisesAndHisMuscles<Prisma.exerciciosFindUniqueArgs>(
+        const useCase = new GetExercisesAndHisMuscles(
             exerciseRepo,
             {
-                where:{id:885},
+                where:{
+                    id:885
+                },
                 include: {
-                    muscles : {
-                        include : {
-                            muscle : true
-                        }
-                    }
-                }
-            },
+                    muscles: {
+                        select : {
+                            muscle: true
+                        } as Prisma.exercise_muscleSelect
+                    } as Prisma.exercicios$musclesArgs
+                } as Prisma.exerciciosInclude
+            } as Prisma.exerciciosFindUniqueArgs,
+            PrismaExerciseMapper.toArrayGraphQL
         )
 
         const exercise = await useCase.main()
+
+        console.log(exercise)
 
         expect(exercise).toBeInstanceOf(Exercise)
         expect(exercise?.muscles).toBeTruthy()

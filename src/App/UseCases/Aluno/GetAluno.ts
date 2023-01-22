@@ -5,7 +5,7 @@ export default class GetAlunoUseCase
     constructor(
         public alunoRepository: AlunoRepository,
         public options: any,
-        public mapper:Function
+        public mapper?:Function
     ){}
 
     async execute()

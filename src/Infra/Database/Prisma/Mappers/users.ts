@@ -96,9 +96,9 @@ export default {
         return users.map(({users_permissions,...user}) => {
             if(users_permissions)
             {
-                user.permissions = users_permissions.map(({permission}: any) => {
-                    return {...permission}
-                })
+                user
+                    .permissions = users_permissions
+                                        .map(({permission}: any) => ({...permission}))
             }
             return user
         })

@@ -67,4 +67,19 @@ describe('Testing PrismaAlunoRepository', () => {
         expect(result.aluno_id).toEqual(99)
         expect(result.personal_id).toEqual(101)
     })
+
+    it('Should get alunos with his personal',async () => {
+        const result = await alunoRepository.findAll({
+            where:{id:101},
+            select: {
+                personais: {
+                    include : {
+                        personal:true
+                    }
+                } as Prisma.users$personaisArgs
+            } as Prisma.usersSelect
+        } as Prisma.usersFindManyArgs) as any
+
+        expect(result[0]?.personais[0].personal).toBeTruthy()
+    })
 })

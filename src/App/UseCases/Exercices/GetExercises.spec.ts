@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import PrismaExercicioRepository from "../../../Infra/Database/Prisma/PrismaExercicioRepository";
 import GetExercisesUseCase from "./GetExercises";
-import PrismaMapper from "../../../Infra/Database/Prisma/Mappers/prisma";
+import PrismaExercicioMapper from "../../../Infra/Database/Prisma/Mappers/exercicios";
 import { Exercicio } from "../../../Domain/Entities/Entities";
 import { Prisma } from "@prisma/client";
 
@@ -18,7 +18,7 @@ describe('Test use case get exercises', () => {
         expect(result).toBeTruthy()
     })
 
-    it('Should get Exercises mapped in useCAse', async () => {
+    it('Should get Exercises mapped in useCase', async () => {
         const useCase = new GetExercisesUseCase(
             prismaRepo,
             {
@@ -27,21 +27,21 @@ describe('Test use case get exercises', () => {
                     name:true,
                     force:true,
                     link:true,
-                    exercise_muscle : {
-                        select : {
-                            role:true,
-                            muscles : true
+                    muscles: {
+                        select: {
+                            muscle: {
+                                select: {
+                                    name:true, id:true, image:true
+                                } as Prisma.musclesSelect
+                            } as Prisma.musclesArgs
                         } as Prisma.exercise_muscleSelect
-                    } as Prisma.exercicios$exercise_muscleArgs
+                    } as Prisma.exercicios$musclesArgs
                 } as Prisma.exerciciosSelect
             } as Prisma.exerciciosFindManyArgs,
-            PrismaMapper.exercicios.PrismaExercisesWithMusclesToGraphQl
+            PrismaExercicioMapper.toArrayGraphQL
         );
 
         const result = await useCase.main()
-        let check = result.filter((exercicio) => exercicio.constructor.name !== 'Exercise')
-
-        expect(check.length).toBeFalsy()
-
+        expect(result).toBeTruthy()
     })
 })

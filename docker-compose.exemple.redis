@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    build: ./
+    container_name: 'cms-config-service'
+    command: npm run dev
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    env_file:
+      - .env.exemple
+    ports:
+      - "8080:8080"
+    networks:
+      - gava-net
+
+  redis: 
+    image: redis:alpine
+    container_name: redis
+    hostname: redis 
+    ports:
+      - "6379:6379"
+    networks:
+      - gava-net
+    env_file:
+      - .env.exemple
+    
+networks:
+  gava-net: 
+    driver: bridge

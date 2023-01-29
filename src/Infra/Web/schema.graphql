@@ -58,6 +58,6 @@ type Query {
     aluno(id:ID!): Aluno
     exercises(id:ID, name:String, muscle:String, role: String): [Exercise]
     exercise(id:ID, name:String, muscle:String): Exercise
-    personais(id:ID): [Personal]
+    personais(id:ID, name:String, nickname:String, email:String): [Personal]
     personal(id:ID!): Personal
 }

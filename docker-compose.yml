@@ -6,7 +6,7 @@ services:
     container_name: gym-db
     hostname: gym-db
     ports:
-      - ${MYSQL_PORT}:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}

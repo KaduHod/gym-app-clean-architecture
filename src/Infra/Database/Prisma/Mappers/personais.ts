@@ -58,7 +58,10 @@ export default {
     toArrayGraphQL(personais:any[]): any[]
     {
         return personais.map(({alunos, ...personal}) => {
-            return {...personal, alunos:alunos.map(({aluno}:any) => aluno)  }
+            if(alunos) {
+                return {...personal, alunos:alunos.map(({aluno}:any) => aluno)  }
+            }
+            return personal
         })
     }
 }

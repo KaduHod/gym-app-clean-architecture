@@ -11,14 +11,18 @@ export const toJson = (string:string): GraphQlJson =>
 {
   let args:any = null;
 
+  console.log({string})
 
   const splitByLine = (string:string) => string.split('\n');
   
-  const isObject    = (string:string) => string.indexOf(' {') > -1;
+  const isObject    = (string:string) => string.trim().split('').indexOf('{') > -1;
+
+
+  // } string.indexOf(' {') > -1 || string.indexOf(' {') > -1;
 
   const isProperty  = (string:string) => !isObject(string);
 
-  const initObject  = (string:string) => string.replace(' {', ': {');
+  const initObject  = (string:string) => string.replace('{', ': {');
 
   const tranformToProperty = (string:string) => {
       let item:string[] = string.split('');
@@ -70,13 +74,13 @@ export const toJson = (string:string): GraphQlJson =>
   }
 
   const putArgs = (json:JsonObject) => {
-	let [mainEntity] = Object.keys(json)
-	let keyArgs = Object.keys(args)
+	  let [mainEntity] = Object.keys(json)
+	  let keyArgs = Object.keys(args)
 
-	keyArgs.forEach((key:string) => {
-		json[mainEntity][key] = args[key]
-	}) 
-	return json
+	  keyArgs.forEach((key:string) => {
+	  	json[mainEntity][key] = args[key]
+	  }) 
+	  return json
   }
 
   const splitFromArgs = (string:string) => {
@@ -97,18 +101,27 @@ export const toJson = (string:string): GraphQlJson =>
     {
       string = splitFromArgs(string);
     }
-    
+
     let result = splitByLine(string)
+                  .filter(line => line.trim() !== '')
                 	.map(jsonfy)
-			    	.map(setQuotationMarks)
-                	.map(item => item + '\n');
+			    	      .map(setQuotationMarks)
+                	.map(item => item + '\n')
+                  .map(item => {
+                    if(item.trim().indexOf('query') > -1) return '{';
+                    return item
+                  });
+
+    
 
     const resultWithComas = setComas(result);
     
     let objectQuery = JSON.parse(resultWithComas.join(""));
 
+    
+
     if(hasArgs){
-		objectQuery = putArgs(objectQuery);
+		  objectQuery = putArgs(objectQuery);
     }
     
     return objectQuery;

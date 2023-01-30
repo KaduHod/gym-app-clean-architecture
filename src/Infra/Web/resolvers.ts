@@ -28,9 +28,10 @@ export type GraphQlObject = {
 
 const YogaRequest = (fn:Function) => {
     return (...args:any) => {
+        console.log('aqui',args[2].params.query)
         const body = graphQlMapper.toJson(args[2].params.query);
         console.log('==== Yoga request body ====')
-        console.log(body)
+        console.log({body})
         console.log('===========================')
         return fn(body);
     }
